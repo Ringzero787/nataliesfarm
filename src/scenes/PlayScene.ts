@@ -167,13 +167,23 @@ export class PlayScene extends Phaser.Scene {
           this.animalContainer.x += Math.cos(angle) * chaseSpeed;
           this.animalContainer.y += Math.sin(angle) * chaseSpeed;
 
-          // Bounce the animal excitedly
+          // Clamp animal to screen bounds
+          const pad = 150;
+          this.animalContainer.x = Phaser.Math.Clamp(this.animalContainer.x, pad, GAME_WIDTH - pad);
+          this.animalContainer.y = Phaser.Math.Clamp(this.animalContainer.y, pad, GAME_HEIGHT - pad);
+
+          // Bounce the animal excitedly in a random direction
           this.bounceTimer += moved;
           if (this.bounceTimer > 40) {
             this.bounceTimer = 0;
+            const bounceX = Phaser.Math.Between(-15, 15);
+            const bounceY = Phaser.Math.Between(-18, -5);
+            const targetY = Phaser.Math.Clamp(this.animalContainer.y + bounceY, pad, GAME_HEIGHT - pad);
+            const targetX = Phaser.Math.Clamp(this.animalContainer.x + bounceX, pad, GAME_WIDTH - pad);
             this.tweens.add({
               targets: this.animalContainer,
-              y: this.animalContainer.y - 18,
+              x: targetX,
+              y: targetY,
               duration: 150,
               yoyo: true,
               ease: 'Back.easeOut',
