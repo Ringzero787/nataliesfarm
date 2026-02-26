@@ -26,22 +26,11 @@ const config: Phaser.Types.Core.GameConfig = {
     antialias: true,
     antialiasGL: true,
   },
+  fps: {
+    target: 60,
+    forceSetTimeOut: false,
+  },
   scene: [BootScene, MenuScene, BarnScene, FeedingScene, BrushingScene, WashingScene, PlayScene, CleaningScene, WardrobeScene],
 };
 
-const game = new Phaser.Game(config);
-
-// Render canvas at device pixel ratio for sharp display on high-DPI screens
-game.events.on('ready', () => {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  if (dpr > 1) {
-    const canvas = game.canvas;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    game.scale.resize(GAME_WIDTH, GAME_HEIGHT);
-  }
-});
+new Phaser.Game(config);
