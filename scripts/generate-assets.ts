@@ -497,8 +497,8 @@ const COSMETIC_ASSETS: AssetDef[] = [
     folder: 'cosmetics', transparent: true,
   },
   {
-    filename: 'blue-bandana.png',
-    prompt: 'A cute cartoon blue bandana/scarf with white polka dots, tied loosely, children\'s game cosmetic item for a farm animal',
+    filename: 'pink-tiara.png',
+    prompt: 'A cute cartoon sparkly pink princess tiara with small gems and glitter, shiny and adorable, children\'s game cosmetic item for a farm animal',
     folder: 'cosmetics', transparent: true,
   },
   {

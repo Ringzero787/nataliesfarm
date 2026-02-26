@@ -140,6 +140,19 @@ class SaveManagerClass {
       }
     }
 
+    // Migrate bandana → tiara
+    if (data.unlockedCosmetics) {
+      const idx = data.unlockedCosmetics.indexOf('blue-bandana');
+      if (idx !== -1) data.unlockedCosmetics[idx] = 'pink-tiara';
+    }
+    if (data.equippedCosmetics) {
+      for (const animal of ANIMAL_ORDER) {
+        if (data.equippedCosmetics[animal] === 'blue-bandana') {
+          data.equippedCosmetics[animal] = 'pink-tiara';
+        }
+      }
+    }
+
     // Add cosmetic fields if missing
     if (!data.unlockedCosmetics) {
       data.unlockedCosmetics = [];
