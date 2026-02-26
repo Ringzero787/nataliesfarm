@@ -126,37 +126,37 @@ const PIG_ASSETS: AssetDef[] = [
 const SHEEP_ASSETS: AssetDef[] = [
   {
     filename: 'sheep-idle.png',
-    prompt: 'A cute cartoon fluffy white sheep standing with a sweet gentle smile, very fluffy wool body, dark face and legs, big round eyes',
+    prompt: 'A cute cartoon fluffy white sheep standing with a sweet gentle smile, very fluffy white wool body, dark chocolate brown face and dark brown legs, big round eyes, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
   {
     filename: 'sheep-eating.png',
-    prompt: 'A cute cartoon fluffy white sheep munching on green grass, grass poking out of mouth, content expression, fluffy wool',
+    prompt: 'A cute cartoon fluffy white sheep munching on green grass, grass poking out of mouth, content expression, fluffy white wool, dark chocolate brown face and dark brown legs, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
   {
     filename: 'sheep-happy.png',
-    prompt: 'A cute cartoon fluffy white sheep bouncing with happiness, extra fluffy wool puffed out, huge smile, dark face with bright eyes',
+    prompt: 'A cute cartoon fluffy white sheep bouncing with happiness, extra fluffy white wool puffed out, huge smile, dark chocolate brown face and dark brown legs with bright eyes, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
   {
     filename: 'sheep-dirty.png',
-    prompt: 'A cute cartoon white sheep with dirty matted wool, twigs and leaves stuck in fleece, looking disheveled, mud on legs',
+    prompt: 'A cute cartoon white sheep with dirty matted wool, twigs and leaves stuck in fleece, looking disheveled, dark chocolate brown face and dark brown legs with mud, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
   {
     filename: 'sheep-clean.png',
-    prompt: 'A cute cartoon white sheep with perfectly clean fluffy wool, cloud-like pristine fleece, sparkles throughout, glowing white wool',
+    prompt: 'A cute cartoon white sheep with perfectly clean fluffy wool, cloud-like pristine fleece, sparkles throughout, glowing white wool, dark chocolate brown face and dark brown legs, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
   {
     filename: 'sheep-wet.png',
-    prompt: 'A cute cartoon white sheep soaking wet, wool flat and dripping, looking like a skinny wet sheep, funny surprised expression',
+    prompt: 'A cute cartoon white sheep soaking wet, wool flat and dripping, looking like a skinny wet sheep, funny surprised expression, dark chocolate brown face and dark brown legs, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
   {
     filename: 'sheep-brushed.png',
-    prompt: 'A cute cartoon white sheep with incredibly fluffy brushed-out wool, extra poofy like a cloud, proud expression, perfectly groomed',
+    prompt: 'A cute cartoon white sheep with incredibly fluffy brushed-out wool, extra poofy like a cloud, proud expression, perfectly groomed, dark chocolate brown face and dark brown legs, black-faced sheep breed',
     folder: 'sheep', transparent: true,
   },
 ];

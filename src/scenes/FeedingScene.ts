@@ -346,15 +346,22 @@ export class FeedingScene extends Phaser.Scene {
       },
     });
 
-    // Quick open-close mouth effect via scale pulse instead of texture swap
-    // (texture swap causes visual inconsistency with AI-generated poses)
+    // Chomping animation — bob forward and squash to simulate eating
+    this.tweens.add({
+      targets: this.animalContainer,
+      angle: 8,
+      duration: 120,
+      yoyo: true,
+      repeat: 2,
+      ease: 'Sine.easeInOut',
+    });
     this.tweens.add({
       targets: this.animalSprite,
-      scaleX: 0.6,
-      scaleY: 0.66,
-      duration: 200,
+      scaleX: 0.54,
+      scaleY: 0.72,
+      duration: 120,
       yoyo: true,
-      repeat: 1,
+      repeat: 2,
       ease: 'Sine.easeInOut',
     });
 
