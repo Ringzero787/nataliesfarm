@@ -80,13 +80,13 @@ export class MenuScene extends Phaser.Scene {
       });
     }
 
-    // Hero horse — big and centered in front of the barn
-    const horse = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.48, 'horse-happy')
-      .setScale(0.90);
+    // Hero horse — centered in front of the barn, sized to not block title
+    const horse = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.52, 'horse-happy')
+      .setScale(0.70);
     this.tweens.add({
       targets: horse,
-      scaleY: 0.92,
-      scaleX: 0.88,
+      scaleY: 0.72,
+      scaleX: 0.68,
       duration: 1800,
       yoyo: true,
       repeat: -1,

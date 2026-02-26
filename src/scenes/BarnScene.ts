@@ -77,16 +77,25 @@ export class BarnScene extends Phaser.Scene {
       });
     });
 
-    // Title
-    const nameText = ANIMALS[this.currentAnimal].name;
-    this.add.text(GAME_WIDTH / 2, 38, `${nameText}'s Barn`, {
+    // Title (clickable to rename)
+    const nameText = SaveManager.getAnimalName(this.currentAnimal);
+    const title = this.add.text(GAME_WIDTH / 2, 38, `${nameText}'s Barn`, {
       fontSize: '39px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
       strokeThickness: 6,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+
+    title.on('pointerdown', () => {
+      const current = SaveManager.getAnimalName(this.currentAnimal);
+      const input = prompt(`Rename your ${ANIMALS[this.currentAnimal].name}:`, current);
+      if (input !== null && input.trim().length > 0) {
+        SaveManager.setAnimalName(this.currentAnimal, input.trim());
+        title.setText(`${input.trim()}'s Barn`);
+      }
+    });
 
     // Star counter
     const totalStars = SaveManager.getTotalStars();

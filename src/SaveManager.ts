@@ -27,6 +27,8 @@ interface SaveData {
   equippedCosmetics: Record<AnimalType, string | null>;
   /** Saved cosmetic positions per animal (container-local coords, null = default) */
   cosmeticPositions: Record<AnimalType, { x: number; y: number } | null>;
+  /** Custom names per animal (null = use default) */
+  animalNames: Record<AnimalType, string | null>;
 }
 
 /** Return type for awardStar — tells caller what got unlocked */
@@ -46,6 +48,7 @@ function defaultSave(): SaveData {
   const needs = {} as SaveData['needs'];
   const equippedCosmetics = {} as SaveData['equippedCosmetics'];
   const cosmeticPositions = {} as SaveData['cosmeticPositions'];
+  const animalNames = {} as SaveData['animalNames'];
 
   for (const animal of ANIMAL_ORDER) {
     stars[animal] = {} as Record<ActivityType, number>;
@@ -55,17 +58,19 @@ function defaultSave(): SaveData {
     needs[animal] = defaultNeeds();
     equippedCosmetics[animal] = null;
     cosmeticPositions[animal] = null;
+    animalNames[animal] = null;
   }
 
   return {
     stars,
-    unlockedAnimals: ['horse'],
+    unlockedAnimals: [...ANIMAL_ORDER],
     totalStars: 0,
     needs,
     lastNeedsUpdate: Date.now(),
     unlockedCosmetics: [],
     equippedCosmetics,
     cosmeticPositions,
+    animalNames,
   };
 }
 
@@ -106,15 +111,8 @@ class SaveManagerClass {
       }
     }
 
-    // Migration: old save had all 4 unlocked with 0 stars → reset to horse-only
-    if (!data.needs && data.unlockedAnimals?.length === 4 && data.totalStars === 0) {
-      data.unlockedAnimals = ['horse'];
-    }
-
-    // Ensure unlockedAnimals at least has horse
-    if (!data.unlockedAnimals || data.unlockedAnimals.length === 0) {
-      data.unlockedAnimals = ['horse'];
-    }
+    // Ensure all animals are unlocked (all free from the start now)
+    data.unlockedAnimals = [...ANIMAL_ORDER];
 
     // Add needs fields if missing
     if (!data.needs) {
@@ -152,6 +150,16 @@ class SaveManagerClass {
     for (const animal of ANIMAL_ORDER) {
       if (data.equippedCosmetics[animal] === undefined) {
         data.equippedCosmetics[animal] = null;
+      }
+    }
+
+    // Add animal names if missing
+    if (!data.animalNames) {
+      data.animalNames = {} as SaveData['animalNames'];
+    }
+    for (const animal of ANIMAL_ORDER) {
+      if (data.animalNames[animal] === undefined) {
+        data.animalNames[animal] = null;
       }
     }
 
@@ -319,6 +327,18 @@ class SaveManagerClass {
 
   resetCosmeticPosition(animal: AnimalType): void {
     this.data.cosmeticPositions[animal] = null;
+    this.save();
+  }
+
+  // ── Animal Names ───────────────────────────────────────
+
+  getAnimalName(animal: AnimalType): string {
+    return this.data.animalNames[animal] ?? ANIMALS[animal].name;
+  }
+
+  setAnimalName(animal: AnimalType, name: string): void {
+    const trimmed = name.trim();
+    this.data.animalNames[animal] = trimmed || null;
     this.save();
   }
 

@@ -29,9 +29,9 @@ export const ANIMALS = {
   horse: { name: 'Horse', color: 0x8B6914, starsToUnlock: 0 },
   pig: { name: 'Pig', color: 0xFFB6C1, starsToUnlock: 0 },
   chicken: { name: 'Chicken', color: 0xFFD700, starsToUnlock: 0 },
-  goat: { name: 'Goat', color: 0x9E9E9E, starsToUnlock: 45 },
-  sheep: { name: 'Sheep', color: 0xF5F5DC, starsToUnlock: 60 },
-  bunny: { name: 'Bunny', color: 0xD2B48C, starsToUnlock: 100 },
+  goat: { name: 'Goat', color: 0x9E9E9E, starsToUnlock: 0 },
+  sheep: { name: 'Sheep', color: 0xF5F5DC, starsToUnlock: 0 },
+  bunny: { name: 'Bunny', color: 0xD2B48C, starsToUnlock: 0 },
 } as const;
 
 export type AnimalType = keyof typeof ANIMALS;
