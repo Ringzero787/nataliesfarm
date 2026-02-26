@@ -311,6 +311,16 @@ const TOOL_ASSETS: AssetDef[] = [
     prompt: 'A cartoon colorful yarn ball toy with a string dangling, bright rainbow colors, soft and round, cute game item for playing with farm animals',
     folder: 'tools', transparent: true,
   },
+  {
+    filename: 'rubber-duck.png',
+    prompt: 'A cartoon bright yellow rubber duck toy, cute and squeaky looking, classic bath duck with orange beak, adorable children\'s game item',
+    folder: 'tools', transparent: true,
+  },
+  {
+    filename: 'worm.png',
+    prompt: 'A cartoon cute pink wiggly worm with big happy eyes, plump and squishy, bright pink with a friendly smile, adorable children\'s game toy',
+    folder: 'tools', transparent: true,
+  },
 ];
 
 const FOOD_ASSETS: AssetDef[] = [

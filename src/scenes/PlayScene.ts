@@ -6,8 +6,18 @@ import {
 import { getSoundManager } from '../SoundManager';
 import { SaveManager, StarAwardResult } from '../SaveManager';
 
+/** Each animal has a favorite toy */
+const ANIMAL_TOYS: Record<AnimalType, { texture: string; name: string }> = {
+  horse:   { texture: 'food-apple',       name: 'Apple' },
+  pig:     { texture: 'tool-rubber-duck', name: 'Rubber Duck' },
+  chicken: { texture: 'tool-worm',        name: 'Worm' },
+  goat:    { texture: 'tool-toy',         name: 'Ball' },
+  sheep:   { texture: 'tool-toy',         name: 'Yarn Ball' },
+  bunny:   { texture: 'food-carrot',      name: 'Carrot' },
+};
+
 /**
- * PlayScene — dangle a yarn ball toy in front of the animal.
+ * PlayScene — dangle a toy in front of the animal.
  * The animal chases the toy. Keep it near (but moving) to fill the progress bar.
  */
 export class PlayScene extends Phaser.Scene {
@@ -63,7 +73,8 @@ export class PlayScene extends Phaser.Scene {
       strokeThickness: 8,
     }).setOrigin(0.5);
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Dangle the toy near your animal!', {
+    const toyInfo = ANIMAL_TOYS[this.currentAnimal];
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, `Dangle the ${toyInfo.name.toLowerCase()} near your animal!`, {
       fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#FFF9C4',
@@ -135,7 +146,8 @@ export class PlayScene extends Phaser.Scene {
   }
 
   private createToy(): void {
-    this.toy = this.add.image(GAME_WIDTH - 270, GAME_HEIGHT / 2, 'tool-toy')
+    const toyInfo = ANIMAL_TOYS[this.currentAnimal];
+    this.toy = this.add.image(GAME_WIDTH - 270, GAME_HEIGHT / 2, toyInfo.texture)
       .setScale(0.4)
       .setInteractive({ useHandCursor: true, draggable: true });
 

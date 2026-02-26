@@ -58,7 +58,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Tools
-    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy'];
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy', 'rubber-duck', 'worm'];
     for (const tool of tools) {
       this.load.image(`tool-${tool}`, `${sprites}/tools/${tool}.png`);
     }
@@ -124,7 +124,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Tool fallbacks
-    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy'];
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy', 'rubber-duck', 'worm'];
     for (const tool of tools) {
       const key = `tool-${tool}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
