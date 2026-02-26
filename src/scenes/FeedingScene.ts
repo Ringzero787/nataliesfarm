@@ -181,8 +181,8 @@ export class FeedingScene extends Phaser.Scene {
   private spawnFood(): void {
     const foods = this.getFoodList();
     const shelfX = GAME_WIDTH - 270;
-    const startY = GAME_HEIGHT / 2 - 135;
-    const spacing = 165;
+    const startY = GAME_HEIGHT / 2 - 180;
+    const spacing = 210;
 
     const g = this.add.graphics();
     g.fillStyle(COLORS.wood, 0.6);
