@@ -82,11 +82,11 @@ export class MenuScene extends Phaser.Scene {
 
     // Hero horse — big and centered in front of the barn
     const horse = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.48, 'horse-happy')
-      .setScale(0.60);
+      .setScale(0.90);
     this.tweens.add({
       targets: horse,
-      scaleY: 0.615,
-      scaleX: 0.585,
+      scaleY: 0.92,
+      scaleX: 0.88,
       duration: 1800,
       yoyo: true,
       repeat: -1,
@@ -165,9 +165,9 @@ export class MenuScene extends Phaser.Scene {
 
     // Other animal friends flanking the sides
     const sideAnimals = [
-      { key: 'pig', x: 180, y: GAME_HEIGHT - 98, scale: 0.105 },
-      { key: 'sheep', x: GAME_WIDTH - 200, y: GAME_HEIGHT - 98, scale: 0.105 },
-      { key: 'bunny', x: GAME_WIDTH - 80, y: GAME_HEIGHT - 90, scale: 0.09 },
+      { key: 'pig', x: 180, y: GAME_HEIGHT - 98, scale: 0.16 },
+      { key: 'sheep', x: GAME_WIDTH - 200, y: GAME_HEIGHT - 98, scale: 0.16 },
+      { key: 'bunny', x: GAME_WIDTH - 80, y: GAME_HEIGHT - 90, scale: 0.135 },
     ];
     sideAnimals.forEach((a, i) => {
       const sprite = this.add.image(a.x, a.y, `${a.key}-idle`).setScale(a.scale);

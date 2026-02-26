@@ -117,7 +117,7 @@ export class BarnScene extends Phaser.Scene {
     // Create container for animal + cosmetic
     this.animalContainer = this.add.container(animalX, animalY);
 
-    const animal = this.add.image(0, 0, textureKey).setScale(0.45);
+    const animal = this.add.image(0, 0, textureKey).setScale(0.675);
     this.animalContainer.add(animal);
 
     // Add equipped cosmetic overlay (draggable)
@@ -130,7 +130,7 @@ export class BarnScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.2);
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
           this.animalContainer.add(cosmetic);
 
           // Make cosmetic draggable within the container
@@ -414,7 +414,7 @@ export class BarnScene extends Phaser.Scene {
       }
 
       const textureKey = `${key}-idle`;
-      const sprite = this.add.image(x, y, textureKey).setScale(0.083);
+      const sprite = this.add.image(x, y, textureKey).setScale(0.125);
 
       if (!isUnlocked) {
         sprite.setTint(0x555555);

@@ -80,7 +80,7 @@ export class FeedingScene extends Phaser.Scene {
 
     this.animalContainer = this.add.container(ax, ay);
     this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`)
-      .setScale(0.42)
+      .setScale(0.63)
       .setFlipX(true);
     this.animalContainer.add(this.animalSprite);
 
@@ -94,7 +94,7 @@ export class FeedingScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(-cx, cy, cosmeticKey).setScale(0.2).setFlipX(true);
+          const cosmetic = this.add.image(-cx, cy, cosmeticKey).setScale(0.3).setFlipX(true);
           this.animalContainer.add(cosmetic);
         }
       }
@@ -209,7 +209,7 @@ export class FeedingScene extends Phaser.Scene {
 
   private spawnFoodItem(key: string, textureKey: string, slotX: number, slotY: number): void {
     const food = this.add.image(slotX, slotY, textureKey)
-      .setScale(0.21)
+      .setScale(0.32)
       .setInteractive({ useHandCursor: true, draggable: true });
 
     (food as any)._foodKey = key;

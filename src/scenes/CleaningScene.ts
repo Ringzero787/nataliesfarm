@@ -84,7 +84,7 @@ export class CleaningScene extends Phaser.Scene {
     const ay = GAME_HEIGHT * 0.45;
 
     this.animalContainer = this.add.container(ax, ay);
-    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.35);
+    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.525);
     this.animalContainer.add(this.animalSprite);
 
     const cosmeticId = SaveManager.getEquippedCosmetic(this.currentAnimal);
@@ -96,7 +96,7 @@ export class CleaningScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.2);
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
           this.animalContainer.add(cosmetic);
         }
       }
@@ -188,7 +188,7 @@ export class CleaningScene extends Phaser.Scene {
 
   private createBroom(): void {
     this.broom = this.add.image(225, GAME_HEIGHT / 2 - 30, 'tool-broom')
-      .setScale(0.30)
+      .setScale(0.45)
       .setInteractive({ useHandCursor: true, draggable: true });
 
     this.input.setDraggable(this.broom);

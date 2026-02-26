@@ -88,7 +88,7 @@ export class WardrobeScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     // Animal sprite
-    const animalImg = this.add.image(centerX, centerY, `${this.currentAnimal}-idle`).setScale(0.3);
+    const animalImg = this.add.image(centerX, centerY, `${this.currentAnimal}-idle`).setScale(0.45);
 
     // Cosmetic overlay on preview (uses saved position if available)
     const equippedId = SaveManager.getEquippedCosmetic(this.currentAnimal);
@@ -100,7 +100,7 @@ export class WardrobeScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cosX = savedPos ? savedPos.x * 0.3 : 0;
           const cosY = savedPos ? savedPos.y * 0.3 : cosmeticDef.offsetY * 0.3;
-          this.add.image(centerX + cosX, centerY + cosY, cosmeticKey).setScale(0.13);
+          this.add.image(centerX + cosX, centerY + cosY, cosmeticKey).setScale(0.2);
         }
       }
     }
@@ -159,7 +159,7 @@ export class WardrobeScene extends Phaser.Scene {
 
       if (isUnlocked) {
         if (hasTexture) {
-          this.add.image(cx, cy - 23, cosmeticKey).setScale(0.18);
+          this.add.image(cx, cy - 23, cosmeticKey).setScale(0.27);
         } else {
           // Fallback colored circle
           const fb = this.add.graphics();
@@ -202,7 +202,7 @@ export class WardrobeScene extends Phaser.Scene {
       } else {
         // Locked state
         if (hasTexture) {
-          const lockedImg = this.add.image(cx, cy - 23, cosmeticKey).setScale(0.18);
+          const lockedImg = this.add.image(cx, cy - 23, cosmeticKey).setScale(0.27);
           lockedImg.setTint(0x444444);
         } else {
           const fb = this.add.graphics();

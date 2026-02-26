@@ -77,7 +77,7 @@ export class PlayScene extends Phaser.Scene {
     const ay = GAME_HEIGHT * 0.50;
 
     this.animalContainer = this.add.container(ax, ay);
-    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.45);
+    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.675);
     this.animalContainer.add(this.animalSprite);
 
     const cosmeticId = SaveManager.getEquippedCosmetic(this.currentAnimal);
@@ -89,7 +89,7 @@ export class PlayScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.2);
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
           this.animalContainer.add(cosmetic);
         }
       }
@@ -136,7 +136,7 @@ export class PlayScene extends Phaser.Scene {
 
   private createToy(): void {
     this.toy = this.add.image(GAME_WIDTH - 270, GAME_HEIGHT / 2, 'tool-toy')
-      .setScale(0.27)
+      .setScale(0.4)
       .setInteractive({ useHandCursor: true, draggable: true });
 
     this.input.setDraggable(this.toy);
