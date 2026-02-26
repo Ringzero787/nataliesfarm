@@ -96,7 +96,7 @@ export class CleaningScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.15);
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.2);
           this.animalContainer.add(cosmetic);
         }
       }

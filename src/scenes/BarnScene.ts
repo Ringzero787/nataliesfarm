@@ -137,9 +137,23 @@ export class BarnScene extends Phaser.Scene {
           cosmetic.setInteractive({ useHandCursor: true, draggable: true });
           this.input.setDraggable(cosmetic);
 
-          cosmetic.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-            cosmetic.x = dragX - animalX;
-            cosmetic.y = dragY - animalY;
+          let dragOffsetX = 0;
+          let dragOffsetY = 0;
+
+          cosmetic.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+            // Remember offset between pointer and cosmetic's world position
+            const container = this.animalContainer;
+            const worldX = container.x + cosmetic.x * container.scaleX;
+            const worldY = container.y + cosmetic.y * container.scaleY;
+            dragOffsetX = worldX - pointer.x;
+            dragOffsetY = worldY - pointer.y;
+          });
+
+          cosmetic.on('drag', (pointer: Phaser.Input.Pointer) => {
+            // Convert pointer world coords to container-local, preserving grab offset
+            const container = this.animalContainer;
+            cosmetic.x = (pointer.x + dragOffsetX - container.x) / container.scaleX;
+            cosmetic.y = (pointer.y + dragOffsetY - container.y) / container.scaleY;
           });
 
           cosmetic.on('dragend', () => {

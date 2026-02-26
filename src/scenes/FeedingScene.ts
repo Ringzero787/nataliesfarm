@@ -72,18 +72,6 @@ export class FeedingScene extends Phaser.Scene {
       strokeThickness: 3,
     }).setOrigin(0.5);
 
-    // Place trough between animal and food shelf
-    if (this.textures.exists('env-trough') && this.textures.get('env-trough').key !== '__MISSING') {
-      this.add.image(this.troughX, this.troughY, 'env-trough').setScale(0.35);
-    } else {
-      const t = this.add.graphics();
-      t.fillStyle(0x6D4C41, 1);
-      t.fillRoundedRect(this.troughX - 60, this.troughY - 20, 120, 40, 8);
-      t.fillStyle(0x8D6E63, 1);
-      t.fillRoundedRect(this.troughX - 55, this.troughY - 15, 110, 25, 6);
-      t.lineStyle(2, 0x4E342E, 1);
-      t.strokeRoundedRect(this.troughX - 60, this.troughY - 20, 120, 40, 8);
-    }
   }
 
   private placeAnimal(): void {
@@ -106,7 +94,7 @@ export class FeedingScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.18);
+          const cosmetic = this.add.image(-cx, cy, cosmeticKey).setScale(0.2).setFlipX(true);
           this.animalContainer.add(cosmetic);
         }
       }
