@@ -10,6 +10,16 @@ import { PlayScene } from './scenes/PlayScene';
 import { CleaningScene } from './scenes/CleaningScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 
+// Render all text at device pixel ratio for crisp display on HiDPI/mobile screens
+const textDPR = Math.min(window.devicePixelRatio || 1, 3);
+const origTextFactory = Phaser.GameObjects.GameObjectFactory.prototype.text;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(Phaser.GameObjects.GameObjectFactory.prototype as any).text = function (
+  this: Phaser.GameObjects.GameObjectFactory, x: number, y: number, text: string | string[], style?: any,
+) {
+  return origTextFactory.call(this, x, y, text, { ...style, resolution: textDPR });
+};
+
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.WEBGL,
   width: GAME_WIDTH,
