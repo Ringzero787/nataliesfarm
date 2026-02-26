@@ -1,0 +1,184 @@
+import Phaser from 'phaser';
+import { GAME_WIDTH, GAME_HEIGHT, COLORS, COSMETICS } from '../config';
+
+/**
+ * BootScene — loads all image assets and shows a progress bar.
+ * Falls back to generated placeholders for any missing images.
+ */
+export class BootScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'BootScene' });
+  }
+
+  preload(): void {
+    // ── Loading bar ──────────────────────────────────────────
+    const barW = 400;
+    const barH = 30;
+    const barX = (GAME_WIDTH - barW) / 2;
+    const barY = GAME_HEIGHT / 2;
+
+    this.cameras.main.setBackgroundColor('#3E2723');
+
+    const bg = this.add.graphics();
+    bg.fillStyle(0x5D4037, 1);
+    bg.fillRect(barX - 4, barY - 4, barW + 8, barH + 8);
+
+    const bar = this.add.graphics();
+
+    const loadingText = this.add.text(GAME_WIDTH / 2, barY - 30, "Loading Natalie's Farm...", {
+      fontSize: '24px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      color: '#FFE082',
+    }).setOrigin(0.5);
+
+    const pctText = this.add.text(GAME_WIDTH / 2, barY + barH + 20, '0%', {
+      fontSize: '18px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      color: '#FFFFFF',
+    }).setOrigin(0.5);
+
+    this.load.on('progress', (pct: number) => {
+      bar.clear();
+      bar.fillStyle(COLORS.green, 1);
+      bar.fillRect(barX, barY, barW * pct, barH);
+      pctText.setText(`${Math.round(pct * 100)}%`);
+    });
+
+    // ── Load real image assets ───────────────────────────────
+
+    const sprites = 'assets/sprites';
+
+    // Animals
+    const animals = ['horse', 'pig', 'chicken', 'sheep', 'bunny'];
+    const poses = ['idle', 'eating', 'happy', 'dirty', 'clean', 'wet', 'brushed'];
+    for (const animal of animals) {
+      for (const pose of poses) {
+        this.load.image(`${animal}-${pose}`, `${sprites}/${animal}/${animal}-${pose}.png`);
+      }
+    }
+
+    // Tools
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose'];
+    for (const tool of tools) {
+      this.load.image(`tool-${tool}`, `${sprites}/tools/${tool}.png`);
+    }
+
+    // Food
+    const foods = ['hay', 'apple', 'carrot', 'slop', 'grass', 'lettuce', 'grain', 'corn'];
+    for (const food of foods) {
+      this.load.image(`food-${food}`, `${sprites}/food/${food}.png`);
+    }
+
+    // Environment
+    this.load.image('bg-barn', `${sprites}/environment/barn-interior.png`);
+    this.load.image('bg-wash', `${sprites}/environment/wash-station.png`);
+    this.load.image('bg-feed', `${sprites}/environment/feeding-area.png`);
+    this.load.image('env-haybale', `${sprites}/environment/hay-bale.png`);
+    this.load.image('env-trough', `${sprites}/environment/water-trough.png`);
+    this.load.image('env-lantern', `${sprites}/environment/lantern.png`);
+
+    // Activity icons
+    const icons = ['feed', 'brush', 'wash', 'dry', 'barn'];
+    for (const icon of icons) {
+      this.load.image(`icon-${icon}`, `${sprites}/ui/icon-${icon}.png`);
+    }
+
+    // UI
+    this.load.image('ui-star', `${sprites}/ui/star.png`);
+    this.load.image('ui-heart', `${sprites}/ui/heart.png`);
+    this.load.image('ui-lock', `${sprites}/ui/lock.png`);
+    this.load.image('ui-sparkle', `${sprites}/ui/sparkle.png`);
+    this.load.image('ui-bubble', `${sprites}/ui/bubble.png`);
+    this.load.image('ui-waterdrop', `${sprites}/ui/waterdrop.png`);
+    this.load.image('ui-logo', `${sprites}/ui/title-logo.png`);
+    this.load.image('ui-wardrobe', `${sprites}/ui/wardrobe.png`);
+
+    // Cosmetics
+    for (const cosmetic of COSMETICS) {
+      this.load.image(`cosmetic-${cosmetic.id}`, `${sprites}/cosmetics/${cosmetic.id}.png`);
+    }
+  }
+
+  create(): void {
+    this.generateFallbacks();
+
+    document.fonts.ready.then(() => {
+      this.scene.start('MenuScene');
+    });
+  }
+
+  private generateFallbacks(): void {
+    const animals = ['horse', 'pig', 'chicken', 'sheep', 'bunny'];
+    const poses = ['idle', 'eating', 'happy', 'dirty', 'clean', 'wet', 'brushed'];
+    const animalColors: Record<string, number> = {
+      horse: 0x8B6914, pig: 0xFFB6C1, chicken: 0xFFD700, sheep: 0xF5F5DC, bunny: 0xD2B48C,
+    };
+
+    for (const animal of animals) {
+      for (const pose of poses) {
+        const key = `${animal}-${pose}`;
+        if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+          this.createFallbackTexture(key, 150, 150, animalColors[animal]);
+        }
+      }
+    }
+
+    // Tool fallbacks
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose'];
+    for (const tool of tools) {
+      const key = `tool-${tool}`;
+      if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+        this.createFallbackTexture(key, 60, 60, 0x8B4513);
+      }
+    }
+
+    // Food fallbacks
+    const foods = ['hay', 'apple', 'carrot', 'slop', 'grass', 'lettuce', 'grain', 'corn'];
+    for (const food of foods) {
+      const key = `food-${food}`;
+      if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+        this.createFallbackTexture(key, 50, 50, 0xFF9800);
+      }
+    }
+
+    // Activity icon fallbacks
+    const iconKeys = ['icon-feed', 'icon-brush', 'icon-wash', 'icon-dry', 'icon-barn'];
+    for (const key of iconKeys) {
+      if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+        this.createFallbackTexture(key, 60, 60, 0xFF9800);
+      }
+    }
+
+    // UI fallbacks
+    const uiKeys = ['ui-star', 'ui-heart', 'ui-lock', 'ui-sparkle', 'ui-bubble', 'ui-waterdrop', 'ui-logo', 'ui-wardrobe'];
+    for (const key of uiKeys) {
+      if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+        this.createFallbackTexture(key, 40, 40, 0xFFD700);
+      }
+    }
+
+    // Environment fallbacks
+    const envKeys = ['bg-barn', 'bg-wash', 'bg-feed', 'env-haybale', 'env-trough', 'env-lantern'];
+    for (const key of envKeys) {
+      if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+        this.createFallbackTexture(key, 200, 120, 0x8B4513);
+      }
+    }
+
+    // Cosmetic fallbacks
+    for (const cosmetic of COSMETICS) {
+      const key = `cosmetic-${cosmetic.id}`;
+      if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
+        this.createFallbackTexture(key, 60, 60, 0xE91E63);
+      }
+    }
+  }
+
+  private createFallbackTexture(key: string, w: number, h: number, color: number): void {
+    const g = this.add.graphics();
+    g.fillStyle(color, 1);
+    g.fillRoundedRect(0, 0, w, h, 8);
+    g.generateTexture(key, w, h);
+    g.destroy();
+  }
+}

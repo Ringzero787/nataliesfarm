@@ -1,0 +1,48 @@
+{
+  "name": "lizaquest",
+  "version": "1.0.0",
+  "description": "Natalie's Farm - A fun farm animal care game for kids",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "cap:init": "npx cap init NataliesFarm com.nataliesfarm.app --web-dir dist",
+    "cap:add:ios": "npx cap add ios",
+    "cap:add:android": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open:ios": "npx cap open ios",
+    "cap:open:android": "npx cap open android",
+    "generate:all": "npx tsx scripts/generate-assets.ts",
+    "generate:horse": "npx tsx scripts/generate-assets.ts horse",
+    "generate:pig": "npx tsx scripts/generate-assets.ts pig",
+    "generate:sheep": "npx tsx scripts/generate-assets.ts sheep",
+    "generate:bunny": "npx tsx scripts/generate-assets.ts bunny",
+    "generate:tools": "npx tsx scripts/generate-assets.ts tools",
+    "generate:food": "npx tsx scripts/generate-assets.ts food",
+    "generate:env": "npx tsx scripts/generate-assets.ts environment",
+    "generate:ui": "npx tsx scripts/generate-assets.ts ui"
+  },
+  "keywords": [
+    "game",
+    "kids",
+    "farm",
+    "animals",
+    "phaser"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/cli": "^8.1.0",
+    "@capacitor/core": "^8.1.0",
+    "dotenv": "^17.3.1",
+    "openai": "^6.25.0",
+    "phaser": "^3.90.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.2"
+  }
+}
