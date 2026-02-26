@@ -138,12 +138,8 @@ export class BarnScene extends Phaser.Scene {
           this.input.setDraggable(cosmetic);
 
           cosmetic.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-            // Convert screen drag coords to container-local coords
-            const localX = dragX - animalX;
-            const localY = dragY - animalY;
-            // Constrain within ±100px of center
-            cosmetic.x = Phaser.Math.Clamp(localX, -100, 100);
-            cosmetic.y = Phaser.Math.Clamp(localY, -100, 100);
+            cosmetic.x = dragX - animalX;
+            cosmetic.y = dragY - animalY;
           });
 
           cosmetic.on('dragend', () => {
