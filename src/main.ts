@@ -6,7 +6,7 @@ import { BarnScene } from './scenes/BarnScene';
 import { FeedingScene } from './scenes/FeedingScene';
 import { BrushingScene } from './scenes/BrushingScene';
 import { WashingScene } from './scenes/WashingScene';
-import { DryingScene } from './scenes/DryingScene';
+import { PlayScene } from './scenes/PlayScene';
 import { CleaningScene } from './scenes/CleaningScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 
@@ -20,7 +20,7 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  scene: [BootScene, MenuScene, BarnScene, FeedingScene, BrushingScene, WashingScene, DryingScene, CleaningScene, WardrobeScene],
+  scene: [BootScene, MenuScene, BarnScene, FeedingScene, BrushingScene, WashingScene, PlayScene, CleaningScene, WardrobeScene],
 };
 
 new Phaser.Game(config);

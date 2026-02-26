@@ -306,6 +306,11 @@ const TOOL_ASSETS: AssetDef[] = [
     prompt: 'A cartoon green garden hose nozzle spraying water, water splash effect, cute game item',
     folder: 'tools', transparent: true,
   },
+  {
+    filename: 'toy.png',
+    prompt: 'A cartoon colorful yarn ball toy with a string dangling, bright rainbow colors, soft and round, cute game item for playing with farm animals',
+    folder: 'tools', transparent: true,
+  },
 ];
 
 const FOOD_ASSETS: AssetDef[] = [
@@ -408,6 +413,11 @@ const ICON_ASSETS: AssetDef[] = [
   {
     filename: 'icon-barn.png',
     prompt: 'A round cartoon icon of a broom sweeping with dust clouds, tidy and clean theme, game activity button icon for cleaning a farm barn',
+    folder: 'ui', transparent: true,
+  },
+  {
+    filename: 'icon-play.png',
+    prompt: 'A round cartoon icon of a yarn ball with playful motion lines, bright colorful, game activity button icon for playing with farm animals',
     folder: 'ui', transparent: true,
   },
 ];

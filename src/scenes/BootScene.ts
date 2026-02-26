@@ -58,7 +58,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Tools
-    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose'];
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy'];
     for (const tool of tools) {
       this.load.image(`tool-${tool}`, `${sprites}/tools/${tool}.png`);
     }
@@ -78,7 +78,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('env-lantern', `${sprites}/environment/lantern.png`);
 
     // Activity icons
-    const icons = ['feed', 'brush', 'wash', 'dry', 'barn'];
+    const icons = ['feed', 'brush', 'wash', 'dry', 'barn', 'play'];
     for (const icon of icons) {
       this.load.image(`icon-${icon}`, `${sprites}/ui/icon-${icon}.png`);
     }
@@ -124,7 +124,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Tool fallbacks
-    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose'];
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy'];
     for (const tool of tools) {
       const key = `tool-${tool}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
@@ -142,7 +142,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Activity icon fallbacks
-    const iconKeys = ['icon-feed', 'icon-brush', 'icon-wash', 'icon-dry', 'icon-barn'];
+    const iconKeys = ['icon-feed', 'icon-brush', 'icon-wash', 'icon-dry', 'icon-barn', 'icon-play'];
     for (const key of iconKeys) {
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
         this.createFallbackTexture(key, 60, 60, 0xFF9800);

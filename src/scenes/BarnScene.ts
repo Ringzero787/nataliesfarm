@@ -291,7 +291,7 @@ export class BarnScene extends Phaser.Scene {
       { key: 'feeding', label: 'Feed', icon: 'icon-feed', color: 0xFF9800, scene: 'FeedingScene' },
       { key: 'brushing', label: 'Brush', icon: 'icon-brush', color: 0x9C27B0, scene: 'BrushingScene' },
       { key: 'washing', label: 'Wash', icon: 'icon-wash', color: 0x2196F3, scene: 'WashingScene' },
-      { key: 'drying', label: 'Dry', icon: 'icon-dry', color: 0xFFEB3B, scene: 'DryingScene' },
+      { key: 'playing', label: 'Play', icon: 'icon-play', color: 0xFF69B4, scene: 'PlayScene' },
       { key: 'cleaning', label: 'Barn', icon: 'icon-barn', color: 0x795548, scene: 'CleaningScene' },
     ];
 

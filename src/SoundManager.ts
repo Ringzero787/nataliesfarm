@@ -175,6 +175,25 @@ export class SoundManager {
     source.stop(now + 0.15);
   }
 
+  /** Toy squeak — playing */
+  playSqueak(): void {
+    if (!this.audioCtx) return;
+    const ctx = this.audioCtx;
+    const now = ctx.currentTime;
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1200, now);
+    osc.frequency.exponentialRampToValueAtTime(2400, now + 0.05);
+    osc.frequency.exponentialRampToValueAtTime(1800, now + 0.1);
+    gain.gain.setValueAtTime(0.2, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.15);
+  }
+
   /** Sweep — cleaning */
   playSweep(): void {
     if (!this.audioCtx) return;

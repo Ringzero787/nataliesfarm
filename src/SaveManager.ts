@@ -129,6 +129,19 @@ class SaveManagerClass {
       data.lastNeedsUpdate = Date.now();
     }
 
+    // Migrate drying → playing star data
+    for (const animal of ANIMAL_ORDER) {
+      const stars = data.stars[animal] as Record<string, number>;
+      if (stars['drying'] !== undefined) {
+        if (stars['playing'] === undefined) {
+          stars['playing'] = stars['drying'];
+        } else {
+          stars['playing'] += stars['drying'];
+        }
+        delete stars['drying'];
+      }
+    }
+
     // Add cosmetic fields if missing
     if (!data.unlockedCosmetics) {
       data.unlockedCosmetics = [];

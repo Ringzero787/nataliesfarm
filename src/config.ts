@@ -40,7 +40,7 @@ export type AnimalType = keyof typeof ANIMALS;
 export const ANIMAL_ORDER: AnimalType[] = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny'];
 
 /** Activities */
-export const ACTIVITIES = ['feeding', 'brushing', 'washing', 'drying', 'cleaning'] as const;
+export const ACTIVITIES = ['feeding', 'brushing', 'washing', 'playing', 'cleaning'] as const;
 export type ActivityType = (typeof ACTIVITIES)[number];
 
 // ── Animal Needs System ──────────────────────────────────────
@@ -49,9 +49,9 @@ export type NeedType = 'hunger' | 'cleanliness' | 'happiness';
 
 /** Points lost per minute for each need */
 export const NEED_DECAY_RATE: Record<NeedType, number> = {
-  hunger: 1 / 3,        // 1 point per 3 minutes
-  cleanliness: 1 / 4,   // 1 point per 4 minutes
-  happiness: 1 / 5,     // 1 point per 5 minutes
+  hunger: 1,            // 1 point per minute
+  cleanliness: 0.5,     // 1 point per 2 minutes
+  happiness: 0.4,       // 1 point per 2.5 minutes
 };
 
 /** Maximum elapsed minutes to apply decay for (cap at 2 hours) */
@@ -62,7 +62,7 @@ export const ACTIVITY_NEED_EFFECTS: Record<ActivityType, Partial<Record<NeedType
   feeding:  { hunger: 35, happiness: 10 },
   washing:  { cleanliness: 30, happiness: 8 },
   brushing: { cleanliness: 20, happiness: 15 },
-  drying:   { cleanliness: 15, happiness: 5 },
+  playing:  { happiness: 30 },
   cleaning: { happiness: 12 },
 };
 

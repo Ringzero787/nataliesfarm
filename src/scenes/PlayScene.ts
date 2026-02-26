@@ -7,75 +7,77 @@ import { getSoundManager } from '../SoundManager';
 import { SaveManager, StarAwardResult } from '../SaveManager';
 
 /**
- * DryingScene — drag the towel back and forth over the wet animal.
- * Water drops fall off as you dry. Animal transitions from wet → clean.
+ * PlayScene — dangle a yarn ball toy in front of the animal.
+ * The animal chases the toy. Keep it near (but moving) to fill the progress bar.
  */
-export class DryingScene extends Phaser.Scene {
+export class PlayScene extends Phaser.Scene {
   private currentAnimal: AnimalType = 'horse';
   private progress = 0;
   private progressFill!: Phaser.GameObjects.Graphics;
   private animalContainer!: Phaser.GameObjects.Container;
   private animalSprite!: Phaser.GameObjects.Image;
-  private towel!: Phaser.GameObjects.Image;
+  private toy!: Phaser.GameObjects.Image;
   private completed = false;
-  private lastTowelX = 0;
-  private lastTowelY = 0;
+  private lastToyX = 0;
+  private lastToyY = 0;
+  private bounceTimer = 0;
 
   constructor() {
-    super({ key: 'DryingScene' });
+    super({ key: 'PlayScene' });
   }
 
   init(data: { animal?: AnimalType }): void {
     this.currentAnimal = data.animal ?? 'horse';
     this.progress = 0;
     this.completed = false;
+    this.bounceTimer = 0;
   }
 
   create(): void {
     this.drawBackground();
     this.placeAnimal();
     this.createProgressBar();
-    this.createTowel();
+    this.createToy();
     this.createUI();
     this.cameras.main.fadeIn(300);
   }
 
   private drawBackground(): void {
-    if (this.textures.exists('bg-wash') && this.textures.get('bg-wash').key !== '__MISSING') {
-      this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-wash')
+    if (this.textures.exists('bg-barn') && this.textures.get('bg-barn').key !== '__MISSING') {
+      this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-barn')
         .setDisplaySize(GAME_WIDTH, GAME_HEIGHT);
     } else {
       const g = this.add.graphics();
-      g.fillStyle(0x81D4FA, 1);
+      g.fillStyle(0x81C784, 1);
       g.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-      g.fillStyle(0x546E7A, 1);
+      g.fillStyle(0x66BB6A, 1);
       g.fillRect(0, GAME_HEIGHT - 120, GAME_WIDTH, 120);
     }
 
-    this.add.text(GAME_WIDTH / 2, 30, 'Drying Time!', {
+    this.add.text(GAME_WIDTH / 2, 30, 'Playtime!', {
       fontSize: '36px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
-      stroke: '#5D4037',
+      stroke: '#D81B60',
       strokeThickness: 5,
     }).setOrigin(0.5);
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Rub the towel to dry off!', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Dangle the toy near your animal!', {
       fontSize: '18px',
       fontFamily: 'Fredoka, Arial, sans-serif',
-      color: '#FFE082',
+      color: '#FFF9C4',
       stroke: '#5D4037',
       strokeThickness: 3,
     }).setOrigin(0.5);
   }
 
   private placeAnimal(): void {
-    const ax = GAME_WIDTH / 2;
+    const ax = GAME_WIDTH * 0.35;
     const ay = GAME_HEIGHT * 0.50;
 
     this.animalContainer = this.add.container(ax, ay);
-    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-wet`).setScale(0.45);
+    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.45);
     this.animalContainer.add(this.animalSprite);
 
     const cosmeticId = SaveManager.getEquippedCosmetic(this.currentAnimal);
@@ -93,11 +95,12 @@ export class DryingScene extends Phaser.Scene {
       }
     }
 
-    // Shivering animation
+    // Idle breathing animation
     this.tweens.add({
       targets: this.animalContainer,
-      x: ax + 3,
-      duration: 80,
+      scaleY: 1.02,
+      scaleX: 0.98,
+      duration: 1800,
       yoyo: true,
       repeat: -1,
       ease: 'Sine.easeInOut',
@@ -110,12 +113,12 @@ export class DryingScene extends Phaser.Scene {
     const barW = 300;
     const barH = 25;
     const bg = this.add.graphics();
-    bg.fillStyle(0x5D4037, 1);
+    bg.fillStyle(0x880E4F, 1);
     bg.fillRoundedRect(barX, barY, barW, barH, 6);
-    bg.lineStyle(2, 0x3E2723);
+    bg.lineStyle(2, 0x4A0027);
     bg.strokeRoundedRect(barX, barY, barW, barH, 6);
     this.progressFill = this.add.graphics();
-    this.add.text(barX - 10, barY + 12, '☀️', { fontSize: '20px' }).setOrigin(1, 0.5);
+    this.add.text(barX - 10, barY + 12, '🧶', { fontSize: '20px' }).setOrigin(1, 0.5);
   }
 
   private updateProgressBar(): void {
@@ -124,116 +127,136 @@ export class DryingScene extends Phaser.Scene {
     const barW = 300;
     const barH = 25;
     this.progressFill.clear();
-    this.progressFill.fillStyle(0xFFEB3B, 1);
+    this.progressFill.fillStyle(0xFF69B4, 1);
     const fillW = Math.min(barW * this.progress, barW);
     if (fillW > 0) {
       this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 6);
     }
   }
 
-  private createTowel(): void {
-    this.towel = this.add.image(GAME_WIDTH - 160, GAME_HEIGHT / 2, 'tool-towel')
+  private createToy(): void {
+    this.toy = this.add.image(GAME_WIDTH - 180, GAME_HEIGHT / 2, 'tool-toy')
       .setScale(0.18)
       .setInteractive({ useHandCursor: true, draggable: true });
 
-    this.input.setDraggable(this.towel);
-    this.lastTowelX = this.towel.x;
-    this.lastTowelY = this.towel.y;
+    this.input.setDraggable(this.toy);
+    this.lastToyX = this.toy.x;
+    this.lastToyY = this.toy.y;
 
-    this.towel.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
-      this.towel.x = dragX;
-      this.towel.y = dragY;
+    this.toy.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+      this.toy.x = dragX;
+      this.toy.y = dragY;
 
       const dist = Phaser.Math.Distance.Between(
-        this.towel.x, this.towel.y,
+        this.toy.x, this.toy.y,
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 150 && !this.completed) {
-        const moved = Math.abs(this.towel.x - this.lastTowelX) + Math.abs(this.towel.y - this.lastTowelY);
+      if (dist < 200 && !this.completed) {
+        const moved = Math.abs(this.toy.x - this.lastToyX) + Math.abs(this.toy.y - this.lastToyY);
         if (moved > 5) {
-          this.progress += 0.007;
+          this.progress += 0.005;
           this.updateProgressBar();
-          if (Math.random() < 0.12) getSoundManager(this).playRub();
 
-          this.spawnWaterDrop(dragX, dragY);
+          // Animal chases the toy — move toward it
+          const angle = Phaser.Math.Angle.Between(
+            this.animalContainer.x, this.animalContainer.y,
+            this.toy.x, this.toy.y,
+          );
+          const chaseSpeed = 1.5;
+          this.animalContainer.x += Math.cos(angle) * chaseSpeed;
+          this.animalContainer.y += Math.sin(angle) * chaseSpeed;
 
-          if (this.progress > 0.5 && this.progress < 0.52) {
-            this.animalSprite.setTexture(`${this.currentAnimal}-idle`);
-            this.tweens.killTweensOf(this.animalContainer);
+          // Bounce the animal excitedly
+          this.bounceTimer += moved;
+          if (this.bounceTimer > 40) {
+            this.bounceTimer = 0;
             this.tweens.add({
               targets: this.animalContainer,
-              scaleY: 1.02,
-              scaleX: 0.98,
-              duration: 1800,
+              y: this.animalContainer.y - 12,
+              duration: 150,
               yoyo: true,
-              repeat: -1,
-              ease: 'Sine.easeInOut',
+              ease: 'Back.easeOut',
             });
+            if (Math.random() < 0.3) {
+              getSoundManager(this).playPop();
+            }
           }
 
+          // Squeak when moving the toy
+          if (Math.random() < 0.08) {
+            getSoundManager(this).playSqueak();
+          }
+
+          // Spawn hearts near the animal
+          this.spawnHeart();
+
+          // At 50%: switch to happy texture
+          if (this.progress > 0.5 && this.progress < 0.52) {
+            this.animalSprite.setTexture(`${this.currentAnimal}-happy`);
+          }
+
+          // Complete!
           if (this.progress >= 1 && !this.completed) {
             this.completed = true;
-            this.animalSprite.setTexture(`${this.currentAnimal}-clean`);
+            this.animalSprite.setTexture(`${this.currentAnimal}-happy`);
             getSoundManager(this).playSuccess();
 
-            const effects = ACTIVITY_NEED_EFFECTS.drying;
+            const effects = ACTIVITY_NEED_EFFECTS.playing;
             SaveManager.restoreNeeds(this.currentAnimal, effects);
-            const result = SaveManager.awardStar(this.currentAnimal, 'drying');
+            const result = SaveManager.awardStar(this.currentAnimal, 'playing');
             this.showCompletion(result);
           }
         }
       }
-      this.lastTowelX = this.towel.x;
-      this.lastTowelY = this.towel.y;
+      this.lastToyX = this.toy.x;
+      this.lastToyY = this.toy.y;
     });
   }
 
-  private spawnWaterDrop(x: number, y: number): void {
-    if (Math.random() > 0.35) return;
-    const drop = this.add.image(
-      x + Phaser.Math.Between(-30, 30),
-      y + Phaser.Math.Between(-10, 10),
-      'ui-waterdrop',
-    ).setScale(Phaser.Math.FloatBetween(0.01, 0.025));
+  private spawnHeart(): void {
+    if (Math.random() > 0.15) return;
+    const heart = this.add.image(
+      this.animalContainer.x + Phaser.Math.Between(-40, 40),
+      this.animalContainer.y - 70,
+      'ui-heart',
+    ).setScale(0.025);
 
     this.tweens.add({
-      targets: drop,
-      y: drop.y + 80 + Math.random() * 60,
-      x: drop.x + Phaser.Math.Between(-15, 15),
+      targets: heart,
+      y: heart.y - 50,
       alpha: 0,
-      scaleX: 0.1,
-      scaleY: 0.1,
-      duration: 600 + Math.random() * 300,
-      ease: 'Quad.easeIn',
-      onComplete: () => drop.destroy(),
+      duration: 700,
+      ease: 'Sine.easeOut',
+      onComplete: () => heart.destroy(),
     });
   }
 
   private showCompletion(result: StarAwardResult): void {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 12; i++) {
       const sparkle = this.add.image(
         this.animalContainer.x + Phaser.Math.Between(-80, 80),
         this.animalContainer.y + Phaser.Math.Between(-60, 60),
         'ui-sparkle',
-      ).setScale(0).setTint(0xFFD700);
+      ).setScale(0).setTint(0xFF69B4);
       this.tweens.add({
         targets: sparkle,
         scaleX: 0.03,
         scaleY: 0.03,
         alpha: 0,
         duration: 800,
-        delay: i * 70,
+        delay: i * 60,
         ease: 'Sine.easeOut',
       });
+      if (i % 3 === 0) getSoundManager(this).playSparkle();
     }
 
-    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 60, 'Warm & Fluffy!', {
+    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 60, 'So Much Fun!', {
       fontSize: '52px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
-      color: '#FFD700',
-      stroke: '#5D4037',
+      color: '#FF69B4',
+      stroke: '#880E4F',
       strokeThickness: 6,
     }).setOrigin(0.5).setScale(0);
 
