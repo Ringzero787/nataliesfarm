@@ -321,6 +321,21 @@ const TOOL_ASSETS: AssetDef[] = [
     prompt: 'A cartoon cute pink wiggly worm with big happy eyes, plump and squishy, bright pink with a friendly smile, adorable children\'s game toy',
     folder: 'tools', transparent: true,
   },
+  {
+    filename: 'cowbell.png',
+    prompt: 'A cartoon shiny golden cowbell with a rope string attached, cute and jingly looking, bright gold metal bell, adorable children\'s game toy',
+    folder: 'tools', transparent: true,
+  },
+  {
+    filename: 'shiny-button.png',
+    prompt: 'A cartoon big shiny colorful button or coin, sparkling and glittery, bright rainbow reflections, adorable children\'s game toy for a chicken to peck at',
+    folder: 'tools', transparent: true,
+  },
+  {
+    filename: 'pompom.png',
+    prompt: 'A cartoon fluffy soft pom-pom ball, pastel pink and white fuzzy texture, bouncy and adorable, cute children\'s game toy for a bunny',
+    folder: 'tools', transparent: true,
+  },
 ];
 
 const FOOD_ASSETS: AssetDef[] = [
