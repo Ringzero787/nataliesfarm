@@ -346,42 +346,42 @@ const TOOL_ASSETS: AssetDef[] = [
 const FOOD_ASSETS: AssetDef[] = [
   {
     filename: 'hay.png',
-    prompt: 'A cartoon bundle of golden hay tied with a string, farm animal food, cute game item',
+    prompt: 'A cartoon bundle of golden hay tied with a string, farm animal food, cute game item, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'apple.png',
-    prompt: 'A cartoon shiny red apple with a green leaf on the stem, delicious looking, cute game food item',
+    prompt: 'A cartoon shiny red apple with a green leaf on the stem, delicious looking, cute game food item, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'carrot.png',
-    prompt: 'A cartoon bright orange carrot with green leafy top, fresh and crunchy looking, cute game food item',
+    prompt: 'A cartoon bright orange carrot with green leafy top, fresh and crunchy looking, cute game food item, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'slop.png',
-    prompt: 'A cartoon wooden trough bucket filled with pig slop food, chunky farm feed, cute game item',
+    prompt: 'A cartoon wooden trough bucket filled with pig slop food, chunky farm feed, cute game item, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'grass.png',
-    prompt: 'A cartoon tuft of fresh green grass, bright green blades, farm animal food, cute game item',
+    prompt: 'A cartoon tuft of fresh green grass, bright green blades, farm animal food, cute game item, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'lettuce.png',
-    prompt: 'A cartoon head of fresh green lettuce, crispy leaves, bright green, cute game food item for bunny',
+    prompt: 'A cartoon head of fresh green lettuce, crispy leaves, bright green, cute game food item for bunny, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'grain.png',
-    prompt: 'A cartoon small pile of golden grain seeds, scattered wheat kernels, farm chicken food, cute game food item',
+    prompt: 'A cartoon small pile of golden grain seeds, scattered wheat kernels, farm chicken food, cute game food item, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
   {
     filename: 'corn.png',
-    prompt: 'A cartoon bright yellow ear of corn with green husk partially peeled back, plump kernels, cute game food item for chicken',
+    prompt: 'A cartoon bright yellow ear of corn with green husk partially peeled back, plump kernels, cute game food item for chicken, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
 ];
@@ -507,8 +507,8 @@ const COSMETIC_ASSETS: AssetDef[] = [
     folder: 'cosmetics', transparent: true,
   },
   {
-    filename: 'star-glasses.png',
-    prompt: 'Cute cartoon star-shaped sunglasses with gold frames, fun and sparkly, children\'s game cosmetic item for a farm animal',
+    filename: 'glasses.png',
+    prompt: 'Cute cartoon round eyeglasses with thin colorful frames, simple and adorable, children\'s game cosmetic wearable accessory for a farm animal, front-facing view',
     folder: 'cosmetics', transparent: true,
   },
   {

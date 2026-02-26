@@ -87,7 +87,7 @@ export const COSMETICS: CosmeticItem[] = [
   { id: 'red-bow',        name: 'Red Bow',        type: 'bow',      starsToUnlock: 5,   offsetY: -60 },
   { id: 'cowboy-hat',     name: 'Cowboy Hat',     type: 'hat',      starsToUnlock: 15,  offsetY: -70 },
   { id: 'pink-tiara',     name: 'Pink Tiara',     type: 'tiara',    starsToUnlock: 25,  offsetY: -70 },
-  { id: 'star-glasses',   name: 'Star Glasses',   type: 'glasses',  starsToUnlock: 40,  offsetY: -35 },
+  { id: 'glasses',         name: 'Glasses',         type: 'glasses',  starsToUnlock: 40,  offsetY: -35 },
   { id: 'daisy-necklace', name: 'Daisy Necklace', type: 'necklace', starsToUnlock: 65,  offsetY: 20,  renderBehind: true },
   { id: 'gold-crown',     name: 'Gold Crown',     type: 'crown',    starsToUnlock: 90,  offsetY: -75 },
 ];

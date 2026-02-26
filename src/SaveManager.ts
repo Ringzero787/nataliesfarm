@@ -153,6 +153,19 @@ class SaveManagerClass {
       }
     }
 
+    // Migrate star-glasses → glasses
+    if (data.unlockedCosmetics) {
+      const idx = data.unlockedCosmetics.indexOf('star-glasses');
+      if (idx !== -1) data.unlockedCosmetics[idx] = 'glasses';
+    }
+    if (data.equippedCosmetics) {
+      for (const animal of ANIMAL_ORDER) {
+        if (data.equippedCosmetics[animal] === 'star-glasses') {
+          data.equippedCosmetics[animal] = 'glasses';
+        }
+      }
+    }
+
     // Add cosmetic fields if missing
     if (!data.unlockedCosmetics) {
       data.unlockedCosmetics = [];
