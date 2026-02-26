@@ -122,11 +122,11 @@ export class CleaningScene extends Phaser.Scene {
     const floorBottom = GAME_HEIGHT - 80;
     const dirtPositions: { x: number; y: number; size: number; type: 'dirt' | 'hay' | 'mud' }[] = [];
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 10; i++) {
       dirtPositions.push({
         x: 120 + Math.random() * (GAME_WIDTH - 525),
         y: floorTop + Math.random() * (floorBottom - floorTop),
-        size: 23 + Math.random() * 38,
+        size: 40 + Math.random() * 45,
         type: ['dirt', 'hay', 'mud'][Math.floor(Math.random() * 3)] as 'dirt' | 'hay' | 'mud',
       });
     }
@@ -135,22 +135,31 @@ export class CleaningScene extends Phaser.Scene {
 
     dirtPositions.forEach((pos) => {
       const dirt = this.add.graphics();
-      const colors = { dirt: 0x5D4037, hay: 0xDAA520, mud: 0x795548 };
+      const colors = { dirt: 0x3E2723, hay: 0xF9A825, mud: 0x4E342E };
       const color = colors[pos.type];
 
-      dirt.fillStyle(color, 0.8);
+      // Dark outline for visibility
+      dirt.lineStyle(4, 0x1A0E0A, 0.7);
+      dirt.strokeCircle(pos.x, pos.y, pos.size + 2);
+
+      // Main blob
+      dirt.fillStyle(color, 1);
       dirt.fillCircle(pos.x, pos.y, pos.size);
       dirt.fillCircle(pos.x + pos.size * 0.4, pos.y - pos.size * 0.2, pos.size * 0.7);
       dirt.fillCircle(pos.x - pos.size * 0.3, pos.y + pos.size * 0.3, pos.size * 0.6);
 
+      // Lighter highlight
+      dirt.fillStyle(0xFFFFFF, 0.15);
+      dirt.fillCircle(pos.x - pos.size * 0.15, pos.y - pos.size * 0.2, pos.size * 0.4);
+
       if (pos.type === 'hay') {
-        dirt.lineStyle(3, 0xB8860B, 0.6);
-        for (let j = 0; j < 4; j++) {
+        dirt.lineStyle(4, 0xF57F17, 0.8);
+        for (let j = 0; j < 5; j++) {
           const angle = Math.random() * Math.PI * 2;
           dirt.lineBetween(
             pos.x, pos.y,
-            pos.x + Math.cos(angle) * pos.size * 1.2,
-            pos.y + Math.sin(angle) * pos.size * 0.8,
+            pos.x + Math.cos(angle) * pos.size * 1.3,
+            pos.y + Math.sin(angle) * pos.size * 0.9,
           );
         }
       }
