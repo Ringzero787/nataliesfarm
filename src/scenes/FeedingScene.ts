@@ -175,7 +175,7 @@ export class FeedingScene extends Phaser.Scene {
       ],
       bunny: [
         { key: 'carrot', label: 'Carrot' },
-        { key: 'lettuce', label: 'Lettuce' },
+        { key: 'lettuce', label: 'Cabbage' },
         { key: 'apple', label: 'Apple' },
       ],
     };
@@ -346,13 +346,16 @@ export class FeedingScene extends Phaser.Scene {
       },
     });
 
-    this.animalSprite.setTexture(`${this.currentAnimal}-eating`);
-    this.animalSprite.setFlipX(true);
-    this.time.delayedCall(800, () => {
-      if (!this.completed) {
-        this.animalSprite.setTexture(`${this.currentAnimal}-idle`);
-        this.animalSprite.setFlipX(true);
-      }
+    // Quick open-close mouth effect via scale pulse instead of texture swap
+    // (texture swap causes visual inconsistency with AI-generated poses)
+    this.tweens.add({
+      targets: this.animalSprite,
+      scaleX: 0.6,
+      scaleY: 0.66,
+      duration: 200,
+      yoyo: true,
+      repeat: 1,
+      ease: 'Sine.easeInOut',
     });
 
     this.tweens.add({
