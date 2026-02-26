@@ -199,6 +199,44 @@ const CHICKEN_ASSETS: AssetDef[] = [
   },
 ];
 
+const GOAT_ASSETS: AssetDef[] = [
+  {
+    filename: 'goat-idle.png',
+    prompt: 'A cute cartoon grey and white goat standing with a playful expression, short curved horns, floppy ears, small beard, big round expressive eyes, sturdy body',
+    folder: 'goat', transparent: true,
+  },
+  {
+    filename: 'goat-eating.png',
+    prompt: 'A cute cartoon grey and white goat munching on hay, mouth full and chewing happily, bits of hay sticking out, content expression, floppy ears',
+    folder: 'goat', transparent: true,
+  },
+  {
+    filename: 'goat-happy.png',
+    prompt: 'A cute cartoon grey and white goat jumping and prancing with joy, all four hooves off the ground, huge smile, ears perked up, tail wagging',
+    folder: 'goat', transparent: true,
+  },
+  {
+    filename: 'goat-dirty.png',
+    prompt: 'A cute cartoon grey and white goat covered in mud and dirt, messy fur with mud patches, looking mischievous, dirty hooves and beard',
+    folder: 'goat', transparent: true,
+  },
+  {
+    filename: 'goat-clean.png',
+    prompt: 'A cute cartoon grey and white goat freshly cleaned, bright shiny fur, sparkles around it, gleaming horns, proud fluffy posture',
+    folder: 'goat', transparent: true,
+  },
+  {
+    filename: 'goat-wet.png',
+    prompt: 'A cute cartoon grey and white goat dripping wet, fur flat and soggy, water droplets flying off, surprised grumpy expression, droopy ears',
+    folder: 'goat', transparent: true,
+  },
+  {
+    filename: 'goat-brushed.png',
+    prompt: 'A cute cartoon grey and white goat with perfectly groomed fluffy fur, extra soft and shiny coat, content expression with eyes half-closed, sparkles on fur',
+    folder: 'goat', transparent: true,
+  },
+];
+
 const BUNNY_ASSETS: AssetDef[] = [
   {
     filename: 'bunny-idle.png',
@@ -459,6 +497,7 @@ const ASSET_GROUPS: Record<string, AssetDef[]> = {
   horse: HORSE_ASSETS,
   pig: PIG_ASSETS,
   chicken: CHICKEN_ASSETS,
+  goat: GOAT_ASSETS,
   sheep: SHEEP_ASSETS,
   bunny: BUNNY_ASSETS,
   tools: TOOL_ASSETS,

@@ -49,7 +49,7 @@ export class BootScene extends Phaser.Scene {
     const sprites = 'assets/sprites';
 
     // Animals
-    const animals = ['horse', 'pig', 'chicken', 'sheep', 'bunny'];
+    const animals = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny'];
     const poses = ['idle', 'eating', 'happy', 'dirty', 'clean', 'wet', 'brushed'];
     for (const animal of animals) {
       for (const pose of poses) {
@@ -108,10 +108,10 @@ export class BootScene extends Phaser.Scene {
   }
 
   private generateFallbacks(): void {
-    const animals = ['horse', 'pig', 'chicken', 'sheep', 'bunny'];
+    const animals = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny'];
     const poses = ['idle', 'eating', 'happy', 'dirty', 'clean', 'wet', 'brushed'];
     const animalColors: Record<string, number> = {
-      horse: 0x8B6914, pig: 0xFFB6C1, chicken: 0xFFD700, sheep: 0xF5F5DC, bunny: 0xD2B48C,
+      horse: 0x8B6914, pig: 0xFFB6C1, chicken: 0xFFD700, goat: 0x9E9E9E, sheep: 0xF5F5DC, bunny: 0xD2B48C,
     };
 
     for (const animal of animals) {

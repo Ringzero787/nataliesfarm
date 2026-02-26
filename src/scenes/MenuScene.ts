@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT, COLORS } from '../config';
-import { getSoundManager, TRACK_NAMES } from '../SoundManager';
+import { getSoundManager } from '../SoundManager';
 
 export class MenuScene extends Phaser.Scene {
   constructor() {
@@ -148,7 +148,6 @@ export class MenuScene extends Phaser.Scene {
       const sfx = getSoundManager(this);
       sfx.resume();
       sfx.playClick();
-      sfx.startBGM();
       this.tweens.add({
         targets: [playBtn, playText, horse],
         scaleX: 0.95,
@@ -182,77 +181,6 @@ export class MenuScene extends Phaser.Scene {
       });
     });
 
-    // ── Music Selector (big kid-friendly toggle) ──
-    this.createMusicSelector();
-
     this.cameras.main.fadeIn(500);
-  }
-
-  private createMusicSelector(): void {
-    const sfx = getSoundManager(this);
-    const cx = GAME_WIDTH / 2;
-    const cy = GAME_HEIGHT - 28;
-    const pillW = 240;
-    const pillH = 50;
-
-    // Background pill — polished with shadow, gradient, border
-    const musicBg = this.add.graphics();
-    const drawMusicBg = (hover = false) => {
-      musicBg.clear();
-      // Drop shadow
-      musicBg.fillStyle(0x311B92, 0.4);
-      musicBg.fillRoundedRect(cx - pillW / 2 + 2, cy - pillH / 2 + 3, pillW, pillH, 25);
-      // Dark base
-      musicBg.fillStyle(hover ? 0x673AB7 : 0x512DA8, 1);
-      musicBg.fillRoundedRect(cx - pillW / 2, cy - pillH / 2, pillW, pillH, 25);
-      // Lighter body
-      musicBg.fillStyle(hover ? 0x9575CD : 0x7E57C2, 1);
-      musicBg.fillRoundedRect(cx - pillW / 2 + 2, cy - pillH / 2 + 2, pillW - 4, pillH * 0.6, 22);
-      // Top shine
-      musicBg.fillStyle(0xD1C4E9, 0.3);
-      musicBg.fillRoundedRect(cx - pillW / 2 + 6, cy - pillH / 2 + 4, pillW - 12, pillH * 0.3, 16);
-      // Border
-      musicBg.lineStyle(2, 0x4527A0, 1);
-      musicBg.strokeRoundedRect(cx - pillW / 2, cy - pillH / 2, pillW, pillH, 25);
-    };
-    drawMusicBg();
-
-    // Note icon on the left
-    const noteIcon = this.add.text(cx - pillW / 2 + 32, cy, '🎵', {
-      fontSize: '26px',
-    }).setOrigin(0.5);
-
-    // Track name label — centered in the pill
-    const trackLabel = this.add.text(cx + 14, cy, sfx.currentTrackName, {
-      fontSize: '20px',
-      fontFamily: 'Fredoka, Arial, sans-serif',
-      fontStyle: 'bold',
-      color: '#FFFFFF',
-      stroke: '#4A148C',
-      strokeThickness: 3,
-    }).setOrigin(0.5);
-
-    // Hit zone
-    const musicHit = this.add.zone(cx, cy, pillW, pillH).setInteractive({ useHandCursor: true });
-
-    musicHit.on('pointerover', () => drawMusicBg(true));
-    musicHit.on('pointerout', () => drawMusicBg(false));
-
-    musicHit.on('pointerdown', () => {
-      sfx.resume();
-      sfx.switchTrack();
-      trackLabel.setText(sfx.currentTrackName);
-      sfx.playClick();
-
-      // Bounce the note icon
-      this.tweens.add({
-        targets: noteIcon,
-        scaleX: 1.3,
-        scaleY: 1.3,
-        duration: 100,
-        yoyo: true,
-        ease: 'Back.easeOut',
-      });
-    });
   }
 }

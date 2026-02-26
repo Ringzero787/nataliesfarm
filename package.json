@@ -17,6 +17,8 @@
     "generate:horse": "npx tsx scripts/generate-assets.ts horse",
     "generate:pig": "npx tsx scripts/generate-assets.ts pig",
     "generate:sheep": "npx tsx scripts/generate-assets.ts sheep",
+    "generate:chicken": "npx tsx scripts/generate-assets.ts chicken",
+    "generate:goat": "npx tsx scripts/generate-assets.ts goat",
     "generate:bunny": "npx tsx scripts/generate-assets.ts bunny",
     "generate:tools": "npx tsx scripts/generate-assets.ts tools",
     "generate:food": "npx tsx scripts/generate-assets.ts food",

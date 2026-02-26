@@ -98,15 +98,6 @@ export class BarnScene extends Phaser.Scene {
       color: '#FFD700',
     }).setOrigin(0, 0.5);
 
-    // Mute toggle
-    const sfx = getSoundManager(this);
-    const muteBtn = this.add.text(GAME_WIDTH - 25, 25, sfx.isMuted ? '🔇' : '🔊', {
-      fontSize: '22px',
-    }).setOrigin(1, 0.5).setInteractive({ useHandCursor: true });
-    muteBtn.on('pointerdown', () => {
-      sfx.toggleMute();
-      muteBtn.setText(sfx.isMuted ? '🔇' : '🔊');
-    });
   }
 
   private placeAnimal(): void {

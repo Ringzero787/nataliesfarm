@@ -158,6 +158,11 @@ export class FeedingScene extends Phaser.Scene {
         { key: 'corn', label: 'Corn' },
         { key: 'apple', label: 'Apple' },
       ],
+      goat: [
+        { key: 'hay', label: 'Hay' },
+        { key: 'grass', label: 'Grass' },
+        { key: 'apple', label: 'Apple' },
+      ],
       sheep: [
         { key: 'grass', label: 'Grass' },
         { key: 'hay', label: 'Hay' },
