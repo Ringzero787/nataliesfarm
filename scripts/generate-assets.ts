@@ -332,6 +332,11 @@ const TOOL_ASSETS: AssetDef[] = [
     folder: 'tools', transparent: true,
   },
   {
+    filename: 'teddy-bear.png',
+    prompt: 'A cartoon cute small brown stuffed teddy bear toy, soft and cuddly with button eyes, adorable children\'s game toy',
+    folder: 'tools', transparent: true,
+  },
+  {
     filename: 'pompom.png',
     prompt: 'A cartoon fluffy soft pom-pom ball, pastel pink and white fuzzy texture, bouncy and adorable, cute children\'s game toy for a bunny',
     folder: 'tools', transparent: true,

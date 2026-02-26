@@ -10,7 +10,7 @@ import { SaveManager, StarAwardResult } from '../SaveManager';
 const ANIMAL_TOYS: Record<AnimalType, { texture: string; name: string }> = {
   horse:   { texture: 'tool-cowbell',       name: 'Cowbell' },
   pig:     { texture: 'tool-rubber-duck',   name: 'Rubber Duck' },
-  chicken: { texture: 'tool-shiny-button',  name: 'Shiny Button' },
+  chicken: { texture: 'tool-teddy-bear',    name: 'Teddy Bear' },
   goat:    { texture: 'tool-toy',           name: 'Ball' },
   sheep:   { texture: 'tool-toy',           name: 'Yarn Ball' },
   bunny:   { texture: 'tool-pompom',        name: 'Pom-Pom' },
