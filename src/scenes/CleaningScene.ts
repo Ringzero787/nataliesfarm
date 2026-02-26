@@ -114,13 +114,14 @@ export class CleaningScene extends Phaser.Scene {
   }
 
   private createDirtPiles(): void {
-    const floorY = GAME_HEIGHT - 150;
+    const floorTop = GAME_HEIGHT * 0.55;
+    const floorBottom = GAME_HEIGHT - 80;
     const dirtPositions: { x: number; y: number; size: number; type: 'dirt' | 'hay' | 'mud' }[] = [];
 
     for (let i = 0; i < 12; i++) {
       dirtPositions.push({
         x: 120 + Math.random() * (GAME_WIDTH - 525),
-        y: floorY + 30 + Math.random() * 150,
+        y: floorTop + Math.random() * (floorBottom - floorTop),
         size: 23 + Math.random() * 38,
         type: ['dirt', 'hay', 'mud'][Math.floor(Math.random() * 3)] as 'dirt' | 'hay' | 'mud',
       });
