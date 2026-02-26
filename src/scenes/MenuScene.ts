@@ -15,64 +15,64 @@ export class MenuScene extends Phaser.Scene {
 
     // Ground
     bg.fillStyle(COLORS.hay, 1);
-    bg.fillRect(0, GAME_HEIGHT - 120, GAME_WIDTH, 120);
+    bg.fillRect(0, GAME_HEIGHT - 180, GAME_WIDTH, 180);
 
     // Barn silhouette in background
     bg.fillStyle(COLORS.barnWall, 1);
-    bg.fillRect(GAME_WIDTH / 2 - 200, GAME_HEIGHT - 320, 400, 200);
+    bg.fillRect(GAME_WIDTH / 2 - 300, GAME_HEIGHT - 480, 600, 300);
     // Roof
     bg.fillStyle(COLORS.barnRoof, 1);
     bg.fillTriangle(
-      GAME_WIDTH / 2 - 230, GAME_HEIGHT - 320,
-      GAME_WIDTH / 2, GAME_HEIGHT - 440,
-      GAME_WIDTH / 2 + 230, GAME_HEIGHT - 320,
+      GAME_WIDTH / 2 - 345, GAME_HEIGHT - 480,
+      GAME_WIDTH / 2, GAME_HEIGHT - 660,
+      GAME_WIDTH / 2 + 345, GAME_HEIGHT - 480,
     );
     // Barn door
     bg.fillStyle(COLORS.wood, 1);
-    bg.fillRoundedRect(GAME_WIDTH / 2 - 50, GAME_HEIGHT - 240, 100, 120, { tl: 50, tr: 50, bl: 0, br: 0 });
+    bg.fillRoundedRect(GAME_WIDTH / 2 - 75, GAME_HEIGHT - 360, 150, 180, { tl: 75, tr: 75, bl: 0, br: 0 });
 
     // Sun
     bg.fillStyle(0xFFEB3B, 1);
-    bg.fillCircle(180, 100, 50);
-    bg.lineStyle(4, 0xFFEB3B, 0.5);
+    bg.fillCircle(270, 150, 75);
+    bg.lineStyle(6, 0xFFEB3B, 0.5);
     for (let i = 0; i < 8; i++) {
       const angle = (i / 8) * Math.PI * 2;
       bg.lineBetween(
-        180 + Math.cos(angle) * 60, 100 + Math.sin(angle) * 60,
-        180 + Math.cos(angle) * 80, 100 + Math.sin(angle) * 80,
+        270 + Math.cos(angle) * 90, 150 + Math.sin(angle) * 90,
+        270 + Math.cos(angle) * 120, 150 + Math.sin(angle) * 120,
       );
     }
 
     // Fence
     bg.fillStyle(COLORS.woodLight, 1);
-    for (let x = 0; x < GAME_WIDTH; x += 70) {
-      bg.fillRect(x + 10, GAME_HEIGHT - 160, 8, 50);
+    for (let x = 0; x < GAME_WIDTH; x += 105) {
+      bg.fillRect(x + 10, GAME_HEIGHT - 240, 12, 75);
     }
-    bg.fillRect(0, GAME_HEIGHT - 150, GAME_WIDTH, 6);
-    bg.fillRect(0, GAME_HEIGHT - 130, GAME_WIDTH, 6);
+    bg.fillRect(0, GAME_HEIGHT - 225, GAME_WIDTH, 9);
+    bg.fillRect(0, GAME_HEIGHT - 195, GAME_WIDTH, 9);
 
     // Title — use logo image if available, otherwise text
     if (this.textures.exists('ui-logo') && this.textures.get('ui-logo').key !== '__MISSING') {
-      const logo = this.add.image(GAME_WIDTH / 2, 75, 'ui-logo').setScale(0.28);
+      const logo = this.add.image(GAME_WIDTH / 2, 112, 'ui-logo').setScale(0.42);
       this.tweens.add({
         targets: logo,
-        y: 82,
+        y: 123,
         duration: 2000,
         yoyo: true,
         repeat: -1,
         ease: 'Sine.easeInOut',
       });
     } else {
-      const title = this.add.text(GAME_WIDTH / 2, 75, "🐴 Natalie's Farm 🌾", {
-        fontSize: '64px',
+      const title = this.add.text(GAME_WIDTH / 2, 112, "🐴 Natalie's Farm 🌾", {
+        fontSize: '96px',
         fontFamily: 'Fredoka, Arial Rounded MT Bold, sans-serif',
         color: '#5D4037',
         stroke: '#FFFFFF',
-        strokeThickness: 8,
+        strokeThickness: 12,
       }).setOrigin(0.5);
       this.tweens.add({
         targets: title,
-        y: 82,
+        y: 123,
         duration: 2000,
         yoyo: true,
         repeat: -1,
@@ -82,11 +82,11 @@ export class MenuScene extends Phaser.Scene {
 
     // Hero horse — big and centered in front of the barn
     const horse = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.48, 'horse-happy')
-      .setScale(0.40);
+      .setScale(0.60);
     this.tweens.add({
       targets: horse,
-      scaleY: 0.41,
-      scaleX: 0.39,
+      scaleY: 0.615,
+      scaleX: 0.585,
       duration: 1800,
       yoyo: true,
       repeat: -1,
@@ -95,51 +95,51 @@ export class MenuScene extends Phaser.Scene {
 
     // Subtitle below horse
     this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.72, 'Farm Animal Friends!', {
-      fontSize: '26px',
+      fontSize: '39px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#795548',
       stroke: '#FFFFFF',
-      strokeThickness: 4,
+      strokeThickness: 6,
     }).setOrigin(0.5);
 
     // Play button — polished with shadow, gradient bands, border
     const playBtn = this.add.graphics();
-    const btnX = GAME_WIDTH / 2 - 130;
+    const btnX = GAME_WIDTH / 2 - 195;
     const btnY = GAME_HEIGHT * 0.78;
     const drawPlayBtn = (hover = false) => {
       playBtn.clear();
       // Drop shadow
       playBtn.fillStyle(0x1B5E20, 0.5);
-      playBtn.fillRoundedRect(btnX + 3, btnY + 5, 260, 70, 18);
+      playBtn.fillRoundedRect(btnX + 4, btnY + 7, 390, 105, 27);
       // Dark base
       playBtn.fillStyle(hover ? 0x43A047 : 0x388E3C, 1);
-      playBtn.fillRoundedRect(btnX, btnY, 260, 70, 18);
+      playBtn.fillRoundedRect(btnX, btnY, 390, 105, 27);
       // Main body gradient
       playBtn.fillStyle(hover ? 0x66BB6A : 0x4CAF50, 1);
-      playBtn.fillRoundedRect(btnX + 2, btnY + 2, 256, 52, 16);
+      playBtn.fillRoundedRect(btnX + 3, btnY + 3, 384, 78, 24);
       // Top highlight
       playBtn.fillStyle(hover ? 0xA5D6A7 : 0x81C784, 1);
-      playBtn.fillRoundedRect(btnX + 6, btnY + 4, 248, 22, 12);
+      playBtn.fillRoundedRect(btnX + 9, btnY + 6, 372, 33, 18);
       // Inner glow
       playBtn.fillStyle(0xC8E6C9, 0.3);
-      playBtn.fillRoundedRect(btnX + 10, btnY + 6, 240, 12, 8);
+      playBtn.fillRoundedRect(btnX + 15, btnY + 9, 360, 18, 12);
       // Border
       playBtn.lineStyle(2, 0x2E7D32, 1);
-      playBtn.strokeRoundedRect(btnX, btnY, 260, 70, 18);
+      playBtn.strokeRoundedRect(btnX, btnY, 390, 105, 27);
     };
     drawPlayBtn();
 
-    const playText = this.add.text(GAME_WIDTH / 2, btnY + 35, 'PLAY!', {
-      fontSize: '40px',
+    const playText = this.add.text(GAME_WIDTH / 2, btnY + 52, 'PLAY!', {
+      fontSize: '60px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#2E7D32',
-      strokeThickness: 5,
+      strokeThickness: 8,
       shadow: { offsetX: 2, offsetY: 2, color: '#1B5E20', blur: 4, fill: true, stroke: false },
     }).setOrigin(0.5);
 
-    const hitZone = this.add.zone(GAME_WIDTH / 2, btnY + 35, 260, 70).setInteractive({ useHandCursor: true });
+    const hitZone = this.add.zone(GAME_WIDTH / 2, btnY + 52, 390, 105).setInteractive({ useHandCursor: true });
 
     hitZone.on('pointerover', () => drawPlayBtn(true));
     hitZone.on('pointerout', () => drawPlayBtn(false));
@@ -165,15 +165,15 @@ export class MenuScene extends Phaser.Scene {
 
     // Other animal friends flanking the sides
     const sideAnimals = [
-      { key: 'pig', x: 120, y: GAME_HEIGHT - 65, scale: 0.07 },
-      { key: 'sheep', x: GAME_WIDTH - 200, y: GAME_HEIGHT - 65, scale: 0.07 },
-      { key: 'bunny', x: GAME_WIDTH - 80, y: GAME_HEIGHT - 60, scale: 0.06 },
+      { key: 'pig', x: 180, y: GAME_HEIGHT - 98, scale: 0.105 },
+      { key: 'sheep', x: GAME_WIDTH - 200, y: GAME_HEIGHT - 98, scale: 0.105 },
+      { key: 'bunny', x: GAME_WIDTH - 80, y: GAME_HEIGHT - 90, scale: 0.09 },
     ];
     sideAnimals.forEach((a, i) => {
       const sprite = this.add.image(a.x, a.y, `${a.key}-idle`).setScale(a.scale);
       this.tweens.add({
         targets: sprite,
-        y: a.y - 6,
+        y: a.y - 9,
         duration: 1500 + i * 300,
         yoyo: true,
         repeat: -1,

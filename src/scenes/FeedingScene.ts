@@ -16,7 +16,7 @@ export class FeedingScene extends Phaser.Scene {
   private progressFill!: Phaser.GameObjects.Graphics;
   private animalContainer!: Phaser.GameObjects.Container;
   private animalSprite!: Phaser.GameObjects.Image;
-  private troughX = 540;
+  private troughX = 810;
   private troughY = GAME_HEIGHT * 0.68;
   private completed = false;
 
@@ -56,26 +56,26 @@ export class FeedingScene extends Phaser.Scene {
     }
 
     this.add.text(GAME_WIDTH / 2, 30, 'Feeding Time!', {
-      fontSize: '36px',
+      fontSize: '54px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 5,
+      strokeThickness: 8,
     }).setOrigin(0.5);
 
     this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Drop food in the trough or feed by hand!', {
-      fontSize: '18px',
+      fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#FFE082',
       stroke: '#5D4037',
-      strokeThickness: 3,
+      strokeThickness: 5,
     }).setOrigin(0.5);
 
   }
 
   private placeAnimal(): void {
-    const ax = 280;
+    const ax = 420;
     const ay = GAME_HEIGHT * 0.48;
 
     this.animalContainer = this.add.container(ax, ay);
@@ -112,33 +112,33 @@ export class FeedingScene extends Phaser.Scene {
   }
 
   private createProgressBar(): void {
-    const barX = GAME_WIDTH / 2 - 150;
+    const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
-    const barW = 300;
-    const barH = 25;
+    const barW = 450;
+    const barH = 38;
 
     const bgBar = this.add.graphics();
     bgBar.fillStyle(0x5D4037, 1);
-    bgBar.fillRoundedRect(barX, barY, barW, barH, 6);
-    bgBar.lineStyle(2, 0x3E2723);
-    bgBar.strokeRoundedRect(barX, barY, barW, barH, 6);
+    bgBar.fillRoundedRect(barX, barY, barW, barH, 9);
+    bgBar.lineStyle(3, 0x3E2723);
+    bgBar.strokeRoundedRect(barX, barY, barW, barH, 9);
 
     this.progressFill = this.add.graphics();
     this.updateProgressBar();
 
-    this.add.text(barX - 10, barY + 12, '🍽️', { fontSize: '20px' }).setOrigin(1, 0.5);
+    this.add.text(barX - 15, barY + 12, '🍽️', { fontSize: '30px' }).setOrigin(1, 0.5);
   }
 
   private updateProgressBar(): void {
-    const barX = GAME_WIDTH / 2 - 150;
+    const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
-    const barW = 300;
-    const barH = 25;
+    const barW = 450;
+    const barH = 38;
     this.progressFill.clear();
     this.progressFill.fillStyle(0x4CAF50, 1);
     const fillW = Math.min(barW * this.progress, barW);
     if (fillW > 0) {
-      this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 6);
+      this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 9);
     }
   }
 
@@ -180,13 +180,13 @@ export class FeedingScene extends Phaser.Scene {
 
   private spawnFood(): void {
     const foods = this.getFoodList();
-    const shelfX = GAME_WIDTH - 180;
-    const startY = GAME_HEIGHT / 2 - 90;
-    const spacing = 110;
+    const shelfX = GAME_WIDTH - 270;
+    const startY = GAME_HEIGHT / 2 - 135;
+    const spacing = 165;
 
     const g = this.add.graphics();
     g.fillStyle(COLORS.wood, 0.6);
-    g.fillRoundedRect(shelfX - 70, startY - 50, 140, foods.length * spacing + 20, 10);
+    g.fillRoundedRect(shelfX - 105, startY - 75, 210, foods.length * spacing + 30, 15);
 
     foods.forEach((food, i) => {
       const slotY = startY + i * spacing;
@@ -196,20 +196,20 @@ export class FeedingScene extends Phaser.Scene {
 
   private createFoodSlot(key: string, label: string, slotX: number, slotY: number): void {
     const textureKey = `food-${key}`;
-    this.add.text(slotX, slotY + 45, label, {
-      fontSize: '14px',
+    this.add.text(slotX, slotY + 68, label, {
+      fontSize: '21px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 2,
+      strokeThickness: 3,
     }).setOrigin(0.5);
     this.spawnFoodItem(key, textureKey, slotX, slotY);
   }
 
   private spawnFoodItem(key: string, textureKey: string, slotX: number, slotY: number): void {
     const food = this.add.image(slotX, slotY, textureKey)
-      .setScale(0.14)
+      .setScale(0.21)
       .setInteractive({ useHandCursor: true, draggable: true });
 
     (food as any)._foodKey = key;
@@ -230,10 +230,10 @@ export class FeedingScene extends Phaser.Scene {
       }
 
       const troughZone = new Phaser.Geom.Rectangle(
-        this.troughX - 200, this.troughY - 160, 400, 320,
+        this.troughX - 300, this.troughY - 240, 600, 480,
       );
       const mouthZone = new Phaser.Geom.Rectangle(
-        this.animalContainer.x - 120, this.animalContainer.y - 150, 300, 300,
+        this.animalContainer.x - 180, this.animalContainer.y - 225, 450, 450,
       );
 
       if (troughZone.contains(food.x, food.y)) {
@@ -271,9 +271,9 @@ export class FeedingScene extends Phaser.Scene {
     this.tweens.add({
       targets: food,
       x: this.troughX,
-      y: this.troughY - 10,
-      scaleX: 0.08,
-      scaleY: 0.08,
+      y: this.troughY - 15,
+      scaleX: 0.12,
+      scaleY: 0.12,
       duration: 300,
       ease: 'Quad.easeIn',
       onComplete: () => {
@@ -294,7 +294,7 @@ export class FeedingScene extends Phaser.Scene {
     const foodKey = (food as any)._foodKey as string;
     this.tweens.add({
       targets: food,
-      x: this.animalContainer.x + 60,
+      x: this.animalContainer.x + 90,
       y: this.animalContainer.y,
       scaleX: 0,
       scaleY: 0,
@@ -310,23 +310,23 @@ export class FeedingScene extends Phaser.Scene {
   private doFeedReaction(foodKey: string): void {
     getSoundManager(this).playMunch();
 
-    const mouthX = this.animalContainer.x + 70;
-    const mouthY = this.animalContainer.y - 20;
+    const mouthX = this.animalContainer.x + 105;
+    const mouthY = this.animalContainer.y - 30;
     const eatingFood = this.add.image(mouthX, mouthY, `food-${foodKey}`)
-      .setScale(0.08);
+      .setScale(0.12);
 
     this.tweens.add({
       targets: eatingFood,
-      scaleX: 0.05,
-      scaleY: 0.05,
+      scaleX: 0.075,
+      scaleY: 0.075,
       duration: 250,
       delay: 200,
       onComplete: () => {
         this.tweens.add({
           targets: eatingFood,
-          scaleX: 0.02,
-          scaleY: 0.02,
-          y: mouthY + 5,
+          scaleX: 0.03,
+          scaleY: 0.03,
+          y: mouthY + 8,
           duration: 250,
           onComplete: () => {
             this.tweens.add({
@@ -361,13 +361,13 @@ export class FeedingScene extends Phaser.Scene {
 
     for (let i = 0; i < 3; i++) {
       const heart = this.add.image(
-        this.animalContainer.x + Phaser.Math.Between(-40, 40),
-        this.animalContainer.y - 80,
+        this.animalContainer.x + Phaser.Math.Between(-60, 60),
+        this.animalContainer.y - 120,
         'ui-heart',
-      ).setScale(0.03);
+      ).setScale(0.045);
       this.tweens.add({
         targets: heart,
-        y: heart.y - 60 - i * 20,
+        y: heart.y - 90 - i * 30,
         alpha: 0,
         duration: 700 + i * 200,
         ease: 'Sine.easeOut',
@@ -400,10 +400,10 @@ export class FeedingScene extends Phaser.Scene {
       const star = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'ui-star').setScale(0);
       this.tweens.add({
         targets: star,
-        x: GAME_WIDTH / 2 + Math.cos((i / 8) * Math.PI * 2) * 150,
-        y: GAME_HEIGHT / 2 + Math.sin((i / 8) * Math.PI * 2) * 100,
-        scaleX: 0.04,
-        scaleY: 0.04,
+        x: GAME_WIDTH / 2 + Math.cos((i / 8) * Math.PI * 2) * 225,
+        y: GAME_HEIGHT / 2 + Math.sin((i / 8) * Math.PI * 2) * 150,
+        scaleX: 0.06,
+        scaleY: 0.06,
         alpha: 0,
         duration: 1000,
         delay: i * 80,
@@ -411,13 +411,13 @@ export class FeedingScene extends Phaser.Scene {
       });
     }
 
-    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 40, 'Yummy!', {
-      fontSize: '56px',
+    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 60, 'Yummy!', {
+      fontSize: '84px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFD700',
       stroke: '#5D4037',
-      strokeThickness: 6,
+      strokeThickness: 9,
     }).setOrigin(0.5).setScale(0);
 
     this.tweens.add({ targets: txt, scaleX: 1, scaleY: 1, duration: 500, ease: 'Back.easeOut' });
@@ -443,17 +443,17 @@ export class FeedingScene extends Phaser.Scene {
     const name = ANIMALS[animal].name;
     const banner = this.add.graphics();
     banner.fillStyle(0x000000, 0.7);
-    banner.fillRoundedRect(GAME_WIDTH / 2 - 200, GAME_HEIGHT / 2 + 30, 400, 80, 16);
+    banner.fillRoundedRect(GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2 + 45, 600, 120, 24);
 
-    const unlockSprite = this.add.image(GAME_WIDTH / 2 - 140, GAME_HEIGHT / 2 + 70, `${animal}-idle`)
-      .setScale(0.12);
-    const unlockText = this.add.text(GAME_WIDTH / 2 + 20, GAME_HEIGHT / 2 + 60, `NEW FRIEND!\n${name} unlocked!`, {
-      fontSize: '22px',
+    const unlockSprite = this.add.image(GAME_WIDTH / 2 - 210, GAME_HEIGHT / 2 + 105, `${animal}-idle`)
+      .setScale(0.18);
+    const unlockText = this.add.text(GAME_WIDTH / 2 + 30, GAME_HEIGHT / 2 + 90, `NEW FRIEND!\n${name} unlocked!`, {
+      fontSize: '33px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFD700',
       stroke: '#000000',
-      strokeThickness: 3,
+      strokeThickness: 5,
       align: 'center',
     }).setOrigin(0.5);
 
@@ -462,8 +462,8 @@ export class FeedingScene extends Phaser.Scene {
       (obj as any).setScale?.(0);
       this.tweens.add({
         targets: obj,
-        scaleX: obj === unlockSprite ? 0.12 : 1,
-        scaleY: obj === unlockSprite ? 0.12 : 1,
+        scaleX: obj === unlockSprite ? 0.18 : 1,
+        scaleY: obj === unlockSprite ? 0.18 : 1,
         duration: 500,
         ease: 'Back.easeOut',
       });
@@ -473,20 +473,20 @@ export class FeedingScene extends Phaser.Scene {
   private createUI(): void {
     const backGfx = this.add.graphics();
     backGfx.fillStyle(0x000000, 0.4);
-    backGfx.fillRoundedRect(12, 8, 100, 36, 12);
+    backGfx.fillRoundedRect(18, 12, 150, 54, 18);
     backGfx.fillStyle(0xFFFFFF, 0.08);
-    backGfx.fillRoundedRect(14, 10, 96, 16, 10);
-    backGfx.lineStyle(1, 0xFFFFFF, 0.15);
-    backGfx.strokeRoundedRect(12, 8, 100, 36, 12);
+    backGfx.fillRoundedRect(21, 15, 144, 24, 15);
+    backGfx.lineStyle(2, 0xFFFFFF, 0.15);
+    backGfx.strokeRoundedRect(18, 12, 150, 54, 18);
 
-    const backBtn = this.add.text(62, 26, '< Back', {
-      fontSize: '20px',
+    const backBtn = this.add.text(93, 39, '< Back', {
+      fontSize: '30px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 3,
-      shadow: { offsetX: 1, offsetY: 1, color: '#000000', blur: 2, fill: true, stroke: false },
+      strokeThickness: 5,
+      shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, fill: true, stroke: false },
     }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
     backBtn.on('pointerdown', () => {

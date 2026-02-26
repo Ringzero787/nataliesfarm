@@ -56,15 +56,15 @@ export class BarnScene extends Phaser.Scene {
   private createTopBar(): void {
     const topBar = this.add.graphics();
     topBar.fillStyle(0x000000, 0.5);
-    topBar.fillRect(0, 0, GAME_WIDTH, 50);
+    topBar.fillRect(0, 0, GAME_WIDTH, 75);
     topBar.fillStyle(0xFFFFFF, 0.06);
-    topBar.fillRect(0, 0, GAME_WIDTH, 1);
+    topBar.fillRect(0, 0, GAME_WIDTH, 2);
     topBar.fillStyle(0x000000, 0.3);
-    topBar.fillRect(0, 50, GAME_WIDTH, 2);
+    topBar.fillRect(0, 75, GAME_WIDTH, 3);
 
     // Back button
-    const backBtn = this.add.text(20, 25, '< Menu', {
-      fontSize: '20px',
+    const backBtn = this.add.text(30, 38, '< Menu', {
+      fontSize: '30px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
@@ -79,20 +79,20 @@ export class BarnScene extends Phaser.Scene {
 
     // Title
     const nameText = ANIMALS[this.currentAnimal].name;
-    this.add.text(GAME_WIDTH / 2, 25, `${nameText}'s Barn`, {
-      fontSize: '26px',
+    this.add.text(GAME_WIDTH / 2, 38, `${nameText}'s Barn`, {
+      fontSize: '39px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 4,
+      strokeThickness: 6,
     }).setOrigin(0.5);
 
     // Star counter
     const totalStars = SaveManager.getTotalStars();
-    this.add.image(GAME_WIDTH - 90, 25, 'ui-star').setScale(0.025);
-    this.add.text(GAME_WIDTH - 72, 25, `${totalStars}`, {
-      fontSize: '20px',
+    this.add.image(GAME_WIDTH - 135, 38, 'ui-star').setScale(0.0375);
+    this.add.text(GAME_WIDTH - 108, 38, `${totalStars}`, {
+      fontSize: '30px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFD700',
@@ -181,7 +181,7 @@ export class BarnScene extends Phaser.Scene {
     animal.on('pointerdown', () => {
       this.tweens.add({
         targets: this.animalContainer,
-        y: animalY - 15,
+        y: animalY - 23,
         duration: 200,
         yoyo: true,
         ease: 'Back.easeOut',
@@ -192,13 +192,13 @@ export class BarnScene extends Phaser.Scene {
       SaveManager.restoreNeed(this.currentAnimal, 'happiness', TAP_HAPPINESS_BOOST);
 
       const heart = this.add.image(
-        animalX + Phaser.Math.Between(-30, 30),
-        animalY - 80,
+        animalX + Phaser.Math.Between(-45, 45),
+        animalY - 120,
         'ui-heart',
-      ).setScale(0.03);
+      ).setScale(0.045);
       this.tweens.add({
         targets: heart,
-        y: heart.y - 60,
+        y: heart.y - 90,
         alpha: 0,
         duration: 800,
         ease: 'Sine.easeOut',
@@ -215,28 +215,28 @@ export class BarnScene extends Phaser.Scene {
       { key: 'happiness', label: 'Happy', icon: '😊' },
     ];
 
-    const startX = 25;
-    const startY = 75;
-    const barW = 90;
-    const barH = 12;
-    const spacing = 32;
+    const startX = 38;
+    const startY = 113;
+    const barW = 135;
+    const barH = 18;
+    const spacing = 48;
 
     // Background panel
     const panel = this.add.graphics();
     panel.fillStyle(0x000000, 0.35);
-    panel.fillRoundedRect(startX - 10, startY - 18, barW + 50, needList.length * spacing + 12, 10);
+    panel.fillRoundedRect(startX - 15, startY - 18, barW + 75, needList.length * spacing + 18, 15);
 
     needList.forEach((need, i) => {
       const y = startY + i * spacing;
       const value = needs[need.key];
 
       // Icon
-      this.add.text(startX, y, need.icon, { fontSize: '14px' }).setOrigin(0, 0.5);
+      this.add.text(startX, y, need.icon, { fontSize: '21px' }).setOrigin(0, 0.5);
 
       // Bar background
       const bg = this.add.graphics();
       bg.fillStyle(0x333333, 0.8);
-      bg.fillRoundedRect(startX + 22, y - barH / 2, barW, barH, 4);
+      bg.fillRoundedRect(startX + 33, y - barH / 2, barW, barH, 6);
 
       // Bar fill
       const fill = this.add.graphics();
@@ -245,14 +245,14 @@ export class BarnScene extends Phaser.Scene {
       else if (value <= 60) color = 0xFFEB3B; // yellow
 
       fill.fillStyle(color, 1);
-      const fillW = Math.max(0, (barW - 2) * (value / 100));
+      const fillW = Math.max(0, (barW - 3) * (value / 100));
       if (fillW > 0) {
-        fill.fillRoundedRect(startX + 23, y - barH / 2 + 1, fillW, barH - 2, 3);
+        fill.fillRoundedRect(startX + 35, y - barH / 2 + 1, fillW, barH - 3, 5);
       }
 
       // Border
       bg.lineStyle(1, 0x555555, 0.6);
-      bg.strokeRoundedRect(startX + 22, y - barH / 2, barW, barH, 4);
+      bg.strokeRoundedRect(startX + 33, y - barH / 2, barW, barH, 6);
     });
   }
 
@@ -270,25 +270,25 @@ export class BarnScene extends Phaser.Scene {
 
     // Show the most urgent need as a floating thought bubble
     const urgent = lowNeeds[0];
-    const bubbleX = animalX + 80;
-    const bubbleY = animalY - 120;
+    const bubbleX = animalX + 120;
+    const bubbleY = animalY - 180;
 
     // Bubble background
     const bg = this.add.graphics();
     bg.fillStyle(0xFFFFFF, 0.9);
-    bg.fillCircle(bubbleX, bubbleY, 25);
+    bg.fillCircle(bubbleX, bubbleY, 38);
     // Small circles leading to animal
-    bg.fillCircle(bubbleX - 20, bubbleY + 30, 8);
-    bg.fillCircle(bubbleX - 30, bubbleY + 45, 5);
+    bg.fillCircle(bubbleX - 20, bubbleY + 45, 12);
+    bg.fillCircle(bubbleX - 30, bubbleY + 68, 8);
 
     const icon = this.add.text(bubbleX, bubbleY, urgent.icon, {
-      fontSize: '22px',
+      fontSize: '33px',
     }).setOrigin(0.5);
 
     // Float animation
     this.tweens.add({
       targets: [bg, icon],
-      y: '-=8',
+      y: '-=12',
       duration: 1200,
       yoyo: true,
       repeat: -1,
@@ -305,25 +305,25 @@ export class BarnScene extends Phaser.Scene {
       { key: 'cleaning', label: 'Barn', icon: 'icon-barn', color: 0x795548, scene: 'CleaningScene' },
     ];
 
-    const btnW = 100;
+    const btnW = 150;
     const totalW = activities.length * btnW;
     const startX = (GAME_WIDTH - totalW) / 2 + btnW / 2;
-    const y = GAME_HEIGHT - 55;
+    const y = GAME_HEIGHT - 83;
 
     // Bottom bar background
     const barBg = this.add.graphics();
-    const barLeft = startX - btnW / 2 - 15;
-    const barTop = y - 45;
-    const barWidth = totalW + 30;
-    const barHeight = 95;
+    const barLeft = startX - btnW / 2 - 23;
+    const barTop = y - 68;
+    const barWidth = totalW + 45;
+    const barHeight = 143;
     barBg.fillStyle(0x1A0E0A, 0.5);
-    barBg.fillRoundedRect(barLeft + 3, barTop + 4, barWidth, barHeight, 18);
+    barBg.fillRoundedRect(barLeft + 5, barTop + 6, barWidth, barHeight, 27);
     barBg.fillStyle(0x3E2723, 0.9);
-    barBg.fillRoundedRect(barLeft, barTop, barWidth, barHeight, 18);
+    barBg.fillRoundedRect(barLeft, barTop, barWidth, barHeight, 27);
     barBg.fillStyle(0x5D4037, 0.6);
-    barBg.fillRoundedRect(barLeft + 2, barTop + 2, barWidth - 4, 12, 14);
-    barBg.lineStyle(2, 0x4E342E, 0.8);
-    barBg.strokeRoundedRect(barLeft, barTop, barWidth, barHeight, 18);
+    barBg.fillRoundedRect(barLeft + 3, barTop + 3, barWidth - 6, 18, 21);
+    barBg.lineStyle(3, 0x4E342E, 0.8);
+    barBg.strokeRoundedRect(barLeft, barTop, barWidth, barHeight, 27);
 
     const darken = (c: number, f: number) => {
       const r = Math.floor(((c >> 16) & 0xFF) * f);
@@ -341,35 +341,35 @@ export class BarnScene extends Phaser.Scene {
     const drawCircleBtn = (gfx: Phaser.GameObjects.Graphics, cx: number, cy: number, color: number, radius: number, hover = false) => {
       gfx.clear();
       gfx.fillStyle(darken(color, 0.4), 0.5);
-      gfx.fillCircle(cx + 2, cy + 3, radius);
+      gfx.fillCircle(cx + 3, cy + 5, radius);
       gfx.fillStyle(darken(color, 0.7), 1);
       gfx.fillCircle(cx, cy, radius);
       gfx.fillStyle(hover ? lighten(color, 1.15) : color, 1);
-      gfx.fillCircle(cx, cy, radius - 3);
+      gfx.fillCircle(cx, cy, radius - 5);
       gfx.fillStyle(lighten(color, 1.3), 0.5);
-      gfx.fillCircle(cx, cy - 2, radius - 7);
+      gfx.fillCircle(cx, cy - 3, radius - 11);
       gfx.fillStyle(0xFFFFFF, hover ? 0.4 : 0.3);
       gfx.fillEllipse(cx, cy - radius * 0.35, radius * 1.2, radius * 0.55);
-      gfx.lineStyle(2, darken(color, 0.5), 1);
+      gfx.lineStyle(3, darken(color, 0.5), 1);
       gfx.strokeCircle(cx, cy, radius);
     };
 
     activities.forEach((act, i) => {
       const x = startX + i * btnW;
       const btnGfx = this.add.graphics();
-      drawCircleBtn(btnGfx, x, y - 10, act.color, 28);
-      this.add.image(x, y - 12, act.icon).setScale(0.045);
-      this.add.text(x, y + 26, act.label, {
-        fontSize: '13px',
+      drawCircleBtn(btnGfx, x, y - 15, act.color, 42);
+      this.add.image(x, y - 15, act.icon).setScale(0.0675);
+      this.add.text(x, y + 39, act.label, {
+        fontSize: '20px',
         fontFamily: 'Fredoka, Arial, sans-serif',
         fontStyle: 'bold',
         color: '#FFFFFF',
-        shadow: { offsetX: 1, offsetY: 1, color: '#000000', blur: 2, fill: true, stroke: false },
+        shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, fill: true, stroke: false },
       }).setOrigin(0.5);
 
-      const hitZone = this.add.zone(x, y, btnW - 10, 90).setInteractive({ useHandCursor: true });
-      hitZone.on('pointerover', () => drawCircleBtn(btnGfx, x, y - 10, act.color, 31, true));
-      hitZone.on('pointerout', () => drawCircleBtn(btnGfx, x, y - 10, act.color, 28));
+      const hitZone = this.add.zone(x, y, btnW - 15, 135).setInteractive({ useHandCursor: true });
+      hitZone.on('pointerover', () => drawCircleBtn(btnGfx, x, y - 15, act.color, 47, true));
+      hitZone.on('pointerout', () => drawCircleBtn(btnGfx, x, y - 15, act.color, 42));
       hitZone.on('pointerdown', () => {
         getSoundManager(this).playClick();
         this.cameras.main.fadeOut(300);
@@ -382,22 +382,22 @@ export class BarnScene extends Phaser.Scene {
 
   private createAnimalSwitcher(): void {
     const animals = ANIMAL_ORDER;
-    const x = GAME_WIDTH - 45;
+    const x = GAME_WIDTH - 68;
     const totalStars = SaveManager.getTotalStars();
 
     // Sidebar background
     const sidebarBg = this.add.graphics();
     // Extra height for wardrobe button at bottom
-    const sidebarH = animals.length * 70 + 60;
+    const sidebarH = animals.length * 105 + 90;
     sidebarBg.fillStyle(0x000000, 0.15);
-    sidebarBg.fillRoundedRect(x - 28, 64, 60, sidebarH, 14);
+    sidebarBg.fillRoundedRect(x - 42, 96, 90, sidebarH, 21);
     sidebarBg.fillStyle(0x000000, 0.35);
-    sidebarBg.fillRoundedRect(x - 30, 60, 60, sidebarH, 14);
+    sidebarBg.fillRoundedRect(x - 45, 90, 90, sidebarH, 21);
     sidebarBg.lineStyle(1, 0xFFFFFF, 0.1);
-    sidebarBg.strokeRoundedRect(x - 30, 60, 60, sidebarH, 14);
+    sidebarBg.strokeRoundedRect(x - 45, 90, 90, sidebarH, 21);
 
     animals.forEach((key, i) => {
-      const y = 95 + i * 70;
+      const y = 143 + i * 105;
       const info = ANIMALS[key];
       const isUnlocked = SaveManager.isUnlocked(key);
 
@@ -405,16 +405,16 @@ export class BarnScene extends Phaser.Scene {
       const circleBg = this.add.graphics();
       if (key === this.currentAnimal) {
         circleBg.fillStyle(0xFFD700, 0.4);
-        circleBg.fillCircle(x, y, 28);
-        circleBg.lineStyle(2, 0xFFD700);
-        circleBg.strokeCircle(x, y, 28);
+        circleBg.fillCircle(x, y, 42);
+        circleBg.lineStyle(3, 0xFFD700);
+        circleBg.strokeCircle(x, y, 42);
       } else {
         circleBg.fillStyle(0x000000, 0.2);
-        circleBg.fillCircle(x, y, 26);
+        circleBg.fillCircle(x, y, 39);
       }
 
       const textureKey = `${key}-idle`;
-      const sprite = this.add.image(x, y, textureKey).setScale(0.055);
+      const sprite = this.add.image(x, y, textureKey).setScale(0.083);
 
       if (!isUnlocked) {
         sprite.setTint(0x555555);
@@ -422,20 +422,20 @@ export class BarnScene extends Phaser.Scene {
         // Star progress text below circle
         const starsNeeded = info.starsToUnlock;
         const progressText = `${totalStars}/${starsNeeded}`;
-        this.add.text(x, y + 22, progressText, {
-          fontSize: '10px',
+        this.add.text(x, y + 33, progressText, {
+          fontSize: '15px',
           fontFamily: 'Fredoka, Arial, sans-serif',
           fontStyle: 'bold',
           color: '#FFD700',
           stroke: '#000000',
-          strokeThickness: 2,
+          strokeThickness: 3,
         }).setOrigin(0.5);
 
         // Small star icon
-        this.add.image(x, y + 33, 'ui-star').setScale(0.012);
+        this.add.image(x, y + 50, 'ui-star').setScale(0.018);
 
         // Lock overlay
-        const lock = this.add.image(x, y - 5, 'ui-lock').setScale(0.03);
+        const lock = this.add.image(x, y - 8, 'ui-lock').setScale(0.045);
         lock.setInteractive({ useHandCursor: true });
         lock.on('pointerdown', () => {
           const remaining = starsNeeded - totalStars;
@@ -443,13 +443,13 @@ export class BarnScene extends Phaser.Scene {
             ? `${info.name} unlocks at ${starsNeeded} stars!\n${remaining} more to go!`
             : `${info.name} is unlocked!`;
           const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, msg, {
-            fontSize: '24px',
+            fontSize: '36px',
             fontFamily: 'Fredoka, Arial, sans-serif',
             color: '#FFFFFF',
             stroke: '#000000',
-            strokeThickness: 4,
+            strokeThickness: 6,
             backgroundColor: '#00000088',
-            padding: { x: 16, y: 8 },
+            padding: { x: 24, y: 12 },
             align: 'center',
           }).setOrigin(0.5);
           this.time.delayedCall(2000, () => txt.destroy());
@@ -467,20 +467,20 @@ export class BarnScene extends Phaser.Scene {
     });
 
     // Wardrobe button below animal switcher
-    const wardrobeY = 95 + animals.length * 70;
+    const wardrobeY = 143 + animals.length * 105;
     const wardGfx = this.add.graphics();
     wardGfx.fillStyle(0x9C27B0, 0.8);
-    wardGfx.fillCircle(x, wardrobeY, 22);
-    wardGfx.lineStyle(2, 0x7B1FA2, 1);
-    wardGfx.strokeCircle(x, wardrobeY, 22);
+    wardGfx.fillCircle(x, wardrobeY, 33);
+    wardGfx.lineStyle(3, 0x7B1FA2, 1);
+    wardGfx.strokeCircle(x, wardrobeY, 33);
     wardGfx.fillStyle(0xFFFFFF, 0.2);
-    wardGfx.fillEllipse(x, wardrobeY - 6, 30, 14);
+    wardGfx.fillEllipse(x, wardrobeY - 9, 45, 21);
 
     const wardrobeIcon = this.textures.exists('ui-wardrobe')
-      ? this.add.image(x, wardrobeY, 'ui-wardrobe').setScale(0.035)
-      : this.add.text(x, wardrobeY, '👗', { fontSize: '18px' }).setOrigin(0.5);
+      ? this.add.image(x, wardrobeY, 'ui-wardrobe').setScale(0.053)
+      : this.add.text(x, wardrobeY, '👗', { fontSize: '27px' }).setOrigin(0.5);
 
-    const wardZone = this.add.zone(x, wardrobeY, 50, 50).setInteractive({ useHandCursor: true });
+    const wardZone = this.add.zone(x, wardrobeY, 75, 75).setInteractive({ useHandCursor: true });
     wardZone.on('pointerdown', () => {
       getSoundManager(this).playClick();
       this.scene.launch('WardrobeScene', { animal: this.currentAnimal });

@@ -58,20 +58,20 @@ export class WashingScene extends Phaser.Scene {
     }
 
     this.add.text(GAME_WIDTH / 2, 30, 'Bath Time!', {
-      fontSize: '36px',
+      fontSize: '54px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#1565C0',
-      strokeThickness: 5,
+      strokeThickness: 8,
     }).setOrigin(0.5);
 
     this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Scrub the animal with the sponge!', {
-      fontSize: '18px',
+      fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#E3F2FD',
       stroke: '#1565C0',
-      strokeThickness: 3,
+      strokeThickness: 5,
     }).setOrigin(0.5);
   }
 
@@ -110,35 +110,35 @@ export class WashingScene extends Phaser.Scene {
   }
 
   private createProgressBar(): void {
-    const barX = GAME_WIDTH / 2 - 150;
+    const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
-    const barW = 300;
-    const barH = 25;
+    const barW = 450;
+    const barH = 38;
     const bg = this.add.graphics();
     bg.fillStyle(0x1565C0, 1);
-    bg.fillRoundedRect(barX, barY, barW, barH, 6);
-    bg.lineStyle(2, 0x0D47A1);
-    bg.strokeRoundedRect(barX, barY, barW, barH, 6);
+    bg.fillRoundedRect(barX, barY, barW, barH, 9);
+    bg.lineStyle(3, 0x0D47A1);
+    bg.strokeRoundedRect(barX, barY, barW, barH, 9);
     this.progressFill = this.add.graphics();
-    this.add.text(barX - 10, barY + 12, '🫧', { fontSize: '20px' }).setOrigin(1, 0.5);
+    this.add.text(barX - 15, barY + 12, '🫧', { fontSize: '30px' }).setOrigin(1, 0.5);
   }
 
   private updateProgressBar(): void {
-    const barX = GAME_WIDTH / 2 - 150;
+    const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
-    const barW = 300;
-    const barH = 25;
+    const barW = 450;
+    const barH = 38;
     this.progressFill.clear();
     this.progressFill.fillStyle(0x2196F3, 1);
     const fillW = Math.min(barW * this.progress, barW);
     if (fillW > 0) {
-      this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 6);
+      this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 9);
     }
   }
 
   private createSponge(): void {
-    this.sponge = this.add.image(GAME_WIDTH - 160, GAME_HEIGHT / 2, 'tool-sponge')
-      .setScale(0.18)
+    this.sponge = this.add.image(GAME_WIDTH - 240, GAME_HEIGHT / 2, 'tool-sponge')
+      .setScale(0.27)
       .setInteractive({ useHandCursor: true, draggable: true });
 
     this.input.setDraggable(this.sponge);
@@ -180,15 +180,15 @@ export class WashingScene extends Phaser.Scene {
     if (Math.random() > 0.3) return;
     const type = Math.random() > 0.5 ? 'ui-bubble' : 'ui-waterdrop';
     const particle = this.add.image(
-      x + Phaser.Math.Between(-30, 30),
-      y + Phaser.Math.Between(-30, 30),
+      x + Phaser.Math.Between(-45, 45),
+      y + Phaser.Math.Between(-45, 45),
       type,
-    ).setScale(Phaser.Math.FloatBetween(0.015, 0.03));
+    ).setScale(Phaser.Math.FloatBetween(0.023, 0.045));
 
     this.tweens.add({
       targets: particle,
-      y: particle.y - 40 - Math.random() * 30,
-      x: particle.x + Phaser.Math.Between(-20, 20),
+      y: particle.y - 60 - Math.random() * 45,
+      x: particle.x + Phaser.Math.Between(-30, 30),
       alpha: 0,
       duration: 600 + Math.random() * 400,
       onComplete: () => particle.destroy(),
@@ -213,20 +213,20 @@ export class WashingScene extends Phaser.Scene {
       });
     }
 
-    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 60, 'Squeaky Clean!', {
-      fontSize: '52px',
+    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 90, 'Squeaky Clean!', {
+      fontSize: '78px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#E3F2FD',
       stroke: '#1565C0',
-      strokeThickness: 6,
+      strokeThickness: 9,
     }).setOrigin(0.5).setScale(0);
 
     this.tweens.add({ targets: txt, scaleX: 1, scaleY: 1, duration: 500, ease: 'Back.easeOut' });
 
     this.time.delayedCall(800, () => {
-      const star = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 20, 'ui-star').setScale(0);
-      this.tweens.add({ targets: star, scaleX: 0.06, scaleY: 0.06, duration: 500, ease: 'Back.easeOut' });
+      const star = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30, 'ui-star').setScale(0);
+      this.tweens.add({ targets: star, scaleX: 0.09, scaleY: 0.09, duration: 500, ease: 'Back.easeOut' });
     });
 
     const delay = result.newAnimals.length > 0 ? 5000 : 3000;
@@ -249,17 +249,17 @@ export class WashingScene extends Phaser.Scene {
     const name = ANIMALS[animal].name;
     const banner = this.add.graphics();
     banner.fillStyle(0x000000, 0.7);
-    banner.fillRoundedRect(GAME_WIDTH / 2 - 200, GAME_HEIGHT / 2 + 30, 400, 80, 16);
+    banner.fillRoundedRect(GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2 + 45, 600, 120, 24);
 
-    this.add.image(GAME_WIDTH / 2 - 140, GAME_HEIGHT / 2 + 70, `${animal}-idle`)
-      .setScale(0.12);
-    this.add.text(GAME_WIDTH / 2 + 20, GAME_HEIGHT / 2 + 60, `NEW FRIEND!\n${name} unlocked!`, {
-      fontSize: '22px',
+    this.add.image(GAME_WIDTH / 2 - 210, GAME_HEIGHT / 2 + 105, `${animal}-idle`)
+      .setScale(0.18);
+    this.add.text(GAME_WIDTH / 2 + 30, GAME_HEIGHT / 2 + 90, `NEW FRIEND!\n${name} unlocked!`, {
+      fontSize: '33px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFD700',
       stroke: '#000000',
-      strokeThickness: 3,
+      strokeThickness: 5,
       align: 'center',
     }).setOrigin(0.5);
   }
@@ -267,20 +267,20 @@ export class WashingScene extends Phaser.Scene {
   private createUI(): void {
     const backGfx = this.add.graphics();
     backGfx.fillStyle(0x000000, 0.4);
-    backGfx.fillRoundedRect(12, 8, 100, 36, 12);
+    backGfx.fillRoundedRect(18, 12, 150, 54, 18);
     backGfx.fillStyle(0xFFFFFF, 0.08);
-    backGfx.fillRoundedRect(14, 10, 96, 16, 10);
-    backGfx.lineStyle(1, 0xFFFFFF, 0.15);
-    backGfx.strokeRoundedRect(12, 8, 100, 36, 12);
+    backGfx.fillRoundedRect(21, 15, 144, 24, 15);
+    backGfx.lineStyle(2, 0xFFFFFF, 0.15);
+    backGfx.strokeRoundedRect(18, 12, 150, 54, 18);
 
-    const backBtn = this.add.text(62, 26, '< Back', {
-      fontSize: '20px',
+    const backBtn = this.add.text(93, 39, '< Back', {
+      fontSize: '30px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 3,
-      shadow: { offsetX: 1, offsetY: 1, color: '#000000', blur: 2, fill: true, stroke: false },
+      strokeThickness: 5,
+      shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, fill: true, stroke: false },
     }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
     backBtn.on('pointerdown', () => {

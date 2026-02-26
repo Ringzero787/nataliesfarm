@@ -12,8 +12,8 @@ export class BootScene extends Phaser.Scene {
 
   preload(): void {
     // ── Loading bar ──────────────────────────────────────────
-    const barW = 400;
-    const barH = 30;
+    const barW = 600;
+    const barH = 45;
     const barX = (GAME_WIDTH - barW) / 2;
     const barY = GAME_HEIGHT / 2;
 
@@ -21,18 +21,18 @@ export class BootScene extends Phaser.Scene {
 
     const bg = this.add.graphics();
     bg.fillStyle(0x5D4037, 1);
-    bg.fillRect(barX - 4, barY - 4, barW + 8, barH + 8);
+    bg.fillRect(barX - 6, barY - 6, barW + 12, barH + 12);
 
     const bar = this.add.graphics();
 
-    const loadingText = this.add.text(GAME_WIDTH / 2, barY - 30, "Loading Natalie's Farm...", {
-      fontSize: '24px',
+    const loadingText = this.add.text(GAME_WIDTH / 2, barY - 45, "Loading Natalie's Farm...", {
+      fontSize: '36px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#FFE082',
     }).setOrigin(0.5);
 
-    const pctText = this.add.text(GAME_WIDTH / 2, barY + barH + 20, '0%', {
-      fontSize: '18px',
+    const pctText = this.add.text(GAME_WIDTH / 2, barY + barH + 30, '0%', {
+      fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#FFFFFF',
     }).setOrigin(0.5);
@@ -118,7 +118,7 @@ export class BootScene extends Phaser.Scene {
       for (const pose of poses) {
         const key = `${animal}-${pose}`;
         if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-          this.createFallbackTexture(key, 150, 150, animalColors[animal]);
+          this.createFallbackTexture(key, 225, 225, animalColors[animal]);
         }
       }
     }
@@ -128,7 +128,7 @@ export class BootScene extends Phaser.Scene {
     for (const tool of tools) {
       const key = `tool-${tool}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-        this.createFallbackTexture(key, 60, 60, 0x8B4513);
+        this.createFallbackTexture(key, 90, 90, 0x8B4513);
       }
     }
 
@@ -137,7 +137,7 @@ export class BootScene extends Phaser.Scene {
     for (const food of foods) {
       const key = `food-${food}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-        this.createFallbackTexture(key, 50, 50, 0xFF9800);
+        this.createFallbackTexture(key, 75, 75, 0xFF9800);
       }
     }
 
@@ -145,7 +145,7 @@ export class BootScene extends Phaser.Scene {
     const iconKeys = ['icon-feed', 'icon-brush', 'icon-wash', 'icon-dry', 'icon-barn', 'icon-play'];
     for (const key of iconKeys) {
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-        this.createFallbackTexture(key, 60, 60, 0xFF9800);
+        this.createFallbackTexture(key, 90, 90, 0xFF9800);
       }
     }
 
@@ -153,7 +153,7 @@ export class BootScene extends Phaser.Scene {
     const uiKeys = ['ui-star', 'ui-heart', 'ui-lock', 'ui-sparkle', 'ui-bubble', 'ui-waterdrop', 'ui-logo', 'ui-wardrobe'];
     for (const key of uiKeys) {
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-        this.createFallbackTexture(key, 40, 40, 0xFFD700);
+        this.createFallbackTexture(key, 60, 60, 0xFFD700);
       }
     }
 
@@ -161,7 +161,7 @@ export class BootScene extends Phaser.Scene {
     const envKeys = ['bg-barn', 'bg-wash', 'bg-feed', 'env-haybale', 'env-trough', 'env-lantern'];
     for (const key of envKeys) {
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-        this.createFallbackTexture(key, 200, 120, 0x8B4513);
+        this.createFallbackTexture(key, 300, 180, 0x8B4513);
       }
     }
 
@@ -169,7 +169,7 @@ export class BootScene extends Phaser.Scene {
     for (const cosmetic of COSMETICS) {
       const key = `cosmetic-${cosmetic.id}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
-        this.createFallbackTexture(key, 60, 60, 0xE91E63);
+        this.createFallbackTexture(key, 90, 90, 0xE91E63);
       }
     }
   }
@@ -177,7 +177,7 @@ export class BootScene extends Phaser.Scene {
   private createFallbackTexture(key: string, w: number, h: number, color: number): void {
     const g = this.add.graphics();
     g.fillStyle(color, 1);
-    g.fillRoundedRect(0, 0, w, h, 8);
+    g.fillRoundedRect(0, 0, w, h, 12);
     g.generateTexture(key, w, h);
     g.destroy();
   }

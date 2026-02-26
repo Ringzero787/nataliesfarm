@@ -10,7 +10,7 @@ import { PlayScene } from './scenes/PlayScene';
 import { CleaningScene } from './scenes/CleaningScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 
-// Render all text at device pixel ratio for crisp display on HiDPI/mobile screens
+// Render text at 2x resolution for crisp display on HiDPI screens
 const textDPR = Math.min(window.devicePixelRatio || 1, 3);
 const origTextFactory = Phaser.GameObjects.GameObjectFactory.prototype.text;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

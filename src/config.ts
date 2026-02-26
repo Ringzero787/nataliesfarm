@@ -1,6 +1,6 @@
 /** Game-wide constants */
-export const GAME_WIDTH = 1280;
-export const GAME_HEIGHT = 720;
+export const GAME_WIDTH = 1920;
+export const GAME_HEIGHT = 1080;
 
 /** Font family used for all in-game text */
 export const FONT = 'Fredoka, Arial Rounded MT Bold, Arial, sans-serif';

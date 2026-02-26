@@ -55,20 +55,20 @@ export class PlayScene extends Phaser.Scene {
     }
 
     this.add.text(GAME_WIDTH / 2, 30, 'Playtime!', {
-      fontSize: '36px',
+      fontSize: '54px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#D81B60',
-      strokeThickness: 5,
+      strokeThickness: 8,
     }).setOrigin(0.5);
 
     this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Dangle the toy near your animal!', {
-      fontSize: '18px',
+      fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#FFF9C4',
       stroke: '#5D4037',
-      strokeThickness: 3,
+      strokeThickness: 5,
     }).setOrigin(0.5);
   }
 
@@ -108,35 +108,35 @@ export class PlayScene extends Phaser.Scene {
   }
 
   private createProgressBar(): void {
-    const barX = GAME_WIDTH / 2 - 150;
+    const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
-    const barW = 300;
-    const barH = 25;
+    const barW = 450;
+    const barH = 38;
     const bg = this.add.graphics();
     bg.fillStyle(0x880E4F, 1);
-    bg.fillRoundedRect(barX, barY, barW, barH, 6);
-    bg.lineStyle(2, 0x4A0027);
-    bg.strokeRoundedRect(barX, barY, barW, barH, 6);
+    bg.fillRoundedRect(barX, barY, barW, barH, 9);
+    bg.lineStyle(3, 0x4A0027);
+    bg.strokeRoundedRect(barX, barY, barW, barH, 9);
     this.progressFill = this.add.graphics();
-    this.add.text(barX - 10, barY + 12, '🧶', { fontSize: '20px' }).setOrigin(1, 0.5);
+    this.add.text(barX - 15, barY + 12, '🧶', { fontSize: '30px' }).setOrigin(1, 0.5);
   }
 
   private updateProgressBar(): void {
-    const barX = GAME_WIDTH / 2 - 150;
+    const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
-    const barW = 300;
-    const barH = 25;
+    const barW = 450;
+    const barH = 38;
     this.progressFill.clear();
     this.progressFill.fillStyle(0xFF69B4, 1);
     const fillW = Math.min(barW * this.progress, barW);
     if (fillW > 0) {
-      this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 6);
+      this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 9);
     }
   }
 
   private createToy(): void {
-    this.toy = this.add.image(GAME_WIDTH - 180, GAME_HEIGHT / 2, 'tool-toy')
-      .setScale(0.18)
+    this.toy = this.add.image(GAME_WIDTH - 270, GAME_HEIGHT / 2, 'tool-toy')
+      .setScale(0.27)
       .setInteractive({ useHandCursor: true, draggable: true });
 
     this.input.setDraggable(this.toy);
@@ -163,7 +163,7 @@ export class PlayScene extends Phaser.Scene {
             this.animalContainer.x, this.animalContainer.y,
             this.toy.x, this.toy.y,
           );
-          const chaseSpeed = 1.5;
+          const chaseSpeed = 2.25;
           this.animalContainer.x += Math.cos(angle) * chaseSpeed;
           this.animalContainer.y += Math.sin(angle) * chaseSpeed;
 
@@ -173,7 +173,7 @@ export class PlayScene extends Phaser.Scene {
             this.bounceTimer = 0;
             this.tweens.add({
               targets: this.animalContainer,
-              y: this.animalContainer.y - 12,
+              y: this.animalContainer.y - 18,
               duration: 150,
               yoyo: true,
               ease: 'Back.easeOut',
@@ -217,14 +217,14 @@ export class PlayScene extends Phaser.Scene {
   private spawnHeart(): void {
     if (Math.random() > 0.15) return;
     const heart = this.add.image(
-      this.animalContainer.x + Phaser.Math.Between(-40, 40),
-      this.animalContainer.y - 70,
+      this.animalContainer.x + Phaser.Math.Between(-60, 60),
+      this.animalContainer.y - 105,
       'ui-heart',
-    ).setScale(0.025);
+    ).setScale(0.038);
 
     this.tweens.add({
       targets: heart,
-      y: heart.y - 50,
+      y: heart.y - 75,
       alpha: 0,
       duration: 700,
       ease: 'Sine.easeOut',
@@ -235,8 +235,8 @@ export class PlayScene extends Phaser.Scene {
   private showCompletion(result: StarAwardResult): void {
     for (let i = 0; i < 12; i++) {
       const sparkle = this.add.image(
-        this.animalContainer.x + Phaser.Math.Between(-80, 80),
-        this.animalContainer.y + Phaser.Math.Between(-60, 60),
+        this.animalContainer.x + Phaser.Math.Between(-120, 120),
+        this.animalContainer.y + Phaser.Math.Between(-90, 90),
         'ui-sparkle',
       ).setScale(0).setTint(0xFF69B4);
       this.tweens.add({
@@ -251,20 +251,20 @@ export class PlayScene extends Phaser.Scene {
       if (i % 3 === 0) getSoundManager(this).playSparkle();
     }
 
-    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 60, 'So Much Fun!', {
-      fontSize: '52px',
+    const txt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 90, 'So Much Fun!', {
+      fontSize: '78px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FF69B4',
       stroke: '#880E4F',
-      strokeThickness: 6,
+      strokeThickness: 9,
     }).setOrigin(0.5).setScale(0);
 
     this.tweens.add({ targets: txt, scaleX: 1, scaleY: 1, duration: 500, ease: 'Back.easeOut' });
 
     this.time.delayedCall(800, () => {
-      const star = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 20, 'ui-star').setScale(0);
-      this.tweens.add({ targets: star, scaleX: 0.06, scaleY: 0.06, duration: 500, ease: 'Back.easeOut' });
+      const star = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30, 'ui-star').setScale(0);
+      this.tweens.add({ targets: star, scaleX: 0.09, scaleY: 0.09, duration: 500, ease: 'Back.easeOut' });
     });
 
     const delay = result.newAnimals.length > 0 ? 5000 : 3000;
@@ -287,17 +287,17 @@ export class PlayScene extends Phaser.Scene {
     const name = ANIMALS[animal].name;
     const banner = this.add.graphics();
     banner.fillStyle(0x000000, 0.7);
-    banner.fillRoundedRect(GAME_WIDTH / 2 - 200, GAME_HEIGHT / 2 + 30, 400, 80, 16);
+    banner.fillRoundedRect(GAME_WIDTH / 2 - 300, GAME_HEIGHT / 2 + 45, 600, 120, 24);
 
-    this.add.image(GAME_WIDTH / 2 - 140, GAME_HEIGHT / 2 + 70, `${animal}-idle`)
-      .setScale(0.12);
-    this.add.text(GAME_WIDTH / 2 + 20, GAME_HEIGHT / 2 + 60, `NEW FRIEND!\n${name} unlocked!`, {
-      fontSize: '22px',
+    this.add.image(GAME_WIDTH / 2 - 210, GAME_HEIGHT / 2 + 105, `${animal}-idle`)
+      .setScale(0.18);
+    this.add.text(GAME_WIDTH / 2 + 30, GAME_HEIGHT / 2 + 90, `NEW FRIEND!\n${name} unlocked!`, {
+      fontSize: '33px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFD700',
       stroke: '#000000',
-      strokeThickness: 3,
+      strokeThickness: 5,
       align: 'center',
     }).setOrigin(0.5);
   }
@@ -305,20 +305,20 @@ export class PlayScene extends Phaser.Scene {
   private createUI(): void {
     const backGfx = this.add.graphics();
     backGfx.fillStyle(0x000000, 0.4);
-    backGfx.fillRoundedRect(12, 8, 100, 36, 12);
+    backGfx.fillRoundedRect(18, 12, 150, 54, 18);
     backGfx.fillStyle(0xFFFFFF, 0.08);
-    backGfx.fillRoundedRect(14, 10, 96, 16, 10);
-    backGfx.lineStyle(1, 0xFFFFFF, 0.15);
-    backGfx.strokeRoundedRect(12, 8, 100, 36, 12);
+    backGfx.fillRoundedRect(21, 15, 144, 24, 15);
+    backGfx.lineStyle(2, 0xFFFFFF, 0.15);
+    backGfx.strokeRoundedRect(18, 12, 150, 54, 18);
 
-    const backBtn = this.add.text(62, 26, '< Back', {
-      fontSize: '20px',
+    const backBtn = this.add.text(93, 39, '< Back', {
+      fontSize: '30px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 3,
-      shadow: { offsetX: 1, offsetY: 1, color: '#000000', blur: 2, fill: true, stroke: false },
+      strokeThickness: 5,
+      shadow: { offsetX: 2, offsetY: 2, color: '#000000', blur: 2, fill: true, stroke: false },
     }).setOrigin(0.5).setInteractive({ useHandCursor: true });
 
     backBtn.on('pointerdown', () => {
