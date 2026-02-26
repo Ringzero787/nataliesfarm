@@ -230,10 +230,10 @@ export class FeedingScene extends Phaser.Scene {
       }
 
       const troughZone = new Phaser.Geom.Rectangle(
-        this.troughX - 120, this.troughY - 80, 240, 160,
+        this.troughX - 200, this.troughY - 160, 400, 320,
       );
       const mouthZone = new Phaser.Geom.Rectangle(
-        this.animalContainer.x - 40, this.animalContainer.y - 100, 200, 200,
+        this.animalContainer.x - 120, this.animalContainer.y - 150, 300, 300,
       );
 
       if (troughZone.contains(food.x, food.y)) {
