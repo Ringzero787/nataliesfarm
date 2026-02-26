@@ -93,7 +93,11 @@ export class WashingScene extends Phaser.Scene {
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
           const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
-          this.animalContainer.add(cosmetic);
+          if (cosmeticDef.renderBehind) {
+            this.animalContainer.addAt(cosmetic, 0);
+          } else {
+            this.animalContainer.add(cosmetic);
+          }
         }
       }
     }

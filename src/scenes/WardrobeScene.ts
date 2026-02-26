@@ -110,7 +110,11 @@ export class WardrobeScene extends Phaser.Scene {
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
           const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
-          container.add(cosmetic);
+          if (cosmeticDef.renderBehind) {
+            container.addAt(cosmetic, 0);
+          } else {
+            container.add(cosmetic);
+          }
 
           // Make cosmetic draggable to reposition
           cosmetic.setInteractive({ useHandCursor: true, draggable: true });

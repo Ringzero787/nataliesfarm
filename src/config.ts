@@ -79,13 +79,15 @@ export interface CosmeticItem {
   type: CosmeticType;
   starsToUnlock: number;
   offsetY: number;
+  /** If true, renders behind the animal sprite (e.g. bandana, necklace) */
+  renderBehind?: boolean;
 }
 
 export const COSMETICS: CosmeticItem[] = [
   { id: 'red-bow',        name: 'Red Bow',        type: 'bow',      starsToUnlock: 5,   offsetY: -60 },
   { id: 'cowboy-hat',     name: 'Cowboy Hat',     type: 'hat',      starsToUnlock: 15,  offsetY: -70 },
-  { id: 'blue-bandana',   name: 'Blue Bandana',   type: 'bandana',  starsToUnlock: 25,  offsetY: -10 },
+  { id: 'blue-bandana',   name: 'Blue Bandana',   type: 'bandana',  starsToUnlock: 25,  offsetY: -10, renderBehind: true },
   { id: 'star-glasses',   name: 'Star Glasses',   type: 'glasses',  starsToUnlock: 40,  offsetY: -35 },
-  { id: 'daisy-necklace', name: 'Daisy Necklace', type: 'necklace', starsToUnlock: 65,  offsetY: 20 },
+  { id: 'daisy-necklace', name: 'Daisy Necklace', type: 'necklace', starsToUnlock: 65,  offsetY: 20,  renderBehind: true },
   { id: 'gold-crown',     name: 'Gold Crown',     type: 'crown',    starsToUnlock: 90,  offsetY: -75 },
 ];
