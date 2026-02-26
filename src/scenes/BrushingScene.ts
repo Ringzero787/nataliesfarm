@@ -19,6 +19,7 @@ export class BrushingScene extends Phaser.Scene {
   private brush!: Phaser.GameObjects.Image;
   private completed = false;
   private lastBrushX = 0;
+  private lastBrushY = 0;
 
   constructor() {
     super({ key: 'BrushingScene' });
@@ -146,6 +147,7 @@ export class BrushingScene extends Phaser.Scene {
 
     this.input.setDraggable(this.brush);
     this.lastBrushX = this.brush.x;
+    this.lastBrushY = this.brush.y;
 
     this.brush.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
       this.brush.x = dragX;
@@ -156,10 +158,10 @@ export class BrushingScene extends Phaser.Scene {
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 150 && !this.completed) {
-        const moved = Math.abs(this.brush.x - this.lastBrushX);
-        if (moved > 5) {
-          this.progress += 0.008;
+      if (dist < 250 && !this.completed) {
+        const moved = Math.abs(this.brush.x - this.lastBrushX) + Math.abs(this.brush.y - this.lastBrushY);
+        if (moved > 3) {
+          this.progress += 0.02;
           this.updateProgressBar();
           this.spawnSparkle(dragX, dragY);
           if (Math.random() < 0.15) getSoundManager(this).playBrush();
@@ -181,6 +183,7 @@ export class BrushingScene extends Phaser.Scene {
         }
       }
       this.lastBrushX = this.brush.x;
+      this.lastBrushY = this.brush.y;
     });
   }
 
