@@ -79,18 +79,27 @@ export class WardrobeScene extends Phaser.Scene {
     const centerX = x + 165;
     const centerY = y + 210;
 
+    // Preview uses the same scale ratio as barn (0.45/0.675 = 2/3)
+    const previewScale = 2 / 3;
+
     // Animal name
-    this.add.text(centerX, y + 23, ANIMALS[this.currentAnimal].name, {
+    const animalName = SaveManager.getAnimalName(this.currentAnimal);
+    this.add.text(centerX, y + 23, animalName, {
       fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
     }).setOrigin(0.5);
 
-    // Animal sprite
-    const animalImg = this.add.image(centerX, centerY, `${this.currentAnimal}-idle`).setScale(0.45);
+    // Use a container so cosmetic positions match the barn
+    const container = this.add.container(centerX, centerY);
 
-    // Cosmetic overlay on preview (uses saved position if available)
+    // Animal sprite (scale relative to barn: 0.675 * 2/3 = 0.45)
+    const animalImg = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.675);
+    container.add(animalImg);
+    container.setScale(previewScale);
+
+    // Cosmetic overlay — draggable, uses same container-local coords as barn
     const equippedId = SaveManager.getEquippedCosmetic(this.currentAnimal);
     if (equippedId) {
       const cosmeticDef = COSMETICS.find(c => c.id === equippedId);
@@ -98,30 +107,60 @@ export class WardrobeScene extends Phaser.Scene {
         const cosmeticKey = `cosmetic-${equippedId}`;
         if (this.textures.exists(cosmeticKey)) {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
-          const cosX = savedPos ? savedPos.x * 0.3 : 0;
-          const cosY = savedPos ? savedPos.y * 0.3 : cosmeticDef.offsetY * 0.3;
-          this.add.image(centerX + cosX, centerY + cosY, cosmeticKey).setScale(0.2);
+          const cx = savedPos ? savedPos.x : 0;
+          const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
+          container.add(cosmetic);
+
+          // Make cosmetic draggable to reposition
+          cosmetic.setInteractive({ useHandCursor: true, draggable: true });
+          this.input.setDraggable(cosmetic);
+
+          let dragOffsetX = 0;
+          let dragOffsetY = 0;
+
+          cosmetic.on('dragstart', (pointer: Phaser.Input.Pointer) => {
+            const worldX = container.x + cosmetic.x * container.scaleX;
+            const worldY = container.y + cosmetic.y * container.scaleY;
+            dragOffsetX = worldX - pointer.x;
+            dragOffsetY = worldY - pointer.y;
+          });
+
+          cosmetic.on('drag', (pointer: Phaser.Input.Pointer) => {
+            cosmetic.x = (pointer.x + dragOffsetX - container.x) / container.scaleX;
+            cosmetic.y = (pointer.y + dragOffsetY - container.y) / container.scaleY;
+          });
+
+          cosmetic.on('dragend', () => {
+            SaveManager.setCosmeticPosition(this.currentAnimal, cosmetic.x, cosmetic.y);
+          });
         }
       }
     }
 
-    // Breathing tween
+    // Breathing tween on the container
     this.tweens.add({
-      targets: animalImg,
-      scaleY: 0.31,
-      scaleX: 0.29,
+      targets: container,
+      scaleY: previewScale * 1.02,
+      scaleX: previewScale * 0.98,
       duration: 1800,
       yoyo: true,
       repeat: -1,
       ease: 'Sine.easeInOut',
     });
 
-    // "Tap to unequip" hint
+    // Equipped hint + drag instructions
     if (equippedId) {
-      this.add.text(centerX, y + 405, 'Equipped: ' + (COSMETICS.find(c => c.id === equippedId)?.name ?? ''), {
+      const name = COSMETICS.find(c => c.id === equippedId)?.name ?? '';
+      this.add.text(centerX, y + 390, `Equipped: ${name}`, {
         fontSize: '18px',
         fontFamily: 'Fredoka, Arial, sans-serif',
         color: '#FFE082',
+      }).setOrigin(0.5);
+      this.add.text(centerX, y + 418, 'Drag to reposition!', {
+        fontSize: '15px',
+        fontFamily: 'Fredoka, Arial, sans-serif',
+        color: '#BCAAA4',
       }).setOrigin(0.5);
     }
   }
