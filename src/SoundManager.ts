@@ -244,17 +244,18 @@ export class SoundManager {
   /** UI click */
   playClick(): void {
     const ctx = this.ctx(); if (!ctx) return;
-    const now = ctx.currentTime;
+    // Schedule slightly in the future so a freshly-resumed context has time to start
+    const now = ctx.currentTime + 0.02;
 
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';
     osc.frequency.value = 800;
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+    gain.gain.setValueAtTime(0.35, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
     osc.connect(gain).connect(ctx.destination);
     osc.start(now);
-    osc.stop(now + 0.06);
+    osc.stop(now + 0.1);
   }
 
   destroy(): void {
