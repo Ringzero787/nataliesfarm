@@ -55,7 +55,7 @@ const HORSE_ASSETS: AssetDef[] = [
   },
   {
     filename: 'horse-eating.png',
-    prompt: 'A cute cartoon horse with head lowered eating hay, mouth open with hay sticking out, happy satisfied expression, warm brown coat',
+    prompt: 'A cute cartoon warm brown horse with head slightly lowered and mouth wide open chewing, happy satisfied expression, big round eyes, dark flowing mane, no food in image, full body visible',
     folder: 'horse', transparent: true,
   },
   {
@@ -93,7 +93,7 @@ const PIG_ASSETS: AssetDef[] = [
   },
   {
     filename: 'pig-eating.png',
-    prompt: 'A cute cartoon pink pig happily eating from a trough, mouth full, crumbs around snout, eyes squinting with joy',
+    prompt: 'A cute cartoon pink pig with mouth wide open and cheeks puffed out chewing, eyes squinting with joy, curly tail, round snout, no food in image, full body visible',
     folder: 'pig', transparent: true,
   },
   {
@@ -131,7 +131,7 @@ const SHEEP_ASSETS: AssetDef[] = [
   },
   {
     filename: 'sheep-eating.png',
-    prompt: 'A cute cartoon fluffy white sheep munching on green grass, grass poking out of mouth, content expression, fluffy white wool, dark chocolate brown face and dark brown legs, black-faced sheep breed',
+    prompt: 'A cute cartoon fluffy white sheep with mouth wide open chewing, content expression, fluffy white wool, dark chocolate brown face and dark brown legs, black-faced sheep breed, no food in image, full body visible',
     folder: 'sheep', transparent: true,
   },
   {
@@ -169,7 +169,7 @@ const CHICKEN_ASSETS: AssetDef[] = [
   },
   {
     filename: 'chicken-eating.png',
-    prompt: 'A cute cartoon golden yellow chicken pecking at grain on the ground, head lowered, beak open, happy eating expression, fluffy feathers',
+    prompt: 'A cute cartoon golden yellow chicken with beak wide open ready to eat, head tilted up, happy expression, bright red comb, fluffy feathers, no food in image, full body visible',
     folder: 'chicken', transparent: true,
   },
   {
@@ -207,7 +207,7 @@ const GOAT_ASSETS: AssetDef[] = [
   },
   {
     filename: 'goat-eating.png',
-    prompt: 'A cute cartoon grey and white goat munching on hay, mouth full and chewing happily, bits of hay sticking out, content expression, floppy ears',
+    prompt: 'A cute cartoon grey and white goat with mouth wide open chewing, happy content expression, short curved horns, floppy ears, small beard, no food in image, full body visible',
     folder: 'goat', transparent: true,
   },
   {
