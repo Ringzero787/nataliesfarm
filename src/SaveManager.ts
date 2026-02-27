@@ -298,6 +298,8 @@ class SaveManagerClass {
 
   /** Restore multiple needs at once (from activity completion) */
   restoreNeeds(animal: AnimalType, effects: Partial<Record<NeedType, number>>): void {
+    // Reset decay timestamp so returning to BarnScene doesn't immediately decay
+    this.data.lastNeedsUpdate = Date.now();
     for (const [need, amount] of Object.entries(effects)) {
       if (amount) {
         this.data.needs[animal][need as NeedType] = Math.min(
