@@ -49,9 +49,9 @@ export type NeedType = 'hunger' | 'cleanliness' | 'happiness';
 
 /** Points lost per minute for each need */
 export const NEED_DECAY_RATE: Record<NeedType, number> = {
-  hunger: 1,            // 1 point per minute
-  cleanliness: 0.5,     // 1 point per 2 minutes
-  happiness: 0.4,       // 1 point per 2.5 minutes
+  hunger: 0.3,          // 1 point per ~3 minutes
+  cleanliness: 0.2,     // 1 point per 5 minutes
+  happiness: 0.15,      // 1 point per ~7 minutes
 };
 
 /** Maximum elapsed minutes to apply decay for (cap at 2 hours) */
@@ -59,11 +59,11 @@ export const MAX_DECAY_MINUTES = 120;
 
 /** Need restoration amounts per activity */
 export const ACTIVITY_NEED_EFFECTS: Record<ActivityType, Partial<Record<NeedType, number>>> = {
-  feeding:  { hunger: 50, happiness: 15 },
-  washing:  { cleanliness: 45, happiness: 12 },
-  brushing: { cleanliness: 35, happiness: 20 },
-  playing:  { happiness: 40 },
-  cleaning: { happiness: 20 },
+  feeding:  { hunger: 60, happiness: 20 },
+  washing:  { cleanliness: 55, happiness: 15 },
+  brushing: { cleanliness: 40, happiness: 25 },
+  playing:  { happiness: 50 },
+  cleaning: { cleanliness: 30, happiness: 25 },
 };
 
 /** Happiness boost when tapping the animal in the barn */
