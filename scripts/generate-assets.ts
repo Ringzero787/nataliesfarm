@@ -245,7 +245,7 @@ const BUNNY_ASSETS: AssetDef[] = [
   },
   {
     filename: 'bunny-eating.png',
-    prompt: 'A cute cartoon light brown bunny holding and nibbling a carrot with both paws, cheeks puffed, happy munching expression',
+    prompt: 'A cute cartoon light brown bunny sitting upright with mouth wide open and cheeks puffed out from chewing, happy munching expression, no food in image, paws up near mouth, long floppy ears, pink nose',
     folder: 'bunny', transparent: true,
   },
   {

@@ -346,6 +346,10 @@ export class FeedingScene extends Phaser.Scene {
       },
     });
 
+    // Swap to eating texture, then back to idle after chewing
+    this.animalSprite.setTexture(`${this.currentAnimal}-eating`);
+    this.animalSprite.setFlipX(true);
+
     // Chomping animation — bob forward and squash to simulate eating
     this.tweens.add({
       targets: this.animalContainer,
@@ -363,6 +367,12 @@ export class FeedingScene extends Phaser.Scene {
       yoyo: true,
       repeat: 2,
       ease: 'Sine.easeInOut',
+      onComplete: () => {
+        if (!this.completed) {
+          this.animalSprite.setTexture(`${this.currentAnimal}-idle`);
+          this.animalSprite.setFlipX(true);
+        }
+      },
     });
 
     this.tweens.add({
