@@ -238,7 +238,7 @@ export class PlayScene extends Phaser.Scene {
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (distSq < 200 * 200 && !this.completed) {
+      if (distSq < 300 * 300 && !this.completed) {
         const moved = Math.abs(this.toy.x - this.lastToyX) + Math.abs(this.toy.y - this.lastToyY);
         if (moved > 5) {
           this.progress += 0.005;

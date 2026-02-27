@@ -246,7 +246,7 @@ export class CleaningScene extends Phaser.Scene {
         const radius = (dirt as any)._radius;
 
         const distSq = Phaser.Math.Distance.Squared(dragX, dragY, cx, cy);
-        if (distSq < (radius + 30) * (radius + 30)) {
+        if (distSq < (radius + 60) * (radius + 60)) {
           this.cleanDirt(dirt);
         }
       }

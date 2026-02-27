@@ -174,7 +174,7 @@ export class WashingScene extends Phaser.Scene {
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      const washRadius = (this.currentAnimal === 'goat' || this.currentAnimal === 'pig') ? 220 : 150;
+      const washRadius = 300;
       if (distSq < washRadius * washRadius) {
         this.progress += 0.006;
         this.updateProgressBar();
@@ -232,7 +232,7 @@ export class WashingScene extends Phaser.Scene {
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (distSq < 200 * 200) {
+      if (distSq < 300 * 300) {
         const moved = Math.abs(this.towel.x - this.lastToolX) + Math.abs(this.towel.y - this.lastToolY);
         if (moved > 3) {
           this.progress += 0.008;

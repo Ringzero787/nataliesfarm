@@ -228,7 +228,7 @@ export class BrushingScene extends Phaser.Scene {
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (distSq < 250 * 250 && !this.completed) {
+      if (distSq < 300 * 300 && !this.completed) {
         const moved = Math.abs(this.brush.x - this.lastBrushX) + Math.abs(this.brush.y - this.lastBrushY);
         if (moved > 3) {
           this.progress += 0.005;
