@@ -185,12 +185,12 @@ export class FeedingScene extends Phaser.Scene {
   private spawnFood(): void {
     const foods = this.getFoodList();
     const shelfX = GAME_WIDTH - 270;
-    const startY = GAME_HEIGHT / 2 - 180;
-    const spacing = 210;
+    const startY = GAME_HEIGHT / 2 - 210;
+    const spacing = 260;
 
     const g = this.add.graphics();
     g.fillStyle(COLORS.wood, 0.6);
-    g.fillRoundedRect(shelfX - 105, startY - 75, 210, foods.length * spacing + 30, 15);
+    g.fillRoundedRect(shelfX - 150, startY - 75, 300, foods.length * spacing + 30, 15);
 
     foods.forEach((food, i) => {
       const slotY = startY + i * spacing;
@@ -200,13 +200,13 @@ export class FeedingScene extends Phaser.Scene {
 
   private createFoodSlot(key: string, label: string, slotX: number, slotY: number): void {
     const textureKey = `food-${key}`;
-    this.add.text(slotX, slotY + 68, label, {
-      fontSize: '21px',
+    this.add.text(slotX, slotY + 80, label, {
+      fontSize: '63px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
       color: '#FFFFFF',
       stroke: '#5D4037',
-      strokeThickness: 3,
+      strokeThickness: 7,
     }).setOrigin(0.5);
     this.spawnFoodItem(key, textureKey, slotX, slotY);
   }
