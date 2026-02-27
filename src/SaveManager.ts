@@ -171,6 +171,19 @@ class SaveManagerClass {
       }
     }
 
+    // Migrate daisy-necklace → award-ribbon
+    if (data.unlockedCosmetics) {
+      const idx = data.unlockedCosmetics.indexOf('daisy-necklace');
+      if (idx !== -1) data.unlockedCosmetics[idx] = 'award-ribbon';
+    }
+    if (data.equippedCosmetics) {
+      for (const animal of ANIMAL_ORDER) {
+        if (data.equippedCosmetics[animal] === 'daisy-necklace') {
+          data.equippedCosmetics[animal] = 'award-ribbon';
+        }
+      }
+    }
+
     // Add cosmetic fields if missing
     if (!data.unlockedCosmetics) {
       data.unlockedCosmetics = [];

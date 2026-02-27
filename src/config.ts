@@ -71,7 +71,7 @@ export const TAP_HAPPINESS_BOOST = 3;
 
 // ── Cosmetics System ─────────────────────────────────────────
 
-export type CosmeticType = 'bow' | 'hat' | 'tiara' | 'glasses' | 'necklace' | 'crown';
+export type CosmeticType = 'bow' | 'hat' | 'tiara' | 'glasses' | 'ribbon' | 'crown';
 
 export interface CosmeticItem {
   id: string;
@@ -88,6 +88,6 @@ export const COSMETICS: CosmeticItem[] = [
   { id: 'cowboy-hat',     name: 'Cowboy Hat',     type: 'hat',      starsToUnlock: 15,  offsetY: -70 },
   { id: 'pink-tiara',     name: 'Pink Tiara',     type: 'tiara',    starsToUnlock: 25,  offsetY: -70 },
   { id: 'glasses',         name: 'Glasses',         type: 'glasses',  starsToUnlock: 40,  offsetY: -35 },
-  { id: 'daisy-necklace', name: 'Daisy Necklace', type: 'necklace', starsToUnlock: 65,  offsetY: 20,  renderBehind: true },
+  { id: 'award-ribbon',   name: 'Award Ribbon',   type: 'ribbon',   starsToUnlock: 65,  offsetY: 10 },
   { id: 'gold-crown',     name: 'Gold Crown',     type: 'crown',    starsToUnlock: 90,  offsetY: -75 },
 ];

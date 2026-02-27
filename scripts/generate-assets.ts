@@ -523,17 +523,17 @@ const COSMETIC_ASSETS: AssetDef[] = [
   },
   {
     filename: 'pink-tiara.png',
-    prompt: 'A cute cartoon sparkly pink princess tiara with small gems and glitter, shiny and adorable, children\'s game cosmetic item for a farm animal',
+    prompt: 'A cute cartoon sparkly pink princess tiara viewed from the front, flat band shape with small gems and glitter on top, no head or mannequin, just the tiara accessory by itself, shiny and adorable, children\'s game cosmetic overlay item',
     folder: 'cosmetics', transparent: true,
   },
   {
     filename: 'glasses.png',
-    prompt: 'Cute cartoon round eyeglasses with thin colorful frames, simple and adorable, children\'s game cosmetic wearable accessory for a farm animal, front-facing view',
+    prompt: 'A pair of cute cartoon round eyeglasses viewed from the front, thin colorful frames, no ear hooks or temple arms, just the two round lenses connected by a nose bridge, simple and adorable, children\'s game cosmetic overlay item',
     folder: 'cosmetics', transparent: true,
   },
   {
-    filename: 'daisy-necklace.png',
-    prompt: 'A cute cartoon daisy flower chain necklace, white and yellow daisies strung together, children\'s game cosmetic item for a farm animal',
+    filename: 'award-ribbon.png',
+    prompt: 'A cute cartoon blue first-place award ribbon rosette badge with a gold center and two dangling ribbon tails, shiny and proud, children\'s game cosmetic pin item',
     folder: 'cosmetics', transparent: true,
   },
   {
