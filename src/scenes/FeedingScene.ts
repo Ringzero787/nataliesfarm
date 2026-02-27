@@ -152,37 +152,31 @@ export class FeedingScene extends Phaser.Scene {
         { key: 'hay', label: 'Hay' },
         { key: 'apple', label: 'Apple' },
         { key: 'carrot', label: 'Carrot' },
-        { key: 'water-bucket', label: 'Water' },
       ],
       pig: [
         { key: 'slop', label: 'Slop' },
         { key: 'apple', label: 'Apple' },
         { key: 'carrot', label: 'Carrot' },
-        { key: 'water-bucket', label: 'Water' },
       ],
       chicken: [
         { key: 'grain', label: 'Grain' },
         { key: 'corn', label: 'Corn' },
         { key: 'apple', label: 'Apple' },
-        { key: 'water-bucket', label: 'Water' },
       ],
       goat: [
         { key: 'hay', label: 'Hay' },
         { key: 'grass', label: 'Grass' },
         { key: 'apple', label: 'Apple' },
-        { key: 'water-bucket', label: 'Water' },
       ],
       sheep: [
         { key: 'grass', label: 'Grass' },
         { key: 'hay', label: 'Hay' },
         { key: 'apple', label: 'Apple' },
-        { key: 'water-bucket', label: 'Water' },
       ],
       bunny: [
         { key: 'carrot', label: 'Carrot' },
         { key: 'lettuce', label: 'Cabbage' },
         { key: 'apple', label: 'Apple' },
-        { key: 'water-bucket', label: 'Water' },
       ],
     };
     return foodMap[this.currentAnimal];
@@ -191,9 +185,8 @@ export class FeedingScene extends Phaser.Scene {
   private spawnFood(): void {
     const foods = this.getFoodList();
     const shelfX = GAME_WIDTH - 270;
-    const spacing = foods.length > 3 ? 195 : 260;
-    const totalH = foods.length * spacing;
-    const startY = GAME_HEIGHT / 2 - totalH / 2 + spacing / 2 - 30;
+    const startY = GAME_HEIGHT / 2 - 210;
+    const spacing = 260;
 
     const g = this.add.graphics();
     g.fillStyle(COLORS.wood, 0.6);
@@ -203,6 +196,30 @@ export class FeedingScene extends Phaser.Scene {
       const slotY = startY + i * spacing;
       this.createFoodSlot(food.key, food.label, shelfX, slotY);
     });
+
+    // Water bucket — standalone on the lower left
+    this.createWaterBucket();
+  }
+
+  private createWaterBucket(): void {
+    const bucketX = 120;
+    const bucketY = GAME_HEIGHT * 0.78;
+
+    // Small background panel
+    const bg = this.add.graphics();
+    bg.fillStyle(COLORS.wood, 0.5);
+    bg.fillRoundedRect(bucketX - 70, bucketY - 65, 140, 165, 12);
+
+    this.add.text(bucketX, bucketY + 70, 'Water', {
+      fontSize: '48px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      fontStyle: 'bold',
+      color: '#FFFFFF',
+      stroke: '#5D4037',
+      strokeThickness: 6,
+    }).setOrigin(0.5);
+
+    this.spawnFoodItem('water-bucket', 'food-water-bucket', bucketX, bucketY);
   }
 
   private createFoodSlot(key: string, label: string, slotX: number, slotY: number): void {
