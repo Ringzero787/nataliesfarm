@@ -33,6 +33,8 @@ export class PlayScene extends Phaser.Scene {
   private lastToyY = 0;
   private bounceTimer = 0;
   private selectedToy: { texture: string; name: string } | null = null;
+  private lastSpawnTime = 0;
+  private lastDrawnProgress = 0;
 
   constructor() {
     super({ key: 'PlayScene' });
@@ -53,6 +55,8 @@ export class PlayScene extends Phaser.Scene {
     this.showToyPicker();
     this.createUI();
     this.cameras.main.fadeIn(300);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private drawBackground(): void {
@@ -139,6 +143,8 @@ export class PlayScene extends Phaser.Scene {
   }
 
   private updateProgressBar(): void {
+    if (Math.abs(this.progress - this.lastDrawnProgress) < 0.01 && this.progress < 1) return;
+    this.lastDrawnProgress = this.progress;
     const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
     const barW = 450;
@@ -227,12 +233,12 @@ export class PlayScene extends Phaser.Scene {
       this.toy.x = dragX;
       this.toy.y = dragY;
 
-      const dist = Phaser.Math.Distance.Between(
+      const distSq = Phaser.Math.Distance.Squared(
         this.toy.x, this.toy.y,
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 200 && !this.completed) {
+      if (distSq < 200 * 200 && !this.completed) {
         const moved = Math.abs(this.toy.x - this.lastToyX) + Math.abs(this.toy.y - this.lastToyY);
         if (moved > 5) {
           this.progress += 0.005;
@@ -307,6 +313,9 @@ export class PlayScene extends Phaser.Scene {
   }
 
   private spawnHeart(): void {
+    const now = Date.now();
+    if (now - this.lastSpawnTime < 50) return;
+    this.lastSpawnTime = now;
     if (Math.random() > 0.15) return;
     const heart = this.add.image(
       this.animalContainer.x + Phaser.Math.Between(-60, 60),

@@ -22,6 +22,7 @@ export class CleaningScene extends Phaser.Scene {
   private dirtSpots: Phaser.GameObjects.GameObject[] = [];
   private totalDirt = 0;
   private cleanedDirt = 0;
+  private lastDrawnProgress = 0;
 
   constructor() {
     super({ key: 'CleaningScene' });
@@ -44,6 +45,8 @@ export class CleaningScene extends Phaser.Scene {
     this.createBroom();
     this.createUI();
     this.cameras.main.fadeIn(300);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private drawBackground(): void {
@@ -208,6 +211,8 @@ export class CleaningScene extends Phaser.Scene {
   }
 
   private updateProgressBar(): void {
+    if (Math.abs(this.progress - this.lastDrawnProgress) < 0.01 && this.progress < 1) return;
+    this.lastDrawnProgress = this.progress;
     const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
     const barW = 450;
@@ -240,8 +245,8 @@ export class CleaningScene extends Phaser.Scene {
         const cy = (dirt as any)._cy;
         const radius = (dirt as any)._radius;
 
-        const dist = Phaser.Math.Distance.Between(dragX, dragY, cx, cy);
-        if (dist < radius + 30) {
+        const distSq = Phaser.Math.Distance.Squared(dragX, dragY, cx, cy);
+        if (distSq < (radius + 30) * (radius + 30)) {
           this.cleanDirt(dirt);
         }
       }

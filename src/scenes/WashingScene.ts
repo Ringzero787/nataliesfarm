@@ -26,6 +26,8 @@ export class WashingScene extends Phaser.Scene {
   private instructionText!: Phaser.GameObjects.Text;
   private lastToolX = 0;
   private lastToolY = 0;
+  private lastSpawnTime = 0;
+  private lastDrawnProgress = 0;
 
   constructor() {
     super({ key: 'WashingScene' });
@@ -45,6 +47,8 @@ export class WashingScene extends Phaser.Scene {
     this.createSponge();
     this.createUI();
     this.cameras.main.fadeIn(300);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private drawBackground(): void {
@@ -137,6 +141,8 @@ export class WashingScene extends Phaser.Scene {
   }
 
   private updateProgressBar(): void {
+    if (Math.abs(this.progress - this.lastDrawnProgress) < 0.01 && this.progress < 1) return;
+    this.lastDrawnProgress = this.progress;
     const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
     const barW = 450;
@@ -163,13 +169,13 @@ export class WashingScene extends Phaser.Scene {
 
       if (this.phase !== 'washing' || this.completed) return;
 
-      const dist = Phaser.Math.Distance.Between(
+      const distSq = Phaser.Math.Distance.Squared(
         this.sponge.x, this.sponge.y,
         this.animalContainer.x, this.animalContainer.y,
       );
 
       const washRadius = (this.currentAnimal === 'goat' || this.currentAnimal === 'pig') ? 220 : 150;
-      if (dist < washRadius) {
+      if (distSq < washRadius * washRadius) {
         this.progress += 0.006;
         this.updateProgressBar();
         this.spawnBubble(dragX, dragY);
@@ -221,12 +227,12 @@ export class WashingScene extends Phaser.Scene {
 
       if (this.phase !== 'drying' || this.completed) return;
 
-      const dist = Phaser.Math.Distance.Between(
+      const distSq = Phaser.Math.Distance.Squared(
         this.towel.x, this.towel.y,
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 200) {
+      if (distSq < 200 * 200) {
         const moved = Math.abs(this.towel.x - this.lastToolX) + Math.abs(this.towel.y - this.lastToolY);
         if (moved > 3) {
           this.progress += 0.008;
@@ -256,6 +262,9 @@ export class WashingScene extends Phaser.Scene {
   }
 
   private spawnBubble(x: number, y: number): void {
+    const now = Date.now();
+    if (now - this.lastSpawnTime < 50) return;
+    this.lastSpawnTime = now;
     if (Math.random() > 0.3) return;
     const type = Math.random() > 0.5 ? 'ui-bubble' : 'ui-waterdrop';
     const particle = this.add.image(
@@ -275,6 +284,9 @@ export class WashingScene extends Phaser.Scene {
   }
 
   private spawnSteam(x: number, y: number): void {
+    const now = Date.now();
+    if (now - this.lastSpawnTime < 50) return;
+    this.lastSpawnTime = now;
     if (Math.random() > 0.4) return;
     const puff = this.add.graphics();
     const px = x + Phaser.Math.Between(-30, 30);

@@ -19,6 +19,7 @@ export class FeedingScene extends Phaser.Scene {
   private troughX = 810;
   private troughY = GAME_HEIGHT * 0.68;
   private completed = false;
+  private lastDrawnProgress = 0;
 
   constructor() {
     super({ key: 'FeedingScene' });
@@ -37,6 +38,8 @@ export class FeedingScene extends Phaser.Scene {
     this.spawnFood();
     this.createUI();
     this.cameras.main.fadeIn(300);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private drawBackground(): void {
@@ -134,6 +137,8 @@ export class FeedingScene extends Phaser.Scene {
   }
 
   private updateProgressBar(): void {
+    if (Math.abs(this.progress - this.lastDrawnProgress) < 0.01 && this.progress < 1) return;
+    this.lastDrawnProgress = this.progress;
     const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
     const barW = 450;

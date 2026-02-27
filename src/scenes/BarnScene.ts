@@ -39,6 +39,8 @@ export class BarnScene extends Phaser.Scene {
     this.createTopBar();
     this.createDirtBucket();
     this.cameras.main.fadeIn(400);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private drawBarn(): void {

@@ -11,7 +11,7 @@ import { CleaningScene } from './scenes/CleaningScene';
 import { WardrobeScene } from './scenes/WardrobeScene';
 
 // Render text at 2x resolution for crisp display on HiDPI screens
-const textDPR = Math.min(window.devicePixelRatio || 1, 3);
+const textDPR = Math.min(window.devicePixelRatio || 1, 2);
 const origTextFactory = Phaser.GameObjects.GameObjectFactory.prototype.text;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (Phaser.GameObjects.GameObjectFactory.prototype as any).text = function (

@@ -21,6 +21,8 @@ export class BrushingScene extends Phaser.Scene {
   private lastBrushX = 0;
   private lastBrushY = 0;
   private selectedBrush: string = 'tool-brush';
+  private lastSpawnTime = 0;
+  private lastDrawnProgress = 0;
 
   constructor() {
     super({ key: 'BrushingScene' });
@@ -39,6 +41,8 @@ export class BrushingScene extends Phaser.Scene {
     this.showBrushPicker();
     this.createUI();
     this.cameras.main.fadeIn(300);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private drawBackground(): void {
@@ -129,6 +133,8 @@ export class BrushingScene extends Phaser.Scene {
   }
 
   private updateProgressBar(): void {
+    if (Math.abs(this.progress - this.lastDrawnProgress) < 0.01 && this.progress < 1) return;
+    this.lastDrawnProgress = this.progress;
     const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
     const barW = 450;
@@ -217,12 +223,12 @@ export class BrushingScene extends Phaser.Scene {
       this.brush.x = dragX;
       this.brush.y = dragY;
 
-      const dist = Phaser.Math.Distance.Between(
+      const distSq = Phaser.Math.Distance.Squared(
         this.brush.x, this.brush.y,
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 250 && !this.completed) {
+      if (distSq < 250 * 250 && !this.completed) {
         const moved = Math.abs(this.brush.x - this.lastBrushX) + Math.abs(this.brush.y - this.lastBrushY);
         if (moved > 3) {
           this.progress += 0.005;
@@ -252,6 +258,9 @@ export class BrushingScene extends Phaser.Scene {
   }
 
   private spawnSparkle(x: number, y: number): void {
+    const now = Date.now();
+    if (now - this.lastSpawnTime < 50) return;
+    this.lastSpawnTime = now;
     if (Math.random() > 0.4) return;
     const sparkle = this.add.image(
       x + Phaser.Math.Between(-30, 30),

@@ -78,6 +78,8 @@ export class WardrobeScene extends Phaser.Scene {
 
     // Close button
     this.createCloseButton(panelX + panelW - 60, panelY + 23);
+
+    this.events.on('shutdown', () => this.tweens.killAll());
   }
 
   private createAnimalPreview(x: number, y: number): void {
