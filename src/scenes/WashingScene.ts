@@ -168,7 +168,8 @@ export class WashingScene extends Phaser.Scene {
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 150) {
+      const washRadius = (this.currentAnimal === 'goat' || this.currentAnimal === 'pig') ? 220 : 150;
+      if (dist < washRadius) {
         this.progress += 0.006;
         this.updateProgressBar();
         this.spawnBubble(dragX, dragY);

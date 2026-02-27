@@ -86,7 +86,7 @@ export interface CosmeticItem {
   scale?: number;
 }
 
-export const COSMETIC_COST = 100;
+export const COSMETIC_COST = 50;
 
 export const COSMETICS: CosmeticItem[] = [
   { id: 'red-bow',        name: 'Red Bow',        type: 'bow',      starsToUnlock: COSMETIC_COST, offsetY: -60 },
