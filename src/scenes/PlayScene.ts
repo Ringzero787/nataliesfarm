@@ -88,7 +88,7 @@ export class PlayScene extends Phaser.Scene {
     const ay = GAME_HEIGHT * 0.50;
 
     this.animalContainer = this.add.container(ax, ay);
-    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.675);
+    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.78);
     this.animalContainer.add(this.animalSprite);
 
     const cosmeticId = SaveManager.getEquippedCosmetic(this.currentAnimal);

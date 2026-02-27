@@ -84,7 +84,7 @@ export class CleaningScene extends Phaser.Scene {
     const ay = GAME_HEIGHT * 0.45;
 
     this.animalContainer = this.add.container(ax, ay);
-    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.525);
+    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.6);
     this.animalContainer.add(this.animalSprite);
 
     const cosmeticId = SaveManager.getEquippedCosmetic(this.currentAnimal);

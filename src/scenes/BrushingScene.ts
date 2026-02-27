@@ -79,7 +79,7 @@ export class BrushingScene extends Phaser.Scene {
     const ay = GAME_HEIGHT * 0.50;
 
     this.animalContainer = this.add.container(ax, ay);
-    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-dirty`).setScale(0.675);
+    this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-dirty`).setScale(0.78);
     this.animalContainer.add(this.animalSprite);
 
     // Add cosmetic overlay (using saved position)

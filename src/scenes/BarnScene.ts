@@ -126,7 +126,7 @@ export class BarnScene extends Phaser.Scene {
     // Create container for animal + cosmetic
     this.animalContainer = this.add.container(animalX, animalY);
 
-    const animal = this.add.image(0, 0, textureKey).setScale(0.675);
+    const animal = this.add.image(0, 0, textureKey).setScale(0.78);
     this.animalContainer.add(animal);
 
     // Add equipped cosmetic overlay (draggable)

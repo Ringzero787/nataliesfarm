@@ -94,8 +94,8 @@ export class WardrobeScene extends Phaser.Scene {
     // Use a container so cosmetic positions match the barn
     const container = this.add.container(centerX, centerY);
 
-    // Animal sprite (scale relative to barn: 0.675 * 2/3 = 0.45)
-    const animalImg = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.675);
+    // Animal sprite (scale relative to barn: 0.78 * 2/3 = 0.52)
+    const animalImg = this.add.image(0, 0, `${this.currentAnimal}-idle`).setScale(0.78);
     container.add(animalImg);
     container.setScale(previewScale);
 

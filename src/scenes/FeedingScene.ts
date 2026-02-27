@@ -80,7 +80,7 @@ export class FeedingScene extends Phaser.Scene {
 
     this.animalContainer = this.add.container(ax, ay);
     this.animalSprite = this.add.image(0, 0, `${this.currentAnimal}-idle`)
-      .setScale(0.63)
+      .setScale(0.73)
       .setFlipX(true);
     this.animalContainer.add(this.animalSprite);
 
@@ -361,8 +361,8 @@ export class FeedingScene extends Phaser.Scene {
     });
     this.tweens.add({
       targets: this.animalSprite,
-      scaleX: 0.54,
-      scaleY: 0.72,
+      scaleX: 0.63,
+      scaleY: 0.83,
       duration: 120,
       yoyo: true,
       repeat: 2,
