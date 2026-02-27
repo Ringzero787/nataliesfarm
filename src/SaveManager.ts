@@ -408,7 +408,7 @@ class SaveManagerClass {
   }
 
   setAnimalName(animal: AnimalType, name: string): void {
-    const trimmed = name.trim();
+    const trimmed = name.trim().slice(0, 20);
     this.data.animalNames[animal] = trimmed || null;
     this.save();
   }
