@@ -32,12 +32,13 @@ export const ANIMALS = {
   goat: { name: 'Goat', color: 0x9E9E9E, starsToUnlock: 0 },
   sheep: { name: 'Sheep', color: 0xF5F5DC, starsToUnlock: 0 },
   bunny: { name: 'Bunny', color: 0xD2B48C, starsToUnlock: 0 },
+  cow: { name: 'Cow', color: 0xF5F5F5, starsToUnlock: 0 },
 } as const;
 
 export type AnimalType = keyof typeof ANIMALS;
 
 /** Ordered list of animals for iteration */
-export const ANIMAL_ORDER: AnimalType[] = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny'];
+export const ANIMAL_ORDER: AnimalType[] = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny', 'cow'];
 
 /** Activities */
 export const ACTIVITIES = ['feeding', 'brushing', 'washing', 'playing', 'cleaning'] as const;
@@ -81,12 +82,14 @@ export interface CosmeticItem {
   offsetY: number;
   /** If true, renders behind the animal sprite (e.g. bandana, necklace) */
   renderBehind?: boolean;
+  /** Custom scale override (default 0.3) */
+  scale?: number;
 }
 
 export const COSMETICS: CosmeticItem[] = [
   { id: 'red-bow',        name: 'Red Bow',        type: 'bow',      starsToUnlock: 5,   offsetY: -60 },
   { id: 'cowboy-hat',     name: 'Cowboy Hat',     type: 'hat',      starsToUnlock: 15,  offsetY: -70 },
-  { id: 'pink-tiara',     name: 'Pink Tiara',     type: 'tiara',    starsToUnlock: 25,  offsetY: -70 },
+  { id: 'pink-tiara',     name: 'Pink Tiara',     type: 'tiara',    starsToUnlock: 25,  offsetY: -70, scale: 0.24 },
   { id: 'glasses',         name: 'Glasses',         type: 'glasses',  starsToUnlock: 40,  offsetY: -35 },
   { id: 'award-ribbon',   name: 'Award Ribbon',   type: 'ribbon',   starsToUnlock: 65,  offsetY: 10 },
   { id: 'gold-crown',     name: 'Gold Crown',     type: 'crown',    starsToUnlock: 90,  offsetY: -75 },

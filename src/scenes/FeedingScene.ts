@@ -94,7 +94,7 @@ export class FeedingScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(-cx, cy, cosmeticKey).setScale(0.3).setFlipX(true);
+          const cosmetic = this.add.image(-cx, cy, cosmeticKey).setScale(cosmeticDef.scale ?? 0.3).setFlipX(true);
           if (cosmeticDef.renderBehind) {
             this.animalContainer.addAt(cosmetic, 0);
           } else {
@@ -177,6 +177,11 @@ export class FeedingScene extends Phaser.Scene {
         { key: 'carrot', label: 'Carrot' },
         { key: 'lettuce', label: 'Cabbage' },
         { key: 'apple', label: 'Apple' },
+      ],
+      cow: [
+        { key: 'hay', label: 'Hay' },
+        { key: 'grass', label: 'Grass' },
+        { key: 'corn', label: 'Corn' },
       ],
     };
     return foodMap[this.currentAnimal];

@@ -109,7 +109,7 @@ export class WardrobeScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(cosmeticDef.scale ?? 0.3);
           if (cosmeticDef.renderBehind) {
             container.addAt(cosmetic, 0);
           } else {

@@ -49,7 +49,7 @@ export class BootScene extends Phaser.Scene {
     const sprites = 'assets/sprites';
 
     // Animals
-    const animals = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny'];
+    const animals = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny', 'cow'];
     const poses = ['idle', 'eating', 'happy', 'dirty', 'clean', 'wet', 'brushed'];
     for (const animal of animals) {
       for (const pose of poses) {
@@ -103,16 +103,25 @@ export class BootScene extends Phaser.Scene {
   create(): void {
     this.generateFallbacks();
 
-    document.fonts.ready.then(() => {
+    // Explicitly trigger font loads — Android WebView won't load @font-face
+    // fonts that aren't referenced by HTML/CSS elements, so document.fonts.ready
+    // can hang forever. Race against a timeout as a safety net.
+    const fontsLoaded = Promise.all([
+      document.fonts.load('400 16px Fredoka'),
+      document.fonts.load('700 16px Fredoka'),
+    ]).catch(() => {});
+    const timeout = new Promise(resolve => setTimeout(resolve, 3000));
+
+    Promise.race([fontsLoaded, timeout]).then(() => {
       this.scene.start('MenuScene');
     });
   }
 
   private generateFallbacks(): void {
-    const animals = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny'];
+    const animals = ['horse', 'pig', 'chicken', 'goat', 'sheep', 'bunny', 'cow'];
     const poses = ['idle', 'eating', 'happy', 'dirty', 'clean', 'wet', 'brushed'];
     const animalColors: Record<string, number> = {
-      horse: 0x8B6914, pig: 0xFFB6C1, chicken: 0xFFD700, goat: 0x9E9E9E, sheep: 0xF5F5DC, bunny: 0xD2B48C,
+      horse: 0x8B6914, pig: 0xFFB6C1, chicken: 0xFFD700, goat: 0x9E9E9E, sheep: 0xF5F5DC, bunny: 0xD2B48C, cow: 0xF5F5F5,
     };
 
     for (const animal of animals) {

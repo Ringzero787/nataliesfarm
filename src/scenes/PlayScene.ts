@@ -14,6 +14,7 @@ const ANIMAL_TOYS: Record<AnimalType, { texture: string; name: string }[]> = {
   goat:    [{ texture: 'tool-toy',         name: 'Ball' },     { texture: 'tool-cowbell',     name: 'Cowbell' }],
   sheep:   [{ texture: 'tool-toy',         name: 'Yarn Ball' }, { texture: 'tool-pompom',    name: 'Pom-Pom' }],
   bunny:   [{ texture: 'tool-pompom',      name: 'Pom-Pom' }, { texture: 'tool-worm',        name: 'Worm' }],
+  cow:     [{ texture: 'tool-cowbell',     name: 'Cowbell' },  { texture: 'tool-toy',         name: 'Ball' }],
 };
 
 /**
@@ -101,7 +102,7 @@ export class PlayScene extends Phaser.Scene {
           const savedPos = SaveManager.getCosmeticPosition(this.currentAnimal);
           const cx = savedPos ? savedPos.x : 0;
           const cy = savedPos ? savedPos.y : cosmeticDef.offsetY;
-          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(0.3);
+          const cosmetic = this.add.image(cx, cy, cosmeticKey).setScale(cosmeticDef.scale ?? 0.3);
           if (cosmeticDef.renderBehind) {
             this.animalContainer.addAt(cosmetic, 0);
           } else {

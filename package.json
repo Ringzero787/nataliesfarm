@@ -20,6 +20,7 @@
     "generate:chicken": "npx tsx scripts/generate-assets.ts chicken",
     "generate:goat": "npx tsx scripts/generate-assets.ts goat",
     "generate:bunny": "npx tsx scripts/generate-assets.ts bunny",
+    "generate:cow": "npx tsx scripts/generate-assets.ts cow",
     "generate:tools": "npx tsx scripts/generate-assets.ts tools",
     "generate:food": "npx tsx scripts/generate-assets.ts food",
     "generate:env": "npx tsx scripts/generate-assets.ts environment",
@@ -35,6 +36,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@capacitor/android": "^8.1.0",
     "@capacitor/cli": "^8.1.0",
     "@capacitor/core": "^8.1.0",
     "dotenv": "^17.3.1",

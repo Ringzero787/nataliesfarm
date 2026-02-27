@@ -275,6 +275,44 @@ const BUNNY_ASSETS: AssetDef[] = [
   },
 ];
 
+const COW_ASSETS: AssetDef[] = [
+  {
+    filename: 'cow-idle.png',
+    prompt: 'A friendly cartoon dairy cow standing calmly, classic black and white spotted coat, big gentle brown eyes, pink nose, small horns, bell around neck, full body visible, children\'s storybook character',
+    folder: 'cow', transparent: true,
+  },
+  {
+    filename: 'cow-eating.png',
+    prompt: 'A cute cartoon black and white spotted dairy cow with head lowered and mouth wide open chewing, happy satisfied expression, big gentle brown eyes, pink nose, small horns, no food in image, full body visible',
+    folder: 'cow', transparent: true,
+  },
+  {
+    filename: 'cow-happy.png',
+    prompt: 'A cute cartoon black and white spotted dairy cow looking content and peaceful, soft warm eyes, gentle smile, ears relaxed, standing proudly, children\'s book art style',
+    folder: 'cow', transparent: true,
+  },
+  {
+    filename: 'cow-dirty.png',
+    prompt: 'A cute cartoon black and white spotted dairy cow covered in mud splotches and dirt, looking a bit sheepish, messy coat with visible mud patches',
+    folder: 'cow', transparent: true,
+  },
+  {
+    filename: 'cow-clean.png',
+    prompt: 'A cute cartoon black and white spotted dairy cow freshly bathed, coat is shiny and gleaming, sparkle effects around it, looking proud and clean',
+    folder: 'cow', transparent: true,
+  },
+  {
+    filename: 'cow-wet.png',
+    prompt: 'A cute cartoon black and white spotted dairy cow dripping with water, wet coat, water droplets flying off, slightly surprised expression',
+    folder: 'cow', transparent: true,
+  },
+  {
+    filename: 'cow-brushed.png',
+    prompt: 'A cute cartoon black and white spotted dairy cow with perfectly groomed shiny coat, sparkles around the coat, looking content and well-cared for',
+    folder: 'cow', transparent: true,
+  },
+];
+
 const TOOL_ASSETS: AssetDef[] = [
   {
     filename: 'brush.png',
@@ -523,7 +561,7 @@ const COSMETIC_ASSETS: AssetDef[] = [
   },
   {
     filename: 'pink-tiara.png',
-    prompt: 'A cute cartoon sparkly pink princess tiara, perfectly flat horizontal orientation, straight-on front view with zero angle or tilt, simple flat band with small pointed peaks and tiny gems along the top edge, symmetrical left to right, no perspective or 3D rotation, flat 2D game sprite overlay, children\'s game cosmetic item',
+    prompt: 'Just the front decorative crest of a cute cartoon pink princess tiara, only the upward-pointing peaks and gems visible, no circular band or back portion, looks like a row of sparkly pink pointed spikes with small jewels, flat horizontal strip shape, wide and short, children\'s game cosmetic overlay sprite',
     folder: 'cosmetics', transparent: true,
   },
   {
@@ -560,6 +598,7 @@ const ASSET_GROUPS: Record<string, AssetDef[]> = {
   goat: GOAT_ASSETS,
   sheep: SHEEP_ASSETS,
   bunny: BUNNY_ASSETS,
+  cow: COW_ASSETS,
   tools: TOOL_ASSETS,
   food: FOOD_ASSETS,
   environment: ENVIRONMENT_ASSETS,
