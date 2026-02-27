@@ -523,7 +523,7 @@ const COSMETIC_ASSETS: AssetDef[] = [
   },
   {
     filename: 'pink-tiara.png',
-    prompt: 'A cute cartoon sparkly pink princess tiara viewed from the front, flat band shape with small gems and glitter on top, no head or mannequin, just the tiara accessory by itself, shiny and adorable, children\'s game cosmetic overlay item',
+    prompt: 'A cute cartoon sparkly pink princess tiara, perfectly flat horizontal orientation, straight-on front view with zero angle or tilt, simple flat band with small pointed peaks and tiny gems along the top edge, symmetrical left to right, no perspective or 3D rotation, flat 2D game sprite overlay, children\'s game cosmetic item',
     folder: 'cosmetics', transparent: true,
   },
   {
