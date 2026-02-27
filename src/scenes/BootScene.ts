@@ -58,13 +58,13 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Tools
-    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy', 'rubber-duck', 'worm', 'cowbell', 'shiny-button', 'pompom', 'teddy-bear'];
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy', 'rubber-duck', 'worm', 'cowbell', 'shiny-button', 'pompom', 'teddy-bear', 'soft-brush', 'dirt-bucket'];
     for (const tool of tools) {
       this.load.image(`tool-${tool}`, `${sprites}/tools/${tool}.png`);
     }
 
     // Food
-    const foods = ['hay', 'apple', 'carrot', 'slop', 'grass', 'lettuce', 'grain', 'corn'];
+    const foods = ['hay', 'apple', 'carrot', 'slop', 'grass', 'lettuce', 'grain', 'corn', 'water-bucket'];
     for (const food of foods) {
       this.load.image(`food-${food}`, `${sprites}/food/${food}.png`);
     }
@@ -76,6 +76,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('env-haybale', `${sprites}/environment/hay-bale.png`);
     this.load.image('env-trough', `${sprites}/environment/water-trough.png`);
     this.load.image('env-lantern', `${sprites}/environment/lantern.png`);
+    this.load.image('env-spider-web', `${sprites}/environment/spider-web.png`);
 
     // Activity icons
     const icons = ['feed', 'brush', 'wash', 'dry', 'barn', 'play'];
@@ -124,7 +125,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Tool fallbacks
-    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy', 'rubber-duck', 'worm', 'cowbell', 'shiny-button', 'pompom', 'teddy-bear'];
+    const tools = ['brush', 'sponge', 'towel', 'broom', 'bucket', 'hose', 'toy', 'rubber-duck', 'worm', 'cowbell', 'shiny-button', 'pompom', 'teddy-bear', 'soft-brush', 'dirt-bucket'];
     for (const tool of tools) {
       const key = `tool-${tool}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
@@ -133,7 +134,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Food fallbacks
-    const foods = ['hay', 'apple', 'carrot', 'slop', 'grass', 'lettuce', 'grain', 'corn'];
+    const foods = ['hay', 'apple', 'carrot', 'slop', 'grass', 'lettuce', 'grain', 'corn', 'water-bucket'];
     for (const food of foods) {
       const key = `food-${food}`;
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
@@ -158,7 +159,7 @@ export class BootScene extends Phaser.Scene {
     }
 
     // Environment fallbacks
-    const envKeys = ['bg-barn', 'bg-wash', 'bg-feed', 'env-haybale', 'env-trough', 'env-lantern'];
+    const envKeys = ['bg-barn', 'bg-wash', 'bg-feed', 'env-haybale', 'env-trough', 'env-lantern', 'env-spider-web'];
     for (const key of envKeys) {
       if (!this.textures.exists(key) || this.textures.get(key).key === '__MISSING') {
         this.createFallbackTexture(key, 300, 180, 0x8B4513);

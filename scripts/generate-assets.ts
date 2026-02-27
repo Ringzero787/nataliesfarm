@@ -341,6 +341,16 @@ const TOOL_ASSETS: AssetDef[] = [
     prompt: 'A cartoon fluffy soft pom-pom ball, pastel pink and white fuzzy texture, bouncy and adorable, cute children\'s game toy for a bunny',
     folder: 'tools', transparent: true,
   },
+  {
+    filename: 'soft-brush.png',
+    prompt: 'A cartoon soft fluffy animal grooming brush with extra-soft white bristles and a pink handle, gentle and cute, children\'s game item',
+    folder: 'tools', transparent: true,
+  },
+  {
+    filename: 'dirt-bucket.png',
+    prompt: 'A cartoon wooden bucket overflowing with wet brown mud and dirt, mud dripping over the sides, messy and fun, children\'s game item',
+    folder: 'tools', transparent: true,
+  },
 ];
 
 const FOOD_ASSETS: AssetDef[] = [
@@ -384,6 +394,11 @@ const FOOD_ASSETS: AssetDef[] = [
     prompt: 'A cartoon bright yellow ear of corn with green husk partially peeled back, plump kernels, cute game food item for chicken, no face no eyes no mouth, inanimate object only',
     folder: 'food', transparent: true,
   },
+  {
+    filename: 'water-bucket.png',
+    prompt: 'A cartoon wooden bucket filled with fresh clear blue water, small ripples on the water surface, farm animal drinking water, cute game food item, no face no eyes no mouth, inanimate object only',
+    folder: 'food', transparent: true,
+  },
 ];
 
 const ENVIRONMENT_ASSETS: AssetDef[] = [
@@ -415,6 +430,11 @@ const ENVIRONMENT_ASSETS: AssetDef[] = [
   {
     filename: 'lantern.png',
     prompt: 'A cartoon hanging barn lantern with warm orange glow, rustic metal frame, cozy lighting, farm decoration',
+    folder: 'environment', transparent: true,
+  },
+  {
+    filename: 'spider-web.png',
+    prompt: 'A cartoon spider web stretched across a corner, white silk threads with dewdrops, slightly dusty and old, farm barn decoration, no spider',
     folder: 'environment', transparent: true,
   },
 ];

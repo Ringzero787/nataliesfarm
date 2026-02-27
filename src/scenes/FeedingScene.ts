@@ -152,31 +152,37 @@ export class FeedingScene extends Phaser.Scene {
         { key: 'hay', label: 'Hay' },
         { key: 'apple', label: 'Apple' },
         { key: 'carrot', label: 'Carrot' },
+        { key: 'water-bucket', label: 'Water' },
       ],
       pig: [
         { key: 'slop', label: 'Slop' },
         { key: 'apple', label: 'Apple' },
         { key: 'carrot', label: 'Carrot' },
+        { key: 'water-bucket', label: 'Water' },
       ],
       chicken: [
         { key: 'grain', label: 'Grain' },
         { key: 'corn', label: 'Corn' },
         { key: 'apple', label: 'Apple' },
+        { key: 'water-bucket', label: 'Water' },
       ],
       goat: [
         { key: 'hay', label: 'Hay' },
         { key: 'grass', label: 'Grass' },
         { key: 'apple', label: 'Apple' },
+        { key: 'water-bucket', label: 'Water' },
       ],
       sheep: [
         { key: 'grass', label: 'Grass' },
         { key: 'hay', label: 'Hay' },
         { key: 'apple', label: 'Apple' },
+        { key: 'water-bucket', label: 'Water' },
       ],
       bunny: [
         { key: 'carrot', label: 'Carrot' },
         { key: 'lettuce', label: 'Cabbage' },
         { key: 'apple', label: 'Apple' },
+        { key: 'water-bucket', label: 'Water' },
       ],
     };
     return foodMap[this.currentAnimal];
@@ -185,8 +191,9 @@ export class FeedingScene extends Phaser.Scene {
   private spawnFood(): void {
     const foods = this.getFoodList();
     const shelfX = GAME_WIDTH - 270;
-    const startY = GAME_HEIGHT / 2 - 210;
-    const spacing = 260;
+    const spacing = foods.length > 3 ? 195 : 260;
+    const totalH = foods.length * spacing;
+    const startY = GAME_HEIGHT / 2 - totalH / 2 + spacing / 2 - 30;
 
     const g = this.add.graphics();
     g.fillStyle(COLORS.wood, 0.6);

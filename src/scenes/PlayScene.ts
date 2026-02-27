@@ -6,14 +6,14 @@ import {
 import { getSoundManager } from '../SoundManager';
 import { SaveManager, StarAwardResult } from '../SaveManager';
 
-/** Each animal has a favorite toy */
-const ANIMAL_TOYS: Record<AnimalType, { texture: string; name: string }> = {
-  horse:   { texture: 'tool-cowbell',       name: 'Cowbell' },
-  pig:     { texture: 'tool-rubber-duck',   name: 'Rubber Duck' },
-  chicken: { texture: 'tool-teddy-bear',    name: 'Teddy Bear' },
-  goat:    { texture: 'tool-toy',           name: 'Ball' },
-  sheep:   { texture: 'tool-toy',           name: 'Yarn Ball' },
-  bunny:   { texture: 'tool-pompom',        name: 'Pom-Pom' },
+/** Each animal has two toy choices */
+const ANIMAL_TOYS: Record<AnimalType, { texture: string; name: string }[]> = {
+  horse:   [{ texture: 'tool-cowbell',     name: 'Cowbell' },  { texture: 'tool-toy',         name: 'Ball' }],
+  pig:     [{ texture: 'tool-rubber-duck', name: 'Rubber Duck' }, { texture: 'tool-pompom',   name: 'Pom-Pom' }],
+  chicken: [{ texture: 'tool-teddy-bear',  name: 'Teddy Bear' }, { texture: 'tool-shiny-button', name: 'Shiny Button' }],
+  goat:    [{ texture: 'tool-toy',         name: 'Ball' },     { texture: 'tool-cowbell',     name: 'Cowbell' }],
+  sheep:   [{ texture: 'tool-toy',         name: 'Yarn Ball' }, { texture: 'tool-pompom',    name: 'Pom-Pom' }],
+  bunny:   [{ texture: 'tool-pompom',      name: 'Pom-Pom' }, { texture: 'tool-worm',        name: 'Worm' }],
 };
 
 /**
@@ -31,6 +31,7 @@ export class PlayScene extends Phaser.Scene {
   private lastToyX = 0;
   private lastToyY = 0;
   private bounceTimer = 0;
+  private selectedToy: { texture: string; name: string } | null = null;
 
   constructor() {
     super({ key: 'PlayScene' });
@@ -41,13 +42,14 @@ export class PlayScene extends Phaser.Scene {
     this.progress = 0;
     this.completed = false;
     this.bounceTimer = 0;
+    this.selectedToy = null;
   }
 
   create(): void {
     this.drawBackground();
     this.placeAnimal();
     this.createProgressBar();
-    this.createToy();
+    this.showToyPicker();
     this.createUI();
     this.cameras.main.fadeIn(300);
   }
@@ -73,8 +75,7 @@ export class PlayScene extends Phaser.Scene {
       strokeThickness: 8,
     }).setOrigin(0.5);
 
-    const toyInfo = ANIMAL_TOYS[this.currentAnimal];
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, `Dangle the ${toyInfo.name.toLowerCase()} near your animal!`, {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Dangle the toy near your animal!', {
       fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#FFF9C4',
@@ -149,8 +150,70 @@ export class PlayScene extends Phaser.Scene {
     }
   }
 
+  private showToyPicker(): void {
+    const toys = ANIMAL_TOYS[this.currentAnimal];
+    const pickerItems: Phaser.GameObjects.GameObject[] = [];
+
+    // Overlay
+    const overlay = this.add.graphics();
+    overlay.fillStyle(0x000000, 0.5);
+    overlay.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    pickerItems.push(overlay);
+
+    // Title
+    const title = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 160, 'Pick a toy!', {
+      fontSize: '60px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      fontStyle: 'bold',
+      color: '#FFD700',
+      stroke: '#880E4F',
+      strokeThickness: 8,
+    }).setOrigin(0.5);
+    pickerItems.push(title);
+
+    const spacing = 240;
+    const startX = GAME_WIDTH / 2 - spacing / 2;
+
+    toys.forEach((toyOption, i) => {
+      const bx = startX + i * spacing;
+      const by = GAME_HEIGHT / 2 + 20;
+
+      const circle = this.add.graphics();
+      circle.fillStyle(0xFF69B4, 0.9);
+      circle.fillCircle(bx, by, 80);
+      circle.lineStyle(4, 0xFFD700, 1);
+      circle.strokeCircle(bx, by, 80);
+      circle.fillStyle(0xFFFFFF, 0.2);
+      circle.fillEllipse(bx, by - 25, 110, 45);
+      pickerItems.push(circle);
+
+      const icon = this.add.image(bx, by, toyOption.texture).setScale(0.3);
+      pickerItems.push(icon);
+
+      const label = this.add.text(bx, by + 100, toyOption.name, {
+        fontSize: '30px',
+        fontFamily: 'Fredoka, Arial, sans-serif',
+        fontStyle: 'bold',
+        color: '#FFFFFF',
+        stroke: '#000000',
+        strokeThickness: 5,
+      }).setOrigin(0.5);
+      pickerItems.push(label);
+
+      const hitZone = this.add.zone(bx, by, 170, 170).setInteractive({ useHandCursor: true });
+      pickerItems.push(hitZone);
+
+      hitZone.on('pointerdown', () => {
+        getSoundManager(this).playClick();
+        this.selectedToy = toyOption;
+        for (const item of pickerItems) item.destroy();
+        this.createToy();
+      });
+    });
+  }
+
   private createToy(): void {
-    const toyInfo = ANIMAL_TOYS[this.currentAnimal];
+    const toyInfo = this.selectedToy!;
     this.toy = this.add.image(GAME_WIDTH - 270, GAME_HEIGHT / 2, toyInfo.texture)
       .setScale(0.4)
       .setInteractive({ useHandCursor: true, draggable: true });

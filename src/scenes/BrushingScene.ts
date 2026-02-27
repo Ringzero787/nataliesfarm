@@ -20,6 +20,7 @@ export class BrushingScene extends Phaser.Scene {
   private completed = false;
   private lastBrushX = 0;
   private lastBrushY = 0;
+  private selectedBrush: string = 'tool-brush';
 
   constructor() {
     super({ key: 'BrushingScene' });
@@ -35,7 +36,7 @@ export class BrushingScene extends Phaser.Scene {
     this.drawBackground();
     this.placeAnimal();
     this.createProgressBar();
-    this.createBrush();
+    this.showBrushPicker();
     this.createUI();
     this.cameras.main.fadeIn(300);
   }
@@ -140,8 +141,71 @@ export class BrushingScene extends Phaser.Scene {
     }
   }
 
+  private showBrushPicker(): void {
+    const brushOptions = [
+      { texture: 'tool-brush', name: 'Grooming Brush' },
+      { texture: 'tool-soft-brush', name: 'Soft Brush' },
+    ];
+    const pickerItems: Phaser.GameObjects.GameObject[] = [];
+
+    const overlay = this.add.graphics();
+    overlay.fillStyle(0x000000, 0.5);
+    overlay.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    pickerItems.push(overlay);
+
+    const title = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2 - 160, 'Pick a brush!', {
+      fontSize: '60px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      fontStyle: 'bold',
+      color: '#FFD700',
+      stroke: '#5D4037',
+      strokeThickness: 8,
+    }).setOrigin(0.5);
+    pickerItems.push(title);
+
+    const spacing = 240;
+    const startX = GAME_WIDTH / 2 - spacing / 2;
+
+    brushOptions.forEach((option, i) => {
+      const bx = startX + i * spacing;
+      const by = GAME_HEIGHT / 2 + 20;
+
+      const circle = this.add.graphics();
+      circle.fillStyle(0x9C27B0, 0.9);
+      circle.fillCircle(bx, by, 80);
+      circle.lineStyle(4, 0xFFD700, 1);
+      circle.strokeCircle(bx, by, 80);
+      circle.fillStyle(0xFFFFFF, 0.2);
+      circle.fillEllipse(bx, by - 25, 110, 45);
+      pickerItems.push(circle);
+
+      const icon = this.add.image(bx, by, option.texture).setScale(0.3);
+      pickerItems.push(icon);
+
+      const label = this.add.text(bx, by + 100, option.name, {
+        fontSize: '28px',
+        fontFamily: 'Fredoka, Arial, sans-serif',
+        fontStyle: 'bold',
+        color: '#FFFFFF',
+        stroke: '#000000',
+        strokeThickness: 5,
+      }).setOrigin(0.5);
+      pickerItems.push(label);
+
+      const hitZone = this.add.zone(bx, by, 170, 170).setInteractive({ useHandCursor: true });
+      pickerItems.push(hitZone);
+
+      hitZone.on('pointerdown', () => {
+        getSoundManager(this).playClick();
+        this.selectedBrush = option.texture;
+        for (const item of pickerItems) item.destroy();
+        this.createBrush();
+      });
+    });
+  }
+
   private createBrush(): void {
-    this.brush = this.add.image(GAME_WIDTH - 240, GAME_HEIGHT / 2, 'tool-brush')
+    this.brush = this.add.image(GAME_WIDTH - 240, GAME_HEIGHT / 2, this.selectedBrush)
       .setScale(0.4)
       .setInteractive({ useHandCursor: true, draggable: true });
 
@@ -161,7 +225,7 @@ export class BrushingScene extends Phaser.Scene {
       if (dist < 250 && !this.completed) {
         const moved = Math.abs(this.brush.x - this.lastBrushX) + Math.abs(this.brush.y - this.lastBrushY);
         if (moved > 3) {
-          this.progress += 0.02;
+          this.progress += 0.005;
           this.updateProgressBar();
           this.spawnSparkle(dragX, dragY);
           if (Math.random() < 0.15) getSoundManager(this).playBrush();

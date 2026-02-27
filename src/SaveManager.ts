@@ -29,6 +29,8 @@ interface SaveData {
   cosmeticPositions: Record<AnimalType, { x: number; y: number } | null>;
   /** Custom names per animal (null = use default) */
   animalNames: Record<AnimalType, string | null>;
+  /** Timestamp of last activity completion per animal */
+  lastActivityTime: Record<AnimalType, number>;
 }
 
 /** Return type for awardStar — tells caller what got unlocked */
@@ -49,6 +51,7 @@ function defaultSave(): SaveData {
   const equippedCosmetics = {} as SaveData['equippedCosmetics'];
   const cosmeticPositions = {} as SaveData['cosmeticPositions'];
   const animalNames = {} as SaveData['animalNames'];
+  const lastActivityTime = {} as SaveData['lastActivityTime'];
 
   for (const animal of ANIMAL_ORDER) {
     stars[animal] = {} as Record<ActivityType, number>;
@@ -59,6 +62,7 @@ function defaultSave(): SaveData {
     equippedCosmetics[animal] = null;
     cosmeticPositions[animal] = null;
     animalNames[animal] = null;
+    lastActivityTime[animal] = 0;
   }
 
   return {
@@ -71,6 +75,7 @@ function defaultSave(): SaveData {
     equippedCosmetics,
     cosmeticPositions,
     animalNames,
+    lastActivityTime,
   };
 }
 
@@ -189,6 +194,16 @@ class SaveManagerClass {
       }
     }
 
+    // Add lastActivityTime if missing
+    if (!data.lastActivityTime) {
+      data.lastActivityTime = {} as SaveData['lastActivityTime'];
+    }
+    for (const animal of ANIMAL_ORDER) {
+      if (data.lastActivityTime[animal] === undefined) {
+        data.lastActivityTime[animal] = 0;
+      }
+    }
+
     // Add cosmetic positions if missing
     if (!data.cosmeticPositions) {
       data.cosmeticPositions = {} as SaveData['cosmeticPositions'];
@@ -290,9 +305,9 @@ class SaveManagerClass {
     this.save();
   }
 
-  /** Restore a specific need for an animal */
+  /** Restore a specific need for an animal (supports negative amounts) */
   restoreNeed(animal: AnimalType, need: NeedType, amount: number): void {
-    this.data.needs[animal][need] = Math.min(100, this.data.needs[animal][need] + amount);
+    this.data.needs[animal][need] = Math.max(0, Math.min(100, this.data.needs[animal][need] + amount));
     this.save();
   }
 
@@ -300,11 +315,13 @@ class SaveManagerClass {
   restoreNeeds(animal: AnimalType, effects: Partial<Record<NeedType, number>>): void {
     // Reset decay timestamp so returning to BarnScene doesn't immediately decay
     this.data.lastNeedsUpdate = Date.now();
+    // Record activity completion time
+    this.data.lastActivityTime[animal] = Date.now();
     for (const [need, amount] of Object.entries(effects)) {
       if (amount) {
-        this.data.needs[animal][need as NeedType] = Math.min(
-          100,
-          this.data.needs[animal][need as NeedType] + amount,
+        this.data.needs[animal][need as NeedType] = Math.max(
+          0,
+          Math.min(100, this.data.needs[animal][need as NeedType] + amount),
         );
       }
     }
@@ -313,6 +330,10 @@ class SaveManagerClass {
 
   getNeeds(animal: AnimalType): NeedValues {
     return { ...this.data.needs[animal] };
+  }
+
+  getLastActivityTime(animal: AnimalType): number {
+    return this.data.lastActivityTime[animal] ?? 0;
   }
 
   // ── Cosmetics ────────────────────────────────────────────

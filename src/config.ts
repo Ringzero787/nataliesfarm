@@ -59,11 +59,11 @@ export const MAX_DECAY_MINUTES = 120;
 
 /** Need restoration amounts per activity */
 export const ACTIVITY_NEED_EFFECTS: Record<ActivityType, Partial<Record<NeedType, number>>> = {
-  feeding:  { hunger: 60, happiness: 20 },
-  washing:  { cleanliness: 55, happiness: 15 },
-  brushing: { cleanliness: 40, happiness: 25 },
-  playing:  { happiness: 50 },
-  cleaning: { cleanliness: 30, happiness: 25 },
+  feeding:  { hunger: 60, cleanliness: 15, happiness: 25 },
+  washing:  { hunger: 10, cleanliness: 55, happiness: 20 },
+  brushing: { hunger: 10, cleanliness: 40, happiness: 30 },
+  playing:  { hunger: 10, cleanliness: 15, happiness: 50 },
+  cleaning: { hunger: 10, cleanliness: 35, happiness: 30 },
 };
 
 /** Happiness boost when tapping the animal in the barn */

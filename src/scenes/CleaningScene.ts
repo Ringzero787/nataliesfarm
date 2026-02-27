@@ -19,7 +19,7 @@ export class CleaningScene extends Phaser.Scene {
   private animalSprite!: Phaser.GameObjects.Image;
   private broom!: Phaser.GameObjects.Image;
   private completed = false;
-  private dirtSpots: Phaser.GameObjects.Graphics[] = [];
+  private dirtSpots: Phaser.GameObjects.GameObject[] = [];
   private totalDirt = 0;
   private cleanedDirt = 0;
 
@@ -39,6 +39,7 @@ export class CleaningScene extends Phaser.Scene {
     this.drawBackground();
     this.placeAnimal();
     this.createDirtPiles();
+    this.createSpiderWebs();
     this.createProgressBar();
     this.createBroom();
     this.createUI();
@@ -173,6 +174,25 @@ export class CleaningScene extends Phaser.Scene {
     });
   }
 
+  private createSpiderWebs(): void {
+    const webPositions = [
+      { x: 120, y: 140 },
+      { x: GAME_WIDTH / 2 - 100, y: 160 },
+      { x: GAME_WIDTH - 450, y: 130 },
+    ];
+
+    for (const pos of webPositions) {
+      const web = this.add.image(pos.x, pos.y, 'env-spider-web').setScale(0.2);
+      (web as any)._cx = pos.x;
+      (web as any)._cy = pos.y;
+      (web as any)._radius = 60;
+      (web as any)._cleaned = false;
+      this.dirtSpots.push(web);
+    }
+
+    this.totalDirt += webPositions.length;
+  }
+
   private createProgressBar(): void {
     const barX = GAME_WIDTH / 2 - 225;
     const barY = 75;
@@ -228,7 +248,7 @@ export class CleaningScene extends Phaser.Scene {
     });
   }
 
-  private cleanDirt(dirt: Phaser.GameObjects.Graphics): void {
+  private cleanDirt(dirt: Phaser.GameObjects.GameObject): void {
     if ((dirt as any)._cleaned) return;
     (dirt as any)._cleaned = true;
     this.cleanedDirt++;

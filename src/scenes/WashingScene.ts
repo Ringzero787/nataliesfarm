@@ -7,8 +7,10 @@ import { getSoundManager } from '../SoundManager';
 import { SaveManager, StarAwardResult } from '../SaveManager';
 
 /**
- * WashingScene — drag the sponge to wash the animal.
- * Bubbles and water drops appear. Animal transitions from dirty to clean.
+ * WashingScene — two-phase activity:
+ *   1. Washing: drag sponge to scrub the animal (dirty → wet)
+ *   2. Drying: drag towel to dry the animal (wet → clean → brushed)
+ * Star and needs restored only after drying completes.
  */
 export class WashingScene extends Phaser.Scene {
   private currentAnimal: AnimalType = 'horse';
@@ -17,7 +19,13 @@ export class WashingScene extends Phaser.Scene {
   private animalContainer!: Phaser.GameObjects.Container;
   private animalSprite!: Phaser.GameObjects.Image;
   private sponge!: Phaser.GameObjects.Image;
+  private towel!: Phaser.GameObjects.Image;
   private completed = false;
+  private phase: 'washing' | 'drying' = 'washing';
+  private titleText!: Phaser.GameObjects.Text;
+  private instructionText!: Phaser.GameObjects.Text;
+  private lastToolX = 0;
+  private lastToolY = 0;
 
   constructor() {
     super({ key: 'WashingScene' });
@@ -27,6 +35,7 @@ export class WashingScene extends Phaser.Scene {
     this.currentAnimal = data.animal ?? 'horse';
     this.progress = 0;
     this.completed = false;
+    this.phase = 'washing';
   }
 
   create(): void {
@@ -57,7 +66,7 @@ export class WashingScene extends Phaser.Scene {
       g.fillRect(0, GAME_HEIGHT - 120, GAME_WIDTH, 120);
     }
 
-    this.add.text(GAME_WIDTH / 2, 30, 'Bath Time!', {
+    this.titleText = this.add.text(GAME_WIDTH / 2, 30, 'Bath Time!', {
       fontSize: '54px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       fontStyle: 'bold',
@@ -66,7 +75,7 @@ export class WashingScene extends Phaser.Scene {
       strokeThickness: 8,
     }).setOrigin(0.5);
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Scrub the animal with the sponge!', {
+    this.instructionText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 20, 'Scrub the animal with the sponge!', {
       fontSize: '27px',
       fontFamily: 'Fredoka, Arial, sans-serif',
       color: '#E3F2FD',
@@ -133,7 +142,8 @@ export class WashingScene extends Phaser.Scene {
     const barW = 450;
     const barH = 38;
     this.progressFill.clear();
-    this.progressFill.fillStyle(0x2196F3, 1);
+    const color = this.phase === 'washing' ? 0x2196F3 : 0xFFB74D;
+    this.progressFill.fillStyle(color, 1);
     const fillW = Math.min(barW * this.progress, barW);
     if (fillW > 0) {
       this.progressFill.fillRoundedRect(barX, barY, fillW, barH, 9);
@@ -151,12 +161,14 @@ export class WashingScene extends Phaser.Scene {
       this.sponge.x = dragX;
       this.sponge.y = dragY;
 
+      if (this.phase !== 'washing' || this.completed) return;
+
       const dist = Phaser.Math.Distance.Between(
         this.sponge.x, this.sponge.y,
         this.animalContainer.x, this.animalContainer.y,
       );
 
-      if (dist < 150 && !this.completed) {
+      if (dist < 150) {
         this.progress += 0.006;
         this.updateProgressBar();
         this.spawnBubble(dragX, dragY);
@@ -166,17 +178,79 @@ export class WashingScene extends Phaser.Scene {
           this.animalSprite.setTexture(`${this.currentAnimal}-wet`);
         }
 
-        if (this.progress >= 1 && !this.completed) {
-          this.completed = true;
-          this.animalSprite.setTexture(`${this.currentAnimal}-clean`);
-          getSoundManager(this).playSuccess();
-
-          const effects = ACTIVITY_NEED_EFFECTS.washing;
-          SaveManager.restoreNeeds(this.currentAnimal, effects);
-          const result = SaveManager.awardStar(this.currentAnimal, 'washing');
-          this.showCompletion(result);
+        if (this.progress >= 1) {
+          this.startDryingPhase();
         }
       }
+    });
+  }
+
+  private startDryingPhase(): void {
+    this.phase = 'drying';
+    this.progress = 0;
+    this.updateProgressBar();
+
+    // Hide sponge
+    this.sponge.setVisible(false);
+    this.sponge.disableInteractive();
+
+    // Set animal to wet texture
+    this.animalSprite.setTexture(`${this.currentAnimal}-wet`);
+
+    // Update UI text
+    this.titleText.setText('Drying Time!');
+    this.instructionText.setText('Rub the towel to dry your animal!');
+
+    // Create towel
+    this.createTowel();
+  }
+
+  private createTowel(): void {
+    this.towel = this.add.image(GAME_WIDTH - 240, GAME_HEIGHT / 2, 'tool-towel')
+      .setScale(0.4)
+      .setInteractive({ useHandCursor: true, draggable: true });
+
+    this.input.setDraggable(this.towel);
+    this.lastToolX = this.towel.x;
+    this.lastToolY = this.towel.y;
+
+    this.towel.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+      this.towel.x = dragX;
+      this.towel.y = dragY;
+
+      if (this.phase !== 'drying' || this.completed) return;
+
+      const dist = Phaser.Math.Distance.Between(
+        this.towel.x, this.towel.y,
+        this.animalContainer.x, this.animalContainer.y,
+      );
+
+      if (dist < 200) {
+        const moved = Math.abs(this.towel.x - this.lastToolX) + Math.abs(this.towel.y - this.lastToolY);
+        if (moved > 3) {
+          this.progress += 0.008;
+          this.updateProgressBar();
+          this.spawnSteam(dragX, dragY);
+          if (Math.random() < 0.12) getSoundManager(this).playBrush();
+
+          if (this.progress > 0.5 && this.progress < 0.52) {
+            this.animalSprite.setTexture(`${this.currentAnimal}-clean`);
+          }
+
+          if (this.progress >= 1 && !this.completed) {
+            this.completed = true;
+            this.animalSprite.setTexture(`${this.currentAnimal}-brushed`);
+            getSoundManager(this).playSuccess();
+
+            const effects = ACTIVITY_NEED_EFFECTS.washing;
+            SaveManager.restoreNeeds(this.currentAnimal, effects);
+            const result = SaveManager.awardStar(this.currentAnimal, 'washing');
+            this.showCompletion(result);
+          }
+        }
+      }
+      this.lastToolX = this.towel.x;
+      this.lastToolY = this.towel.y;
     });
   }
 
@@ -196,6 +270,23 @@ export class WashingScene extends Phaser.Scene {
       alpha: 0,
       duration: 600 + Math.random() * 400,
       onComplete: () => particle.destroy(),
+    });
+  }
+
+  private spawnSteam(x: number, y: number): void {
+    if (Math.random() > 0.4) return;
+    const puff = this.add.graphics();
+    const px = x + Phaser.Math.Between(-30, 30);
+    const py = y + Phaser.Math.Between(-30, 30);
+    puff.fillStyle(0xFFFFFF, 0.6);
+    puff.fillCircle(px, py, Phaser.Math.Between(6, 14));
+
+    this.tweens.add({
+      targets: puff,
+      y: py - 60 - Math.random() * 40,
+      alpha: 0,
+      duration: 500 + Math.random() * 300,
+      onComplete: () => puff.destroy(),
     });
   }
 

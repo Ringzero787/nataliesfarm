@@ -37,6 +37,7 @@ export class BarnScene extends Phaser.Scene {
     this.createNeedBars();
     this.createThoughtBubbles();
     this.createTopBar();
+    this.createDirtBucket();
     this.cameras.main.fadeIn(400);
   }
 
@@ -113,10 +114,11 @@ export class BarnScene extends Phaser.Scene {
     const needs = SaveManager.getNeeds(this.currentAnimal);
 
     // Pick texture based on needs
+    const recentActivity = (Date.now() - SaveManager.getLastActivityTime(this.currentAnimal)) < 10 * 60 * 1000;
     let textureKey = `${this.currentAnimal}-idle`;
     if (needs.cleanliness < 30) {
       textureKey = `${this.currentAnimal}-dirty`;
-    } else if (needs.hunger > 80 && needs.cleanliness > 80 && needs.happiness > 80) {
+    } else if (recentActivity || (needs.hunger > 50 && needs.cleanliness > 50 && needs.happiness > 50)) {
       textureKey = `${this.currentAnimal}-happy`;
     }
 
@@ -390,6 +392,57 @@ export class BarnScene extends Phaser.Scene {
           this.scene.start(act.scene, { animal: this.currentAnimal });
         });
       });
+    });
+  }
+
+  private createDirtBucket(): void {
+    const bucketX = 90;
+    const bucketY = GAME_HEIGHT * 0.45;
+
+    const bucket = this.add.image(bucketX, bucketY, 'tool-dirt-bucket')
+      .setScale(0.25)
+      .setInteractive({ useHandCursor: true, draggable: true });
+
+    this.input.setDraggable(bucket);
+
+    this.add.text(bucketX, bucketY + 55, 'Mud!', {
+      fontSize: '24px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      fontStyle: 'bold',
+      color: '#8B4513',
+      stroke: '#000000',
+      strokeThickness: 4,
+    }).setOrigin(0.5);
+
+    bucket.on('drag', (_pointer: Phaser.Input.Pointer, dragX: number, dragY: number) => {
+      bucket.x = dragX;
+      bucket.y = dragY;
+    });
+
+    bucket.on('dragend', () => {
+      const dist = Phaser.Math.Distance.Between(
+        bucket.x, bucket.y,
+        this.animalContainer.x, this.animalContainer.y,
+      );
+
+      if (dist < 200) {
+        // Make animal dirty
+        SaveManager.restoreNeed(this.currentAnimal, 'cleanliness', -100);
+        getSoundManager(this).playSplash();
+        this.cameras.main.fadeOut(300);
+        this.cameras.main.once('camerafadeoutcomplete', () => {
+          this.scene.restart({ animal: this.currentAnimal });
+        });
+      } else {
+        // Snap back
+        this.tweens.add({
+          targets: bucket,
+          x: bucketX,
+          y: bucketY,
+          duration: 300,
+          ease: 'Back.easeOut',
+        });
+      }
     });
   }
 
