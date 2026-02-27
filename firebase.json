@@ -1,6 +1,7 @@
 {
   "hosting": {
     "public": "dist",
+    "releases": { "retainCount": 2 },
     "ignore": [
       "firebase.json",
       "**/.*",
