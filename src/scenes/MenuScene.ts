@@ -165,9 +165,12 @@ export class MenuScene extends Phaser.Scene {
 
     // Other animal friends flanking the sides
     const sideAnimals = [
-      { key: 'pig', x: 180, y: GAME_HEIGHT - 98, scale: 0.16 },
-      { key: 'sheep', x: GAME_WIDTH - 200, y: GAME_HEIGHT - 98, scale: 0.16 },
-      { key: 'bunny', x: GAME_WIDTH - 80, y: GAME_HEIGHT - 90, scale: 0.135 },
+      { key: 'pig', x: 100, y: GAME_HEIGHT - 98, scale: 0.16 },
+      { key: 'chicken', x: 240, y: GAME_HEIGHT - 90, scale: 0.14 },
+      { key: 'goat', x: 370, y: GAME_HEIGHT - 98, scale: 0.15 },
+      { key: 'cow', x: GAME_WIDTH - 370, y: GAME_HEIGHT - 98, scale: 0.15 },
+      { key: 'sheep', x: GAME_WIDTH - 240, y: GAME_HEIGHT - 98, scale: 0.16 },
+      { key: 'bunny', x: GAME_WIDTH - 100, y: GAME_HEIGHT - 90, scale: 0.135 },
     ];
     sideAnimals.forEach((a, i) => {
       const sprite = this.add.image(a.x, a.y, `${a.key}-idle`).setScale(a.scale);

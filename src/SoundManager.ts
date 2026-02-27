@@ -24,12 +24,18 @@ export class SoundManager {
     }
   }
 
+  /** Return audio context, auto-resuming if suspended. Returns null if unavailable. */
+  private ctx(): AudioContext | null {
+    if (!this.audioCtx) return null;
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
+    return this.audioCtx;
+  }
+
   // ── Sound Effects ──────────────────────────────────────────
 
   /** Happy chime — star earned, activity complete */
   playSuccess(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     // Ascending arpeggio: C5 → E5 → G5 → C6
@@ -49,8 +55,7 @@ export class SoundManager {
 
   /** Soft pop — heart, food drop, button tap */
   playPop(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     const osc = ctx.createOscillator();
@@ -67,8 +72,7 @@ export class SoundManager {
 
   /** Munch/crunch — feeding */
   playMunch(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     for (let i = 0; i < 3; i++) {
@@ -87,8 +91,7 @@ export class SoundManager {
 
   /** Splash — washing, water */
   playSplash(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     // White noise burst filtered to sound watery
@@ -118,8 +121,7 @@ export class SoundManager {
 
   /** Brush stroke — brushing */
   playBrush(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     // Short filtered noise burst
@@ -148,8 +150,7 @@ export class SoundManager {
 
   /** Towel rub — drying */
   playRub(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     const bufferSize = ctx.sampleRate * 0.12;
@@ -177,8 +178,7 @@ export class SoundManager {
 
   /** Toy squeak — playing */
   playSqueak(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     const osc = ctx.createOscillator();
@@ -196,8 +196,7 @@ export class SoundManager {
 
   /** Sweep — cleaning */
   playSweep(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     const bufferSize = ctx.sampleRate * 0.2;
@@ -227,8 +226,7 @@ export class SoundManager {
 
   /** Sparkle/twinkle — completion sparkles */
   playSparkle(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     const osc = ctx.createOscillator();
@@ -245,8 +243,7 @@ export class SoundManager {
 
   /** UI click */
   playClick(): void {
-    if (!this.audioCtx) return;
-    const ctx = this.audioCtx;
+    const ctx = this.ctx(); if (!ctx) return;
     const now = ctx.currentTime;
 
     const osc = ctx.createOscillator();
