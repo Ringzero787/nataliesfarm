@@ -238,14 +238,13 @@ class SaveManagerClass {
 
   // ── Stars ────────────────────────────────────────────────
 
-  /** Award a star and return any newly unlocked animals/cosmetics */
+  /** Award a star and return any newly unlocked animals */
   awardStar(animal: AnimalType, activity: ActivityType): StarAwardResult {
     this.data.stars[animal][activity]++;
     this.data.totalStars++;
     const newAnimals = this.checkAndUnlockAnimals();
-    const newCosmetics = this.checkAndUnlockCosmetics();
     this.save();
-    return { newAnimals, newCosmetics };
+    return { newAnimals, newCosmetics: [] };
   }
 
   getStars(animal: AnimalType, activity: ActivityType): number {
@@ -363,6 +362,16 @@ class SaveManagerClass {
       }
     }
     return newlyUnlocked;
+  }
+
+  /** Purchase a cosmetic by spending stars. Returns true if successful. */
+  purchaseCosmetic(id: string, cost: number): boolean {
+    if (this.data.unlockedCosmetics.includes(id)) return false;
+    if (this.data.totalStars < cost) return false;
+    this.data.totalStars -= cost;
+    this.data.unlockedCosmetics.push(id);
+    this.save();
+    return true;
   }
 
   isCosmeticUnlocked(id: string): boolean {

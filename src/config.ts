@@ -86,11 +86,13 @@ export interface CosmeticItem {
   scale?: number;
 }
 
+export const COSMETIC_COST = 100;
+
 export const COSMETICS: CosmeticItem[] = [
-  { id: 'red-bow',        name: 'Red Bow',        type: 'bow',      starsToUnlock: 5,   offsetY: -60 },
-  { id: 'cowboy-hat',     name: 'Cowboy Hat',     type: 'hat',      starsToUnlock: 15,  offsetY: -70 },
-  { id: 'pink-tiara',     name: 'Pink Tiara',     type: 'tiara',    starsToUnlock: 25,  offsetY: -70, scale: 0.24 },
-  { id: 'glasses',         name: 'Glasses',         type: 'glasses',  starsToUnlock: 40,  offsetY: -35 },
-  { id: 'award-ribbon',   name: 'Award Ribbon',   type: 'ribbon',   starsToUnlock: 65,  offsetY: 10 },
-  { id: 'gold-crown',     name: 'Gold Crown',     type: 'crown',    starsToUnlock: 90,  offsetY: -75 },
+  { id: 'red-bow',        name: 'Red Bow',        type: 'bow',      starsToUnlock: COSMETIC_COST, offsetY: -60 },
+  { id: 'cowboy-hat',     name: 'Cowboy Hat',     type: 'hat',      starsToUnlock: COSMETIC_COST, offsetY: -70 },
+  { id: 'pink-tiara',     name: 'Pink Tiara',     type: 'tiara',    starsToUnlock: COSMETIC_COST, offsetY: -70, scale: 0.24 },
+  { id: 'glasses',         name: 'Glasses',         type: 'glasses',  starsToUnlock: COSMETIC_COST, offsetY: -35 },
+  { id: 'award-ribbon',   name: 'Award Ribbon',   type: 'ribbon',   starsToUnlock: COSMETIC_COST, offsetY: 10 },
+  { id: 'gold-crown',     name: 'Gold Crown',     type: 'crown',    starsToUnlock: COSMETIC_COST, offsetY: -75 },
 ];

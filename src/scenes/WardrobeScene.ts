@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { GAME_WIDTH, GAME_HEIGHT, AnimalType, ANIMALS, COSMETICS, CosmeticItem } from '../config';
+import { GAME_WIDTH, GAME_HEIGHT, AnimalType, ANIMALS, COSMETICS, COSMETIC_COST, CosmeticItem } from '../config';
 import { getSoundManager } from '../SoundManager';
 import { SaveManager } from '../SaveManager';
 
@@ -63,6 +63,18 @@ export class WardrobeScene extends Phaser.Scene {
 
     // Cosmetic grid (right side)
     this.createCosmeticGrid(panelX + 420, panelY + 105);
+
+    // Star balance
+    const totalStars = SaveManager.getTotalStars();
+    this.add.image(panelX + 135, panelY + 45, 'ui-star').setScale(0.028);
+    this.add.text(panelX + 155, panelY + 45, `${totalStars}`, {
+      fontSize: '30px',
+      fontFamily: 'Fredoka, Arial, sans-serif',
+      fontStyle: 'bold',
+      color: '#FFE082',
+      stroke: '#5D4037',
+      strokeThickness: 4,
+    }).setOrigin(0, 0.5);
 
     // Close button
     this.createCloseButton(panelX + panelW - 60, panelY + 23);
@@ -243,34 +255,46 @@ export class WardrobeScene extends Phaser.Scene {
           this.scene.restart({ animal: this.currentAnimal });
         });
       } else {
-        // Locked state
+        // Locked state — purchasable
+        const canAfford = totalStars >= COSMETIC_COST;
+
         if (hasTexture) {
           const lockedImg = this.add.image(cx, cy - 23, cosmeticKey).setScale(0.27);
-          lockedImg.setTint(0x444444);
+          lockedImg.setTint(canAfford ? 0x888888 : 0x444444);
         } else {
           const fb = this.add.graphics();
           fb.fillStyle(0x444444, 0.5);
           fb.fillCircle(cx, cy - 23, 38);
         }
 
-        // Lock icon
-        this.add.image(cx, cy - 23, 'ui-lock').setScale(0.038);
-
-        // Star cost
-        this.add.image(cx - 18, cy + 48, 'ui-star').setScale(0.023);
-        this.add.text(cx + 8, cy + 48, `${item.starsToUnlock}`, {
-          fontSize: '18px',
-          fontFamily: 'Fredoka, Arial, sans-serif',
-          fontStyle: 'bold',
-          color: totalStars >= item.starsToUnlock ? '#FFD700' : '#888888',
-        }).setOrigin(0, 0.5);
-
-        // Name (greyed)
-        this.add.text(cx, cy + 72, item.name, {
+        // Name
+        this.add.text(cx, cy + 40, item.name, {
           fontSize: '15px',
           fontFamily: 'Fredoka, Arial, sans-serif',
-          color: '#888888',
+          color: canAfford ? '#CCCCCC' : '#888888',
         }).setOrigin(0.5);
+
+        // Buy cost
+        this.add.image(cx - 30, cy + 65, 'ui-star').setScale(0.02);
+        this.add.text(cx - 12, cy + 65, `${COSMETIC_COST}`, {
+          fontSize: '17px',
+          fontFamily: 'Fredoka, Arial, sans-serif',
+          fontStyle: 'bold',
+          color: canAfford ? '#FFD700' : '#888888',
+        }).setOrigin(0, 0.5);
+
+        // Hit zone for purchase
+        const zone = this.add.zone(cx, cy, cellW - 12, cellH - 12)
+          .setInteractive({ useHandCursor: canAfford });
+
+        zone.on('pointerdown', () => {
+          if (!canAfford) return;
+          const success = SaveManager.purchaseCosmetic(item.id, COSMETIC_COST);
+          if (success) {
+            getSoundManager(this).playClick();
+            this.scene.restart({ animal: this.currentAnimal });
+          }
+        });
       }
     });
   }
