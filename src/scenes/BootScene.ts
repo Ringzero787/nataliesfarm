@@ -37,6 +37,23 @@ export class BootScene extends Phaser.Scene {
       color: '#FFFFFF',
     }).setOrigin(0.5);
 
+    this.load.on('loaderror', (file: Phaser.Loader.File) => {
+      console.warn(`Failed to load: ${file.key}`);
+    });
+
+    // Safety timeout: if loading hangs (e.g. large images on slow WebView),
+    // stop the loader and proceed with generated fallback textures.
+    let loadComplete = false;
+    this.load.on('complete', () => { loadComplete = true; });
+    setTimeout(() => {
+      if (!loadComplete) {
+        console.warn('Loading timed out — proceeding with fallbacks');
+        (this.load as any).reset();
+        this.generateFallbacks();
+        this.scene.start('MenuScene');
+      }
+    }, 10000);
+
     this.load.on('progress', (pct: number) => {
       bar.clear();
       bar.fillStyle(COLORS.green, 1);
